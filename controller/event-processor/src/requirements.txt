@@ -1,0 +1,4 @@
+paho-mqtt==1.6.1
+influxdb-client
+colored==1.4.2
+loguru==0.5.3
