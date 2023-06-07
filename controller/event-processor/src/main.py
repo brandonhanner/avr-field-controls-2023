@@ -1,15 +1,11 @@
-import influxdb_client
-from influxdb_client import InfluxDBClient
-from influxdb_client.client.write_api import SYNCHRONOUS
+from influxdb_client import InfluxDBClient, Point, WriteOptions
+from influxdb_client.client.write_api import SYNCHRONOUS, WriteType
 from datetime import datetime
-import paho.mqtt.client as mqtt
+from mqtt_client import MQTTClient
 from typing import Any
 from loguru import logger
-import json
-import os
 import threading
 import time
-from colored import fore, back, style
 from queue import Queue
 
 # start
@@ -36,21 +32,16 @@ class EventProcessor(object):
         self.shared_queue = Queue()
 
         # mqtt
-        self.mqtt_host = "mqtt"
-        self.mqtt_port = 1883
-
-        self.mqtt_client = mqtt.Client()
-
-        self.mqtt_client.on_connect = self.on_connect  # type:ignore
-        self.mqtt_client.on_message = self.on_message
+        self.mqtt_client = MQTTClient("mqtt", 1883)
+        self.mqtt_client.register_callback('+/events/#', self.handle_event)
+        self.mqtt_client.register_callback('+/commands/#', self.handle_command)
 
     def start(self):
         self.setup_db()
-        influx_thread = threading.Thread(target=self.run_influx, args=())
-        influx_thread.start()
-
-        mqtt_thread = threading.Thread(target=self.run_mqtt, args=())
-        mqtt_thread.start()
+        # influx_thread = threading.Thread(target=self.run_influx, args=())
+        # influx_thread.start()
+        self.mqtt_client.start_threaded()
+        self.run_influx()
 
     ###################################################################################
     ################################  i n f l u x D B  ################################
@@ -83,52 +74,48 @@ class EventProcessor(object):
                 # pull everything from the queue and put into a list
                 while not self.shared_queue.empty():
                     update = self.shared_queue.get()
+                    logger.debug("Pulling an item from the queue!!!")
                     updates.append(update)
-                if len(updates) > 1:
-                    self.write_api.write(bucket='avr', record=updates)
+                if len(updates) >= 1:
+                    logger.debug(f"Processing {len(updates)} updates to the DB!!!")
+                    logger.debug(updates)
+                    # with self.influx_client.write_api(write_options=WriteOptions(write_type=WriteType.batching, batch_size=len(updates))) as write_api:
+                    #     write_api.write(bucket='avr', org="bell-avr", record=updates)
+                    self.write_api.write(bucket='avr', org="bell-avr", record=updates)
+                    updates.clear() #TODO is this necessary?
                     # commit the list to the influxDB client
             time.sleep(1 / self.db_frequency)
 
     ###################################################################################
-    ####################################  M Q T T  ####################################
+    ###############################  C A L L B A C K S  ###############################
     ###################################################################################
 
-    def on_message(
-        self, client: mqtt.Client, userdata: Any, msg: mqtt.MQTTMessage
-    ) -> None:
-        try:
-            logger.debug(f"{msg.topic}: {str(msg.payload)}")
-            payload = json.loads(msg.payload)
-            self.handle_event(msg.topic, payload)
-        except Exception as e:
-            logger.debug(f"{fore.RED}Error handling message on {msg.topic}{style.RESET}")  # type: ignore
-
-    def on_connect(
-        self,
-        client: mqtt.Client,
-        userdata: Any,
-        rc: int,
-        properties: mqtt.Properties = None,  # type: ignore
-    ) -> None:
-        logger.debug(f" EP: Connected with result code {str(rc)}")
-        client.subscribe(topic='+/events/#')
 
     def handle_event(self, topic: str, msg: dict):
-
         parts = topic.split("/")
         source = parts[0]
+        subsystem = parts[2]
         # see if the source is a building
         if source in ["RTO", "RBO", "RTM", "RBM", "RTI", "RBI"]:
-            subsystem = parts[2]
-            
-        # or the UI
+            if subsystem in ["laser_detector", "relay", "ball_detector"]:
+                logger.debug(f"EP: Building {source} received a {subsystem} event!")
+                #create the influxDB item
+                point = (
+                    Point("events")
+                    .tag("building", source)
+                    .tag("subsystem", subsystem)
+                    .tag("type", msg["type"])
+                    .field("timestamp", time.time() * 100000)
+                )
+                logger.debug("Pushing an item into the queue!!!")
+                self.shared_queue.put(point)
         elif source == "ui":
             pass
+        else:
+            logger.warning(f"Received a message that doesnt fit the datamodel {topic}{msg}")
 
-    def run_mqtt(self):
-        # allows for graceful shutdown of any child threads
-        self.mqtt_client.connect(host=self.mqtt_host, port=self.mqtt_port, keepalive=60)
-        self.mqtt_client.loop_forever()
+    def handle_command(self, topic: str, msg: dict):
+        logger.debug("THE COMMAND CALLBACK WORKS!!!")
 
 if __name__ == "__main__":
     processor = EventProcessor()

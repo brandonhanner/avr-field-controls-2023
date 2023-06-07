@@ -162,3 +162,5 @@ cython_debug/
 .DS_Store
 *.bkp
 *.dtmp
+controller/influxDB/config/*
+controller/influxDB/data/*
