@@ -25,7 +25,6 @@ class EventProcessor(object):
             1  # how often should we check the queue to commit to DB in Hz?
         )
         self.influx_client = InfluxDBClient(url='http://influxdb:8086', username='admin', password='bellavr23', org='avr')
-        self.write_api = self.influx_client.write_api(write_options=SYNCHRONOUS)
         self.buckets_api = self.influx_client.buckets_api()
 
         # shared
@@ -36,11 +35,11 @@ class EventProcessor(object):
         self.mqtt_client.register_callback('+/events/#', self.handle_event)
         self.mqtt_client.register_callback('+/commands/#', self.handle_command)
 
+        self.event_id = 0
+
     def start(self):
-        self.setup_db()
-        # influx_thread = threading.Thread(target=self.run_influx, args=())
-        # influx_thread.start()
         self.mqtt_client.start_threaded()
+        self.setup_db()
         self.run_influx()
 
     ###################################################################################
@@ -74,16 +73,14 @@ class EventProcessor(object):
                 # pull everything from the queue and put into a list
                 while not self.shared_queue.empty():
                     update = self.shared_queue.get()
-                    logger.debug("Pulling an item from the queue!!!")
+                    # logger.debug("Pulling an item from the queue!!!")
                     updates.append(update)
                 if len(updates) >= 1:
                     logger.debug(f"Processing {len(updates)} updates to the DB!!!")
-                    logger.debug(updates)
-                    # with self.influx_client.write_api(write_options=WriteOptions(write_type=WriteType.batching, batch_size=len(updates))) as write_api:
-                    #     write_api.write(bucket='avr', org="bell-avr", record=updates)
-                    self.write_api.write(bucket='avr', org="bell-avr", record=updates)
-                    updates.clear() #TODO is this necessary?
-                    # commit the list to the influxDB client
+                    # logger.debug(updates)
+                    with self.influx_client.write_api(write_options=WriteOptions(write_type=WriteType.batching, batch_size=len(updates))) as write_api:
+                        write_api.write(bucket='avr', org="bell-avr", record=updates)
+                    updates.clear()
             time.sleep(1 / self.db_frequency)
 
     ###################################################################################
@@ -97,18 +94,21 @@ class EventProcessor(object):
         subsystem = parts[2]
         # see if the source is a building
         if source in ["RTO", "RBO", "RTM", "RBM", "RTI", "RBI"]:
-            if subsystem in ["laser_detector", "relay", "ball_detector"]:
-                logger.debug(f"EP: Building {source} received a {subsystem} event!")
+            if subsystem in ["laser_detector", "relay", "ball_detector", "led_bar"]:
+                # logger.debug(f"EP: Building {source} received a {subsystem} event!")
                 #create the influxDB item
                 point = (
                     Point("events")
-                    .tag("building", source)
+                    .tag("entity", source)
                     .tag("subsystem", subsystem)
                     .tag("type", msg["type"])
-                    .field("timestamp", time.time() * 100000)
-                )
-                logger.debug("Pushing an item into the queue!!!")
+                    .field("timestamp", time.time_ns())
+                    .field("id", self.event_id)
+                    .time(time.time_ns()) #type: ignore
+                    )
+                # logger.debug("Pushing an item into the queue!!!")
                 self.shared_queue.put(point)
+                self.event_id += 1
         elif source == "ui":
             pass
         else:
