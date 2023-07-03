@@ -162,5 +162,7 @@ cython_debug/
 .DS_Store
 *.bkp
 *.dtmp
-controller/influxDB/config/*
-controller/influxDB/data/*
+controller_modules/influxDB/config/*
+controller_modules/influxDB/data/
+controller_modules/nodered/data/.npm/
+controller_modules/nodered/data/node_modules/
