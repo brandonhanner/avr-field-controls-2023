@@ -29,11 +29,18 @@ services:
       - 1880:1880
     volumes:
       - ./nodered/data:/data
-  event-processor:
+  # event-processor:
+  #   build:
+  #     context: ./event-processor/
+  #     dockerfile: ./Dockerfile
+  #   restart: on-failure
+  #   depends_on:
+  #     - influxdb
+  #     - mqtt
+  controller:
     build:
-      context: ./event-processor/
+      context: ./controller/
       dockerfile: ./Dockerfile
     restart: on-failure
     depends_on:
-      - influxdb
       - mqtt

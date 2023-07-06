@@ -16,7 +16,7 @@ from queue import Queue
 # start listening to mqtt
 # everytime a new event comes in, format it and append to queue
 # every x seconds, pull everything from the queue and commit all events to database
-
+BUILDINGS = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
 
 class EventProcessor(object):
     def __init__(self):
@@ -93,7 +93,7 @@ class EventProcessor(object):
         source = parts[0]
         subsystem = parts[2]
         # see if the source is a building
-        if source in ["RTO", "RBO", "RTM", "RBM", "RTI", "RBI"]:
+        if source in BUILDINGS:
             if subsystem in ["laser_detector", "relay", "ball_detector", "led_bar"]:
                 # logger.debug(f"EP: Building {source} received a {subsystem} event!")
                 #create the influxDB item
@@ -101,7 +101,7 @@ class EventProcessor(object):
                     Point("events")
                     .tag("entity", source)
                     .tag("subsystem", subsystem)
-                    .tag("type", msg["type"])
+                    .tag("type", msg["event_type"])
                     .field("timestamp", time.time_ns())
                     .field("id", self.event_id)
                     .time(time.time_ns()) #type: ignore

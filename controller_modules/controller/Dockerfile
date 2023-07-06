@@ -7,4 +7,4 @@ COPY src/* .
 RUN python -m pip install pip wheel --upgrade && \
     python -m pip install -r requirements.txt
 
-CMD ["python", "main.py"]
+CMD ["python", "controller.py"]
