@@ -88,7 +88,8 @@ class MatchModel(object):
         self.phase_3_state = State('phase_3_state')
         self.phase_3_state.handlers = {
             "enter":self.phase_three_enter,
-            "exit":self.phase_three_exit
+            "exit":self.phase_three_exit,
+            "fire_doused_event":self.douse_fire_handler
         }
         self.post_match_state = State('post_match_state')
         self.post_match_state.handlers = {
@@ -166,6 +167,11 @@ class MatchModel(object):
     def phase_three_exit(self, state, event):
         pass
 
+    def douse_fire_handler(self, state, event: Event):
+        building = event.cargo["source"]
+        if building in self.fire_buildings.keys():
+            self.fire_buildings[building].douse_fire()
+
     def post_match_enter(self, state, event):
         self.match_timer.reset()
         self.phase_timer.reset()
@@ -193,3 +199,6 @@ class MatchModel(object):
     def randomize_hotspot(self):
         name, object = random.choice(list(self.heater_buildings.items()))
         self.random_hotspot_building = name
+
+    def douse_fire(self, source):
+        self.dispatch(Event("fire_doused_event", source=source))

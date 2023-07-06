@@ -40,7 +40,7 @@ class Controller(object):
             if subsystem in ["laser_detector","ball_detector"]:
                 event_type = msg.get("event_type", None)
                 if event_type == "hit":
-                    self.match.fire_buildings[source].douse_fire()
+                    self.match.douse_fire(source)
         elif source == "ui":
             event_type = msg.get("event_type", None)
             if event_type is not None:
