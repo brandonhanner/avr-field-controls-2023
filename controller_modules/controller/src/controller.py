@@ -57,7 +57,17 @@ class Controller(object):
             for building_name, building in self.match.fire_buildings.items():
                 row_data = {}
                 row_data["building"] = building_name
-                row_data["state"] = building.sm.state.name
+                state = building.sm.state.name
+
+                if state == "idle_state":
+                    state = "Idle"
+                elif state == "on_fire_state":
+                    state = "Burning"
+                elif state == "extinguished_state":
+                    state = "Extinguished"
+
+                row_data["state"] = state
+
                 row_data["fire_level"] = mapRange(building.current_fire_level, 0, 16, 0, 100)
                 row_data["score"] = building.score
                 table_data.append(row_data)
