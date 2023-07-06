@@ -1,0 +1,735 @@
+[
+    {
+        "id": "03a81b1a548b2458",
+        "type": "tab",
+        "label": "Field Control Dashboard",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a52d199521293c21",
+        "type": "ui_tab",
+        "name": "Field Operations",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "34fc0637635fff00",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-dark",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#831100",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#097479",
+                    "value": "#831100",
+                    "edited": true
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#831100",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#cf1b00",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#555555",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#eeeeee",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#831100",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "366e589a14f99cf0",
+        "type": "ui_group",
+        "name": "Pre-Match",
+        "tab": "a52d199521293c21",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "329b865365aa8a43",
+        "type": "ui_group",
+        "name": "Hotspot",
+        "tab": "a52d199521293c21",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "7a77a26bef88c80e",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "mqtt",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "1c5402c5f698e604",
+        "type": "ui_group",
+        "name": "Scoring",
+        "tab": "a52d199521293c21",
+        "order": 4,
+        "disp": true,
+        "width": "8",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "299a516f1b54b221",
+        "type": "ui_spacer",
+        "z": "03a81b1a548b2458",
+        "name": "spacer",
+        "group": "3d5cfe386cfdbc03",
+        "order": 3,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "48faa7beaea8352b",
+        "type": "ui_button",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "group": "366e589a14f99cf0",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "label": "New Match",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "{\"event_type\":\"new_match_event\"}",
+        "payloadType": "str",
+        "topic": "payload",
+        "topicType": "msg",
+        "x": 150,
+        "y": 200,
+        "wires": [
+            [
+                "ce178390c4ef29c4"
+            ]
+        ]
+    },
+    {
+        "id": "ee60c707c87aa2e1",
+        "type": "ui_button",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "group": "329b865365aa8a43",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Randomize Hot Spot",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "{\"event_type\":\"randomize_hotspot_event\"}",
+        "payloadType": "str",
+        "topic": "payload",
+        "topicType": "msg",
+        "x": 120,
+        "y": 320,
+        "wires": [
+            [
+                "ce178390c4ef29c4"
+            ]
+        ]
+    },
+    {
+        "id": "cce2b7865ca40f34",
+        "type": "ui_text",
+        "z": "03a81b1a548b2458",
+        "group": "329b865365aa8a43",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Hotspot",
+        "format": "{{msg.payload[\"building\"]}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 580,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "d416e9e19279bda8",
+        "type": "ui_button",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "group": "329b865365aa8a43",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Start Match Pre-Heat",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "{\"event_type\":\"start_preheat_event\"}",
+        "payloadType": "str",
+        "topic": "payload",
+        "topicType": "msg",
+        "x": 120,
+        "y": 360,
+        "wires": [
+            [
+                "ce178390c4ef29c4"
+            ]
+        ]
+    },
+    {
+        "id": "62130e8067c67491",
+        "type": "ui_gauge",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "group": "329b865365aa8a43",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "gtype": "donut",
+        "title": "Pre-Heat Countdown",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "90",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 620,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "c0d955d38cabc16c",
+        "type": "ui_text",
+        "z": "03a81b1a548b2458",
+        "group": "366e589a14f99cf0",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Game State",
+        "format": "{{msg.payload[\"state\"]}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 590,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "bfdbbec7d0220415",
+        "type": "ui_button",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "group": "366e589a14f99cf0",
+        "order": 9,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "label": "Reset Match",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "{\"event_type\":\"reset_match_event\"}",
+        "payloadType": "str",
+        "topic": "payload",
+        "topicType": "msg",
+        "x": 150,
+        "y": 280,
+        "wires": [
+            [
+                "ce178390c4ef29c4"
+            ]
+        ]
+    },
+    {
+        "id": "c470bb061ff706fe",
+        "type": "ui_text_input",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "label": "Match ID",
+        "tooltip": "",
+        "group": "366e589a14f99cf0",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 160,
+        "y": 240,
+        "wires": [
+            [
+                "ce178390c4ef29c4"
+            ]
+        ]
+    },
+    {
+        "id": "d656eccbd03f1af0",
+        "type": "ui_text",
+        "z": "03a81b1a548b2458",
+        "group": "366e589a14f99cf0",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Score",
+        "format": "{{msg.payload[\"current_score\"]}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 570,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "62b60fba406e3ef4",
+        "type": "ui_button",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "group": "366e589a14f99cf0",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "label": "Start Match",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "{\"event_type\":\"match_start_event\"}",
+        "payloadType": "str",
+        "topic": "payload",
+        "topicType": "msg",
+        "x": 150,
+        "y": 400,
+        "wires": [
+            [
+                "ce178390c4ef29c4"
+            ]
+        ]
+    },
+    {
+        "id": "8c20d029cd4569d7",
+        "type": "mqtt in",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "topic": "ui/state/match_state",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "7a77a26bef88c80e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 640,
+        "wires": [
+            [
+                "c0d955d38cabc16c"
+            ]
+        ]
+    },
+    {
+        "id": "b6d57efffec2a2cb",
+        "type": "mqtt in",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "topic": "ui/state/score",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "7a77a26bef88c80e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 700,
+        "wires": [
+            [
+                "d656eccbd03f1af0"
+            ]
+        ]
+    },
+    {
+        "id": "ce178390c4ef29c4",
+        "type": "mqtt out",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "topic": "ui/events/",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7a77a26bef88c80e",
+        "x": 540,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "54a985943320d4d7",
+        "type": "mqtt in",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "topic": "ui/state/hotspot_building",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7a77a26bef88c80e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 880,
+        "wires": [
+            [
+                "cce2b7865ca40f34"
+            ]
+        ]
+    },
+    {
+        "id": "8842a8f7b3c53528",
+        "type": "mqtt in",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "topic": "ui/state/heater_countdown",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7a77a26bef88c80e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 940,
+        "wires": [
+            [
+                "62130e8067c67491"
+            ]
+        ]
+    },
+    {
+        "id": "be8b1e83ef25e8cc",
+        "type": "ui_button",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "group": "366e589a14f99cf0",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "End Match",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "{\"event_type\":\"match_end_event\"}",
+        "payloadType": "str",
+        "topic": "payload",
+        "topicType": "msg",
+        "x": 150,
+        "y": 440,
+        "wires": [
+            [
+                "ce178390c4ef29c4"
+            ]
+        ]
+    },
+    {
+        "id": "72992788d1823c56",
+        "type": "ui_table",
+        "z": "03a81b1a548b2458",
+        "group": "1c5402c5f698e604",
+        "name": "",
+        "order": 0,
+        "width": "8",
+        "height": "5",
+        "columns": [
+            {
+                "field": "building",
+                "title": " Building",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "state",
+                "title": "State",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "fire_level",
+                "title": "Fire Level",
+                "width": "",
+                "align": "center",
+                "formatter": "progress",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "score",
+                "title": "Score",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            }
+        ],
+        "outputs": 0,
+        "cts": false,
+        "x": 570,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "f9a48545fbd2c144",
+        "type": "mqtt in",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "topic": "ui/state/table_data",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7a77a26bef88c80e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 1020,
+        "wires": [
+            [
+                "72992788d1823c56"
+            ]
+        ]
+    },
+    {
+        "id": "826cf2e26bd62be8",
+        "type": "ui_text",
+        "z": "03a81b1a548b2458",
+        "group": "366e589a14f99cf0",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Phase Remaining",
+        "format": "{{msg.payload[\"time\"]}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 610,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "8a6a9bf9316c1a57",
+        "type": "mqtt in",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "topic": "ui/state/phase_remaining",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "7a77a26bef88c80e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 210,
+        "y": 760,
+        "wires": [
+            [
+                "826cf2e26bd62be8"
+            ]
+        ]
+    },
+    {
+        "id": "d7c8134606ed5f57",
+        "type": "ui_text",
+        "z": "03a81b1a548b2458",
+        "group": "366e589a14f99cf0",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Match Remaining",
+        "format": "{{msg.payload[\"time\"]}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 610,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "8c5385b22e54b6ce",
+        "type": "mqtt in",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "topic": "ui/state/match_remaining",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "7a77a26bef88c80e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 210,
+        "y": 820,
+        "wires": [
+            [
+                "d7c8134606ed5f57"
+            ]
+        ]
+    }
+]
