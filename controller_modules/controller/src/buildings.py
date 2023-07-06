@@ -8,7 +8,7 @@ class FireBuildingModel(object):
         self.name = name
         self.fire_douse_amount = 1
         self.initial_fire_level = initial_fire_level
-        self.current_fire_level = initial_fire_level
+        self.current_fire_level = 0
         self.auto_ignite = False
         self.score = 0
 

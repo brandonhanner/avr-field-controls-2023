@@ -91,6 +91,9 @@ class MatchModel(object):
             "exit":self.phase_three_exit
         }
         self.post_match_state = State('post_match_state')
+        self.post_match_state.handlers = {
+            "enter": self.post_match_enter
+        }
 
         self.sm.add_state(self.idle_state, initial=True)
         self.sm.add_state(self.staging_state)
@@ -129,22 +132,6 @@ class MatchModel(object):
 
         self.sm_lock.release()
 
-    def timer(self, timeout, event):
-        time.sleep(timeout)
-        #logger.debug("dispatching timeout event")
-        self.dispatch(Event(event))
-
-    # def phase_timer(self, timeout, event, setter):
-    #     start_time = time.time()
-    #     elapsed = 0
-    #     while elapsed < timeout:
-    #         time.sleep(.1)
-    #         elapsed = time.time() - start_time
-    #         setter(timeout - elapsed)
-    #     #logger.debug("dispatching timeout event")
-    #     setter(0)
-    #     self.dispatch(Event(event))
-
     def idle_enter(self, state, enter):
         self.random_hotspot_building = ""
         for building in self.fire_buildings.values():
@@ -177,7 +164,11 @@ class MatchModel(object):
             building.auto_ignite = True
 
     def phase_three_exit(self, state, event):
+        pass
+
+    def post_match_enter(self, state, event):
         self.match_timer.reset()
+        self.phase_timer.reset()
 
     def randomize_building(self, state, event):
         self.randomize_hotspot()
