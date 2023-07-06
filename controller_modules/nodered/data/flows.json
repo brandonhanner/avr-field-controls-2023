@@ -8,10 +8,19 @@
         "env": []
     },
     {
+        "id": "53990f839c1cf5ed",
+        "type": "tab",
+        "label": "Ref Page",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "a52d199521293c21",
         "type": "ui_tab",
         "name": "Field Operations",
         "icon": "dashboard",
+        "order": 1,
         "disabled": false,
         "hidden": false
     },
@@ -116,7 +125,7 @@
     {
         "id": "366e589a14f99cf0",
         "type": "ui_group",
-        "name": "Pre-Match",
+        "name": "Match Controls",
         "tab": "a52d199521293c21",
         "order": 1,
         "disp": true,
@@ -182,6 +191,26 @@
         "order": 3,
         "width": 1,
         "height": 1
+    },
+    {
+        "id": "e1a07cb3602771da",
+        "type": "ui_tab",
+        "name": "Ref Toggles",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "8b1b820aae8133ac",
+        "type": "ui_group",
+        "name": "Toggles",
+        "tab": "e1a07cb3602771da",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
     },
     {
         "id": "48faa7beaea8352b",
@@ -359,32 +388,6 @@
         "topicType": "msg",
         "x": 150,
         "y": 280,
-        "wires": [
-            [
-                "ce178390c4ef29c4"
-            ]
-        ]
-    },
-    {
-        "id": "c470bb061ff706fe",
-        "type": "ui_text_input",
-        "z": "03a81b1a548b2458",
-        "name": "",
-        "label": "Match ID",
-        "tooltip": "",
-        "group": "366e589a14f99cf0",
-        "order": 2,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "mode": "text",
-        "delay": 300,
-        "topic": "topic",
-        "sendOnBlur": true,
-        "className": "",
-        "topicType": "msg",
-        "x": 160,
-        "y": 240,
         "wires": [
             [
                 "ce178390c4ef29c4"
@@ -730,6 +733,102 @@
             [
                 "d7c8134606ed5f57"
             ]
+        ]
+    },
+    {
+        "id": "7b3c4815a9189b6f",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "switch",
+        "tooltip": "",
+        "group": "8b1b820aae8133ac",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 190,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4bb94d226752a132",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "switch",
+        "tooltip": "",
+        "group": "8b1b820aae8133ac",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 190,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "901662141c3392d5",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "switch",
+        "tooltip": "",
+        "group": "8b1b820aae8133ac",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 190,
+        "y": 380,
+        "wires": [
+            []
         ]
     }
 ]
