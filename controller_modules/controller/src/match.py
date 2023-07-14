@@ -3,38 +3,9 @@ import buildings
 from threading import Thread, Lock
 from typing import Dict, List, Union, Any
 import time
+import timer
 from loguru import logger
 import random
-
-class Timer(object):
-    def __init__(self):
-        self.time_remaining = 0
-        self.enabled = False
-        self.function: Any = None
-        thread = Thread(target=self.run, args=tuple())
-        thread.start()
-
-    def start(self):
-        self.enabled = True
-    def pause(self):
-        self.enabled = False
-    def reset(self):
-        self.enabled = False
-        self.time_remaining = 0
-    def set_timeout(self, time):
-        self.enabled = False
-        self.time_remaining = time
-
-    def run(self):
-        while True:
-            if self.enabled:
-                if self.time_remaining >= 1:
-                    self.time_remaining -=1
-                if self.time_remaining == 0:
-                    if self.function is not None:
-                        self.enabled = False
-                        self.function()
-            time.sleep(1)
 
 
 class MatchModel(object):
@@ -56,8 +27,8 @@ class MatchModel(object):
 
         self.random_hotspot_building = None
 
-        self.phase_timer = Timer()
-        self.match_timer = Timer()
+        self.phase_timer = timer.Timer()
+        self.match_timer = timer.Timer()
 
         ###############################################################################
 
@@ -75,7 +46,8 @@ class MatchModel(object):
         }
         self.staging_state = State('staging_state')
         self.staging_state.handlers = {
-            "randomize_hotspot_event": self.randomize_building
+            "randomize_hotspot_event": self.randomize_building,
+            "start_preheat_event": self.start_preheat,
         }
         self.phase_1_state = State('phase_1_state')
         self.phase_1_state.handlers = {
@@ -138,6 +110,8 @@ class MatchModel(object):
         for building in self.fire_buildings.values():
             building.auto_ignite = False
             building.reset()
+        for building in self.heater_buildings.values():
+            building.reset()
     def phase_one_enter(self, state, event):
         logger.debug("starting phase 1 timer thread!")
 
@@ -187,6 +161,10 @@ class MatchModel(object):
 
     def phase_iii_timeout(self):
          self.dispatch(Event("phase_iii_timeout_event"))
+
+    def start_preheat(self, state, event):
+        if self.random_hotspot_building is not None:
+            self.heater_buildings[self.random_hotspot_building].ignite()
 
     ########################################################
     def calculate_score(self):

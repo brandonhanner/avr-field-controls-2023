@@ -329,13 +329,13 @@
         "gtype": "donut",
         "title": "Pre-Heat Countdown",
         "label": "units",
-        "format": "{{value}}",
+        "format": "{{msg.payload[\"time\"]}}",
         "min": 0,
-        "max": "90",
+        "max": "60",
         "colors": [
-            "#00b500",
+            "#ff2600",
             "#e6e600",
-            "#ca3838"
+            "#00fa00"
         ],
         "seg1": "",
         "seg2": "",
