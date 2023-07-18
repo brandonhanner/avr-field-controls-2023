@@ -64,11 +64,13 @@ class ArduinoAdapter(object):
             self.config = json.load(file)
 
         # see if the config file has an alternate config for the mqtt broker
+        # if not use defaults
         mqtt_broker = self.config.get("mqtt_broker", "192.168.1.100")
         self.mqtt_client = mqtt_client.MQTTClient(mqtt_broker, 1883)
         self.mqtt_client.start_threaded()
 
         # see if the config file has a configured identity already
+        # if not, send off to provisioning
         id = self.config.get("id", None)
         if id is None:
             self.sm.dispatch(Event("needs_provisioning_event"))
@@ -148,15 +150,5 @@ class ArduinoAdapter(object):
 
 
 if __name__ == "__main__":
-    configs = {}
-    # look for existing config file
-
-    # if present, load it
-
-    # get the config info from it
-    id = configs.get("name", None)
-    mqtt_broker = configs.get("mqtt_broker", "mqtt")
-
-
-    adapter = ArduinoAdapter(id, mqtt_broker=mqtt_broker)
+    adapter = ArduinoAdapter(config_file="/app/configs/config.json")
     adapter.run()
