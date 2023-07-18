@@ -125,7 +125,7 @@ class Controller(object):
                 else:
                     data["pixel_data"].append([0, 0, 0])
 
-            self.mqtt_client.publish(f"{building_name}/progress_bar_set", data)
+            self.mqtt_client.publish(f"{building_name}/progress_bar/set", data)
 
     def publish_building_heater_commands(self):
         relay_channel = 1
