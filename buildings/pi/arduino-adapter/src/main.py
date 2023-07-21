@@ -1,8 +1,6 @@
 import mqtt_client
 from pysm import State, StateMachine, Event
-from loguru import logger
 from threading import Lock, Thread
-import time
 import netifaces as ni
 import serial
 from typing import Union, List
