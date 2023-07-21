@@ -7,6 +7,7 @@ from typing import Union, List
 import json
 import libregpio as GPIO
 import random
+import time
 
 
 class LePotatoRelayModule(object):
@@ -68,11 +69,11 @@ class ArduinoAdapter(object):
 
         self.init_state = State("init_state")
         self.init_state.handlers = {
-            "enter": self.init_state_job,
+            "enter": self.init_state_enter,
         }
 
         self.provisioning_state = State("provisioning_state")
-        self.provisioning_state.handlers = {"enter": self.provision_state_job}
+        self.provisioning_state.handlers = {"enter": self.provision_state_enter}
 
         self.run_state = State("run_state")
         self.run_state_thread: Thread
@@ -97,7 +98,7 @@ class ArduinoAdapter(object):
 
         ##############################################################################
 
-    def init_state_job(self, state, event):
+    def init_state_enter(self, state, event):
 
         # read the config file
         with open(self.config_file, "r") as file:
@@ -155,10 +156,14 @@ class ArduinoAdapter(object):
                 self.mqtt_client.publish(
                     f"{self.id}/events/laser_detector/", {"event_type": "hit"}
                 )
+                #flash the LED
+                Thread(target=self.flash_led, args=()).start()
             elif data == "ball":
                 self.mqtt_client.publish(
                     f"{self.id}/events/ball_detector/", {"event_type": "hit"}
                 )
+                #flash the LED
+                Thread(target=self.flash_led, args=()).start()
             if self.run_state_stop == True:
                 break
 
@@ -166,6 +171,43 @@ class ArduinoAdapter(object):
         if self.run_state_thread.is_alive():
             self.run_stop = True
             self.run_state_thread.join()
+
+    def provision_state_enter(self):
+        ip_addr = self.get_ip()
+
+        #generate the pixel pattern to show
+        colors = ["r", "g", "b"]
+        pattern = []
+
+        #create a 5 pixel pattern
+        pattern.append("bl")
+        for i in range(0,3):
+            if ip_addr is not None:
+                pattern.append(random.choice(colors))
+            else:
+                pattern.append("w")
+        pattern.append("bl")
+
+        #propogate that pattern 6 times to fill 30 pixels
+        pixel_data = []
+        for i in range(0,6):
+            for entry in pattern:
+                if entry == "r":
+                    pixel_data.append([255,0,0])
+                elif entry == "g":
+                    pixel_data.append([0,255,0])
+                elif entry == "b":
+                    pixel_data.append([0,0,255])
+                elif entry == "bl":
+                    pixel_data.append([0,0,0])
+                elif entry == "w":
+                    pixel_data.append([255,255,255])
+
+        #render the pattern
+        self.led_commands("", {"pixel_data": pixel_data})
+
+        #tell mqtt what the pattern is
+        self.mqtt_client.publish(f"field/discovery/", {"pattern": pattern, "ip_addr": ip_addr})
 
     def relay_commands(self, topic: str, msg: dict):
         channel = msg.get("channel", None)
@@ -215,42 +257,10 @@ class ArduinoAdapter(object):
         else:
             return None
 
-    def provision_state_job(self):
-        ip_addr = self.get_ip()
-
-        #generate the pixel pattern to show
-        colors = ["r", "g", "b"]
-        pattern = []
-
-        #create a 5 pixel pattern
-        pattern.append("bl")
-        for i in range(0,3):
-            if ip_addr is not None:
-                pattern.append(random.choice(colors))
-            else:
-                pattern.append("w")
-        pattern.append("bl")
-
-        #propogate that pattern 6 times to fill 30 pixels
-        pixel_data = []
-        for i in range(0,6):
-            for entry in pattern:
-                if entry == "r":
-                    pixel_data.append([255,0,0])
-                elif entry == "g":
-                    pixel_data.append([0,255,0])
-                elif entry == "b":
-                    pixel_data.append([0,0,255])
-                elif entry == "bl":
-                    pixel_data.append([0,0,0])
-                elif entry == "w":
-                    pixel_data.append([255,255,255])
-
-        #render the pattern
-        self.led_commands("", {"pixel_data": pixel_data})
-
-        #tell mqtt what the pattern is
-        self.mqtt_client.publish(f"field/discovery/", {"pattern": pattern, "ip_addr": ip_addr})
+    def flash_led(self):
+        self.relays.close_relay(self.light_channel)
+        time.sleep(.1)
+        self.relays.open_relay(self.light_channel)
 
 
 if __name__ == "__main__":

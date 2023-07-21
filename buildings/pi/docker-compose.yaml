@@ -1,0 +1,9 @@
+version: '3'
+services:
+  arduino-adapter:
+    build:
+      context: ./arduino-adapter/
+      dockerfile: ./Dockerfile
+    restart: on-failure
+    volumes:
+      - ./configs:/app/configs
