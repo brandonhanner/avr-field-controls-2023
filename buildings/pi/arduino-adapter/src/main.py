@@ -167,7 +167,7 @@ class ArduinoAdapter(object):
         if state == "on" and relay is not None:
             self.relays.close_relay(relay)
         elif state == "off" and relay is not None:
-            self.relays.close_relay(relay)
+            self.relays.open_relay(relay)
 
     def led_commands(self, topic: str, msg: dict):
         pixel_data = msg.get("pixel_data", None)
@@ -222,4 +222,3 @@ class ArduinoAdapter(object):
 
 if __name__ == "__main__":
     adapter = ArduinoAdapter(config_file="/app/configs/config.json")
-    adapter.run()
