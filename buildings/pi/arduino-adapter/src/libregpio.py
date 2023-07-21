@@ -9,37 +9,43 @@ class OUT:
 
     :param pin: GPIO pin name (i.e. GPIOX_4)
     :type pin: str
-    """    
+    """
     def __init__(self, pin):
         self.GPIOCHIP = set_chip(pin)
         self.pin = PIN_NAME[pin]
-    
+        self.state = 0
+
     def output(self, value):
         """Set an output value to a libregpio.OUT object (i.e. ``0`` or ``1``).
 
         :param value: output value to be sent to GPIO pin
         :type value: int
-        """        
+        """
         self.value = value
         if self.value in [0, 1]:
             system(f"gpioset {self.GPIOCHIP} {self.pin}={self.value}")
 
     def low(self):
-        """Set a value of ``0`` to a libregpio.OUT object"""   
+        """Set a value of ``0`` to a libregpio.OUT object"""
         system(f"gpioset {self.GPIOCHIP} {self.pin}=0")
+        self.state = 0
 
     def high(self):
         """Set a value of ``1`` to a libregpio.OUT object."""
         system(f"gpioset {self.GPIOCHIP} {self.pin}=1")
+        self.state = 1
 
     def active_low(self):
         """Set libregpio.OUT object to active_low."""
         system(f"gpioset {self.GPIOCHIP} {self.pin} -l")
-    
+
     def toggle(self):
         """Toggle output value of a GPIO pin"""
         current_value = int(popen(f"gpioget -B disable {self.GPIOCHIP} {self.pin}").read())
         self.output(int(not(current_value)))
+
+    def get_state(self) -> int:
+        return self.state
 
 
 class IN:

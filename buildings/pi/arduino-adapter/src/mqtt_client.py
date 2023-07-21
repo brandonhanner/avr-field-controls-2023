@@ -94,3 +94,6 @@ class MQTTClient(object):
             return True
         else:
             return False
+
+    def is_connected(self):
+        return self.mqtt_client.is_connected()

@@ -130,9 +130,9 @@ class Controller(object):
     def publish_building_heater_commands(self):
         relay_channel = "heater"
         for building_name, building in self.match.heater_buildings.items():
-            state = False
+            state = "off"
             if building.sm.state.name == "on_fire_state":
-                state = True
+                state = "on"
             self.mqtt_client.publish(
                 f"{building_name}/relay/set", {"channel": relay_channel, "state": state}
             )

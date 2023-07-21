@@ -3,3 +3,4 @@ colored==1.4.2
 loguru==0.5.3
 pysm
 netifaces
+pyserial

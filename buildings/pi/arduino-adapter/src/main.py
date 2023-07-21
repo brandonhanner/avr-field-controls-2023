@@ -8,6 +8,8 @@ import json
 import libregpio as GPIO
 import random
 import time
+from loguru import logger
+from queue import Queue
 
 
 class LePotatoRelayModule(object):
@@ -31,16 +33,24 @@ class LePotatoRelayModule(object):
         self.channels.append(GPIO.OUT("GPIOX_5"))
 
     def open_relay(self, relay):
-        # convert the human intent of channel 1 into 0 index
-        relay -= 1
         if relay >= 0 and relay <= (len(self.channels) - 1):
             self.channels[relay].high()
 
     def close_relay(self, relay):
-        # convert the human intent of channel 1 into 0 index
-        relay -= 1
         if relay >= 0 and relay <= (len(self.channels) - 1):
             self.channels[relay].low()
+
+    def get_relay_state(self, relay):
+        '''
+        return 1 means closed
+        return 0 means open
+        '''
+        if relay >= 0 and relay <= (len(self.channels) - 1):
+            pin_state = self.channels[relay].get_state()
+            if pin_state == 0:
+                return 1
+            elif pin_state == 1:
+                return 0
 
 
 class ArduinoAdapter(object):
@@ -50,8 +60,8 @@ class ArduinoAdapter(object):
 
         self.mqtt_client: mqtt_client.MQTTClient
 
-        self.ser_connection:serial.Serial
-        self.serial_port = "dev/ttyAML0"
+        self.ser_connection: serial.Serial
+        self.serial_port = "/dev/ttyAML0"
         self.ser_lock = Lock()
 
         self.id = ""
@@ -59,60 +69,81 @@ class ArduinoAdapter(object):
 
         self.relays = LePotatoRelayModule()
 
-        self.heater_channel = 1 #default, will be overridden by config
-        self.light_channel = 2 #default, will be overridden by config
+        self.heater_channel = 1  # default, will be overridden by config
+        self.light_channel = 2  # default, will be overridden by config
 
         #################### S T A T E  M A C H I N E   S T U F F ####################
         self.sm_lock = Lock()
+        self.event_queue = Queue()
 
         self.sm = StateMachine("adapter")
 
+        self.boot_state = State("boot_state")
+
         self.init_state = State("init_state")
-        self.init_state.handlers = {
-            "enter": self.init_state_enter,
-        }
+        self.init_state.handlers = {"enter": self.init_state_enter}
 
         self.provisioning_state = State("provisioning_state")
         self.provisioning_state.handlers = {"enter": self.provision_state_enter}
 
         self.run_state = State("run_state")
+        self.run_state.handlers = {"enter": self.run_state_enter}
         self.run_state_thread: Thread
         self.run_state_stop: bool = False
-        self.run_state.handlers = {"enter": self.run_state_job}
 
-        self.sm.add_state(self.init_state, initial=True)
+        self.sm.add_state(self.boot_state, initial=True)
+        self.sm.add_state(self.init_state)
         self.sm.add_state(self.provisioning_state)
         self.sm.add_state(self.run_state)
 
         self.sm.add_transition(
-            self.init_state, self.provisioning_state, "needs_provisioning_event"
+            self.boot_state, self.init_state, events=["goto_init_event"]
         )
 
-        self.sm.add_transition(self.init_state, self.run_state, "ready_to_run_event")
         self.sm.add_transition(
-            self.provisioning_state, self.run_state, "ready_to_run_event"
+            self.init_state,
+            self.provisioning_state,
+            events=["needs_provisioning_event"],
+        )
+        self.sm.add_transition(
+            self.init_state, self.run_state, events=["ready_to_run_event"]
         )
 
-        self.sm.add_transition(self.provisioning_state, self.init_state, "reset_event")
-        self.sm.add_transition(self.run_state, self.init_state, "reset_event")
+        self.sm.add_transition(
+            self.provisioning_state, self.run_state, events=["ready_to_run_event"]
+        )
+        self.sm.add_transition(
+            self.provisioning_state, self.init_state, events=["reset_event"]
+        )
 
+        self.sm.add_transition(self.run_state, self.init_state, events=["reset_event"])
+
+        self.sm.initialize()
         ##############################################################################
 
-    def init_state_enter(self, state, event):
+        logger.debug("Finished with init function!")
 
+    def init_state_enter(self, state, event):
+        logger.debug("Entering INIT state!")
         # read the config file
+        logger.debug("Opening the config file")
         with open(self.config_file, "r") as file:
             self.config = json.load(file)
+        logger.debug("Printing config below...")
+        logger.debug(json.dumps(self.config))
 
         # see if the config file has an alternate config for the mqtt broker
         # if not use defaults
+        logger.debug("Starting MQTT thread")
         mqtt_broker = self.config.get("mqtt_broker", "192.168.1.100")
         self.mqtt_client = mqtt_client.MQTTClient(mqtt_broker, 1883)
         self.mqtt_client.start_threaded()
 
+        logger.debug("Setting relay channels according to the config file")
         self.heater_channel = self.config.get("heater_channel", self.heater_channel)
         self.light_channel = self.config.get("light_channel", self.light_channel)
 
+        logger.debug("Setting up the serial port")
         self.serial_port = self.config.get("serial_port", self.serial_port)
         self.ser_connection = serial.Serial(self.serial_port, 115200, timeout=1.0)
         self.ser_connection.reset_input_buffer()
@@ -124,23 +155,28 @@ class ArduinoAdapter(object):
         id = self.config.get("id", None)
 
         if id is None:
-            self.sm.dispatch(Event("needs_provisioning_event"))
+            logger.debug("No ID found, going to provision")
+            self.event_queue.put(Event("needs_provisioning_event"))
         else:
             self.id = id
-            self.sm.dispatch(Event("ready_to_run_event"))
+            logger.debug("ID found, going to run")
+            self.event_queue.put(Event("ready_to_run_event"))
 
-    def run_state_enter(self):
+    def run_state_enter(self, state, event):
+        logger.debug("Entering RUN state!")
         self.run_state_thread = Thread(target=self.run_state_job, args=())
         self.run_state_thread.start()
 
     def run_state_job(self):
-
+        logger.debug("Performing RUN job!")
         self.run_state_stop = False
 
         self.mqtt_client.register_callback(f"{self.id}/relay/set", self.relay_commands)
         self.mqtt_client.register_callback(
             f"{self.id}/progress_bar/set", self.led_commands
         )
+
+        self.mqtt_client.publish(f"{self.id}/events/connected/", {"time": time.time()})
 
         while True:
             data = ""
@@ -156,58 +192,63 @@ class ArduinoAdapter(object):
                 self.mqtt_client.publish(
                     f"{self.id}/events/laser_detector/", {"event_type": "hit"}
                 )
-                #flash the LED
+                # flash the LED
                 Thread(target=self.flash_led, args=()).start()
             elif data == "ball":
                 self.mqtt_client.publish(
                     f"{self.id}/events/ball_detector/", {"event_type": "hit"}
                 )
-                #flash the LED
+                # flash the LED
                 Thread(target=self.flash_led, args=()).start()
             if self.run_state_stop == True:
                 break
+            time.sleep(0.05)
 
-    def run_state_exit(self):
+    def run_state_exit(self, state, event):
         if self.run_state_thread.is_alive():
             self.run_stop = True
             self.run_state_thread.join()
 
-    def provision_state_enter(self):
+    def provision_state_enter(self, state, event):
+        logger.debug("Entering PROVISION state!")
+
         ip_addr = self.get_ip()
 
-        #generate the pixel pattern to show
+        # generate the pixel pattern to show
         colors = ["r", "g", "b"]
         pattern = []
 
-        #create a 5 pixel pattern
+        # create a 5 pixel pattern
         pattern.append("bl")
-        for i in range(0,3):
+        for i in range(0, 3):
             if ip_addr is not None:
                 pattern.append(random.choice(colors))
             else:
                 pattern.append("w")
         pattern.append("bl")
 
-        #propogate that pattern 6 times to fill 30 pixels
+        # propogate that pattern 6 times to fill 30 pixels
         pixel_data = []
-        for i in range(0,6):
+        for i in range(0, 6):
             for entry in pattern:
                 if entry == "r":
-                    pixel_data.append([255,0,0])
+                    pixel_data.append([255, 0, 0])
                 elif entry == "g":
-                    pixel_data.append([0,255,0])
+                    pixel_data.append([0, 255, 0])
                 elif entry == "b":
-                    pixel_data.append([0,0,255])
+                    pixel_data.append([0, 0, 255])
                 elif entry == "bl":
-                    pixel_data.append([0,0,0])
+                    pixel_data.append([0, 0, 0])
                 elif entry == "w":
-                    pixel_data.append([255,255,255])
+                    pixel_data.append([255, 255, 255])
 
-        #render the pattern
+        # render the pattern
         self.led_commands("", {"pixel_data": pixel_data})
 
-        #tell mqtt what the pattern is
-        self.mqtt_client.publish(f"field/discovery/", {"pattern": pattern, "ip_addr": ip_addr})
+        # tell mqtt what the pattern is
+        self.mqtt_client.publish(
+            f"field/discovery/", {"pattern": pattern, "ip_addr": ip_addr}
+        )
 
     def relay_commands(self, topic: str, msg: dict):
         channel = msg.get("channel", None)
@@ -219,7 +260,7 @@ class ArduinoAdapter(object):
         elif channel == "light":
             relay = self.light_channel
         elif isinstance(channel, int):
-            if channel >0 and channel <= len(self.relays.channels):
+            if channel > 0 and channel <= len(self.relays.channels):
                 relay = channel
 
         if state == "on" and relay is not None:
@@ -252,16 +293,42 @@ class ArduinoAdapter(object):
     def get_ip(self):
         interfaces = ni.interfaces()
         if self.interface in interfaces:
-            ip = ni.ifaddresses(self.interface)[ni.AF_INET][0]['addr']
+            ip = ni.ifaddresses(self.interface)[ni.AF_INET][0]["addr"]
             return ip
         else:
             return None
 
     def flash_led(self):
         self.relays.close_relay(self.light_channel)
-        time.sleep(.1)
+        time.sleep(0.1)
         self.relays.open_relay(self.light_channel)
+
+    def publish_state(self):
+        while True:
+            # logger.debug(f"State: {self.sm.state.name}")
+            if self.mqtt_client.is_connected() and self.id != "":
+                heater_state = self.relays.get_relay_state(self.heater_channel)
+                self.mqtt_client.publish(
+                    f"{self.id}/state/",
+                    {
+                        "state": self.sm.state.name, # type: ignore
+                        "heater": "on" if heater_state == 1 else "off",
+                    },
+                )
+            time.sleep(1)
+
+    def run(self):
+        self.sm.dispatch(Event("goto_init_event"))
+        Thread(target=self.publish_state, args=()).start()
+
+        while True:
+            time.sleep(0.5)
+            while not self.event_queue.empty():
+                event = self.event_queue.get()
+                self.sm.dispatch(event)
 
 
 if __name__ == "__main__":
+    logger.debug("IM ALIVE!!!")
     adapter = ArduinoAdapter(config_file="/app/configs/config.json")
+    adapter.run()
