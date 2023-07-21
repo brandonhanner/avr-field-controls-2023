@@ -3,11 +3,12 @@ from pysm import State, StateMachine, Event
 from loguru import logger
 from threading import Lock, Thread
 import time
-import psutil
+import netifaces as ni
 import serial
 from typing import Union, List
 import json
 import libregpio as GPIO
+import random
 
 
 class LePotatoRelayModule(object):
@@ -50,13 +51,17 @@ class ArduinoAdapter(object):
 
         self.mqtt_client: mqtt_client.MQTTClient
 
-        self.ser_connection = serial.Serial("dev/ttyACM0", 115200, timeout=1.0)
-        self.ser_connection.reset_input_buffer()
+        self.ser_connection:serial.Serial
+        self.serial_port = "dev/ttyAML0"
         self.ser_lock = Lock()
 
         self.id = ""
+        self.interface = "eth0"
 
         self.relays = LePotatoRelayModule()
+
+        self.heater_channel = 1 #default, will be overridden by config
+        self.light_channel = 2 #default, will be overridden by config
 
         #################### S T A T E  M A C H I N E   S T U F F ####################
         self.sm_lock = Lock()
@@ -106,9 +111,19 @@ class ArduinoAdapter(object):
         self.mqtt_client = mqtt_client.MQTTClient(mqtt_broker, 1883)
         self.mqtt_client.start_threaded()
 
+        self.heater_channel = self.config.get("heater_channel", self.heater_channel)
+        self.light_channel = self.config.get("light_channel", self.light_channel)
+
+        self.serial_port = self.config.get("serial_port", self.serial_port)
+        self.ser_connection = serial.Serial(self.serial_port, 115200, timeout=1.0)
+        self.ser_connection.reset_input_buffer()
+
+        self.interface = self.config.get("interface", self.interface)
+
         # see if the config file has a configured identity already
         # if not, send off to provisioning
         id = self.config.get("id", None)
+
         if id is None:
             self.sm.dispatch(Event("needs_provisioning_event"))
         else:
@@ -160,9 +175,12 @@ class ArduinoAdapter(object):
 
         relay = None
         if channel == "heater":
-            relay = 1
+            relay = self.heater_channel
         elif channel == "light":
-            relay = 2
+            relay = self.light_channel
+        elif isinstance(channel, int):
+            if channel >0 and channel <= len(self.relays.channels):
+                relay = channel
 
         if state == "on" and relay is not None:
             self.relays.close_relay(relay)
@@ -192,32 +210,49 @@ class ArduinoAdapter(object):
             self.ser_lock.release()
 
     def get_ip(self):
-        # Iterate over all the keys in the dictionary
-        for interface in psutil.net_if_addrs():
-            print(interface)
-
-    def get_mac(self):
-        pass
+        interfaces = ni.interfaces()
+        if self.interface in interfaces:
+            ip = ni.ifaddresses(self.interface)[ni.AF_INET][0]['addr']
+            return ip
+        else:
+            return None
 
     def provision_state_job(self):
-        pass
-        # #send out provisioning message
-        # #wait for identifying response
-        # #return name at end
+        ip_addr = self.get_ip()
 
-        # def handle_provisioning(self, topic: str, msg: dict):
-        #     pass
+        #generate the pixel pattern to show
+        colors = ["r", "g", "b"]
+        pattern = []
 
-        # ip_addr = self.get_ip()
-        # mac_addr = self.get_mac()
+        #create a 5 pixel pattern
+        pattern.append("bl")
+        for i in range(0,3):
+            if ip_addr is not None:
+                pattern.append(random.choice(colors))
+            else:
+                pattern.append("w")
+        pattern.append("bl")
 
-        # condensed_mac = ""
+        #propogate that pattern 6 times to fill 30 pixels
+        pixel_data = []
+        for i in range(0,6):
+            for entry in pattern:
+                if entry == "r":
+                    pixel_data.append([255,0,0])
+                elif entry == "g":
+                    pixel_data.append([0,255,0])
+                elif entry == "b":
+                    pixel_data.append([0,0,255])
+                elif entry == "bl":
+                    pixel_data.append([0,0,0])
+                elif entry == "w":
+                    pixel_data.append([255,255,255])
 
-        # client = mqtt_client.MQTTClient(mqtt_broker, 1883)
-        # client.register_callback(f"field/discovery/{condensed_mac}/provision", handle_provisioning)
-        # client.start_threaded()
+        #render the pattern
+        self.led_commands("", {"pixel_data": pixel_data})
 
-        # client.publish(f"field/discovery/{condensed_mac}", {})
+        #tell mqtt what the pattern is
+        self.mqtt_client.publish(f"field/discovery/", {"pattern": pattern, "ip_addr": ip_addr})
 
 
 if __name__ == "__main__":

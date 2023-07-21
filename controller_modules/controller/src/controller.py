@@ -128,7 +128,7 @@ class Controller(object):
             self.mqtt_client.publish(f"{building_name}/progress_bar/set", data)
 
     def publish_building_heater_commands(self):
-        relay_channel = 1
+        relay_channel = "heater"
         for building_name, building in self.match.heater_buildings.items():
             state = False
             if building.sm.state.name == "on_fire_state":
