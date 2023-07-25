@@ -185,6 +185,7 @@ class ArduinoAdapter(object):
                 # and block until we get a terminating char
                 self.ser_lock.acquire()
                 data = self.ser_connection.readline().decode("utf-8").rstrip()
+                logger.debug(f"got message: {data} from arduino")
                 self.ser_lock.release()
 
             # if there is a new message, handle it
@@ -286,6 +287,7 @@ class ArduinoAdapter(object):
 
             pixel_cmd += "\n"
 
+            logger.debug(pixel_cmd)
             self.ser_lock.acquire()
             self.ser_connection.write(pixel_cmd.encode("utf-8"))
             self.ser_lock.release()
