@@ -61,7 +61,7 @@ class ArduinoAdapter(object):
         self.mqtt_client: mqtt_client.MQTTClient
 
         self.ser_connection: serial.Serial
-        self.serial_port = "/dev/ttyAML0"
+        self.serial_port = "/dev/ttyACM0"
         self.ser_lock = Lock()
 
         self.id = ""
@@ -285,11 +285,11 @@ class ArduinoAdapter(object):
                 else:
                     pixel_cmd += "/" + pixel_str
 
-            pixel_cmd += "\n"
+            # pixel_cmd += "\n"
 
             logger.debug(pixel_cmd)
             self.ser_lock.acquire()
-            self.ser_connection.write(pixel_cmd.encode("utf-8"))
+            self.ser_connection.write(pixel_cmd.encode("utf-8") + b"\n")
             self.ser_lock.release()
 
     def get_ip(self):
