@@ -61,7 +61,7 @@ class ArduinoAdapter(object):
         self.mqtt_client: mqtt_client.MQTTClient
 
         self.ser_connection: serial.Serial
-        self.serial_port = "/dev/ttyACM0"
+        self.serial_port = "/dev/ttyACM1"
         self.ser_lock = Lock()
 
         self.id = ""
@@ -69,8 +69,10 @@ class ArduinoAdapter(object):
 
         self.relays = LePotatoRelayModule()
 
-        self.heater_channel = 1  # default, will be overridden by config
-        self.light_channel = 2  # default, will be overridden by config
+        self.heater_channel = 7  # default, will be overridden by config
+        self.light_channel = 0  # default, will be overridden by config
+        self.window_1_channel = 1
+        self.window_2_channel = 2
 
         #################### S T A T E  M A C H I N E   S T U F F ####################
         self.sm_lock = Lock()
@@ -145,7 +147,8 @@ class ArduinoAdapter(object):
 
         logger.debug("Setting up the serial port")
         self.serial_port = self.config.get("serial_port", self.serial_port)
-        self.ser_connection = serial.Serial(self.serial_port, 115200, timeout=1.0)
+        self.ser_connection = serial.Serial(self.serial_port, 9600, timeout=1.0)
+        time.sleep(4) #gives arduino time to setup and start sending. 
         self.ser_connection.reset_input_buffer()
 
         self.interface = self.config.get("interface", self.interface)
@@ -260,6 +263,10 @@ class ArduinoAdapter(object):
             relay = self.heater_channel
         elif channel == "light":
             relay = self.light_channel
+        elif channel == "window1":
+            relay = self.window_1_channel
+        elif channel == "window2":
+            relay = self.window_2_channel
         elif isinstance(channel, int):
             if channel > 0 and channel <= len(self.relays.channels):
                 relay = channel
@@ -287,8 +294,8 @@ class ArduinoAdapter(object):
 
             # pixel_cmd += "\n"
 
-            logger.debug(pixel_cmd)
             self.ser_lock.acquire()
+            logger.debug(pixel_cmd)
             self.ser_connection.write(pixel_cmd.encode("utf-8") + b"\n")
             self.ser_lock.release()
 

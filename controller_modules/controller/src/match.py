@@ -9,12 +9,15 @@ import random
 
 
 class MatchModel(object):
-    def __init__(self, fire_buildings: List[str], heater_buildings: List[str]):
+    def __init__(self, ball_buildings: List[str], laser_buildings: List[str], heater_buildings: List[str]):
 
         self.score = 0
+
         self.fire_buildings:Dict[str,buildings.FireBuildingModel] = {}
-        for building in fire_buildings:
-            self.fire_buildings[building] = buildings.FireBuildingModel(building)
+        for building in ball_buildings:
+            self.fire_buildings[building] = buildings.FireBuildingModel(building, initial_fire_level=16, points_per_window=4)
+        for building in laser_buildings:
+            self.fire_buildings[building] = buildings.FireBuildingModel(building, initial_fire_level=8, points_per_window=3)
 
         self.heater_buildings: Dict[str, buildings.HeaterBuildingModel] = {}
         for building in heater_buildings:
@@ -170,7 +173,7 @@ class MatchModel(object):
     def calculate_score(self):
         score = 0
         for building in self.fire_buildings.values():
-            score = score + building.score
+            score = score + building.get_score()
         # TODO - do the other stuff here
         return score
 

@@ -6,13 +6,14 @@ import timer
 
 
 class FireBuildingModel(object):
-    def __init__(self, name: str, initial_fire_level=16):
+    def __init__(self, name: str, initial_fire_level=16, points_per_window = 4):
         self.name = name
         self.fire_douse_amount = 1
         self.initial_fire_level = initial_fire_level
         self.current_fire_level = 0
         self.auto_ignite = False
-        self.score = 0
+        self.partial_score = 0
+        self.points_per_window = points_per_window
 
         #################### S T A T E  M A C H I N E   S T U F F ####################
         self.sm_lock = Lock()
@@ -21,6 +22,7 @@ class FireBuildingModel(object):
 
         self.idle_state = State("idle_state")
         self.idle_state.handlers = {"enter": self.idle_enter}
+
         self.on_fire_state = State("on_fire_state")
         self.on_fire_state.handlers = {
             "fire_doused_event": self.fire_doused_action,
@@ -71,7 +73,7 @@ class FireBuildingModel(object):
         self.sm_lock.release()
 
     def idle_enter(self, state, event):
-        self.score = 0
+        self.partial_score = 0
         self.current_fire_level = 0
 
     def on_fire_enter(self, state, event):
@@ -94,9 +96,9 @@ class FireBuildingModel(object):
             and self.current_fire_level >= self.fire_douse_amount
         ):
             self.current_fire_level -= self.fire_douse_amount
-            self.score += self.fire_douse_amount
+            self.partial_score += self.fire_douse_amount
             logger.debug(
-                f"BUILDING {self.name}: dousing fire! New score: {self.score} New fire level: {self.current_fire_level}"
+                f"BUILDING {self.name}: dousing fire! New partial score: {self.partial_score} New fire level: {self.current_fire_level}"
             )
             if self.current_fire_level <= 0:
                 self.sm.dispatch(Event("fire_extinguished_event"))
@@ -116,6 +118,9 @@ class FireBuildingModel(object):
 
     def get_fire_level(self):
         return self.current_fire_level
+
+    def get_score(self):
+        return self.partial_score // (self.initial_fire_level / 2) * self.points_per_window
 
 
 class HeaterBuildingModel(object):

@@ -61,7 +61,7 @@ class Controller(object):
             row_data["fire_level"] = mapRange(
                 building.current_fire_level, 0, 16, 0, 100
             )
-            row_data["score"] = building.score
+            row_data["score"] = building.get_score()
             table_data.append(row_data)
 
         self.mqtt_client.publish("ui/state/table_data", table_data)
@@ -111,10 +111,11 @@ class Controller(object):
 
     def publish_building_LED_commands(self):
         strip_len = 30
-        pixels_per_fs = 2
 
         for building_name, building in self.match.fire_buildings.items():
             fire_level = building.current_fire_level
+            pixels_per_fs = strip_len/building.initial_fire_level
+
             data = {}
 
             data["pixel_data"] = []
@@ -126,6 +127,28 @@ class Controller(object):
                     data["pixel_data"].append([0, 0, 0])
 
             self.mqtt_client.publish(f"{building_name}/progress_bar/set", data)
+
+            if building.current_fire_level > (building.initial_fire_level/2):
+                self.mqtt_client.publish(
+                    f"{building_name}/relay/set", {"channel": "window1", "state": "on"}
+                )
+                self.mqtt_client.publish(
+                    f"{building_name}/relay/set", {"channel": "window2", "state": "on"}
+                )
+            elif building.current_fire_level > 0:
+                self.mqtt_client.publish(
+                    f"{building_name}/relay/set", {"channel": "window1", "state": "on"}
+                )
+                self.mqtt_client.publish(
+                    f"{building_name}/relay/set", {"channel": "window2", "state": "off"}
+                )
+            else:
+                self.mqtt_client.publish(
+                    f"{building_name}/relay/set", {"channel": "window1", "state": "off"}
+                )
+                self.mqtt_client.publish(
+                    f"{building_name}/relay/set", {"channel": "window2", "state": "off"}
+                )
 
     def publish_building_heater_commands(self):
         relay_channel = "heater"
