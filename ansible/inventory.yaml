@@ -1,0 +1,77 @@
+---
+assets:
+  vars:
+    docker_tarball: field_controls.tar
+    mqtt_broker: 192.168.1.100
+    heater_channel: 1
+    light_channel: 2
+    serial_port: /dev/ttyACM0
+    interface: eth0
+    username: ubuntu
+    pw: ####
+  hosts:
+    ############################################################################################################
+    ######################################### R A S P B E R R Y  P I S #########################################
+    ############################################################################################################
+    A: #Laser building 1
+      ansible_host: 192.168.1.1
+      ansible_user: "{{ username }}"
+      ansible_ssh_pass: "{{ pw }}"
+      ansible_become_password: "{{ ansible_ssh_pass }}"
+      data_root: /home/{{ ansible_user }}
+
+    B: #Laser building 1
+      ansible_host: 192.168.1.1
+      ansible_user: "{{ username }}"
+      ansible_ssh_pass: "{{ pw }}"
+      ansible_become_password: "{{ ansible_ssh_pass }}"
+      data_root: /home/{{ ansible_user }}
+
+    C: #Laser building 1
+      ansible_host: 192.168.1.1
+      ansible_user: "{{ username }}"
+      ansible_ssh_pass: "{{ pw }}"
+      ansible_become_password: "{{ ansible_ssh_pass }}"
+      data_root: /home/{{ ansible_user }}
+
+    D: #Laser building 1
+      ansible_host: 192.168.1.1
+      ansible_user: "{{ username }}"
+      ansible_ssh_pass: "{{ pw }}"
+      ansible_become_password: "{{ ansible_ssh_pass }}"
+      data_root: /home/{{ ansible_user }}
+
+    E: #Laser building 1
+      ansible_host: 192.168.1.1
+      ansible_user: "{{ username }}"
+      ansible_ssh_pass: "{{ pw }}"
+      ansible_become_password: "{{ ansible_ssh_pass }}"
+      data_root: /home/{{ ansible_user }}
+
+    F: #Laser building 1
+      ansible_host: 192.168.1.1
+      ansible_user: "{{ username }}"
+      ansible_ssh_pass: "{{ pw }}"
+      ansible_become_password: "{{ ansible_ssh_pass }}"
+      data_root: /home/{{ ansible_user }}
+
+    G: #Laser building 1
+      ansible_host: 192.168.1.1
+      ansible_user: "{{ username }}"
+      ansible_ssh_pass: "{{ pw }}"
+      ansible_become_password: "{{ ansible_ssh_pass }}"
+      data_root: /home/{{ ansible_user }}
+
+    H: #Laser building 1
+      ansible_host: 192.168.1.1
+      ansible_user: "{{ username }}"
+      ansible_ssh_pass: "{{ pw }}"
+      ansible_become_password: "{{ ansible_ssh_pass }}"
+      data_root: /home/{{ ansible_user }}
+
+    I: #Laser building 1
+      ansible_host: 192.168.1.1
+      ansible_user: "{{ username }}"
+      ansible_ssh_pass: "{{ pw }}"
+      ansible_become_password: "{{ ansible_ssh_pass }}"
+      data_root: /home/{{ ansible_user }}
