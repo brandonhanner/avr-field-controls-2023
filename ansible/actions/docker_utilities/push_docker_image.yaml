@@ -14,7 +14,7 @@
 
 - name: Ship Tar to target.
   ansible.posix.synchronize:
-    src: "{{ tarfile }}""
+    src: "{{ project_root }}/exports/{{ tarfile }}"
     dest: "{{ data_root }}/containers/"
 
 - name: Load Container
@@ -26,4 +26,4 @@
   register: load_container_result
   failed_when: load_container_result.rc == 1
   changed_when: load_container_result.rc != 0
-  become: yes
+  become: true

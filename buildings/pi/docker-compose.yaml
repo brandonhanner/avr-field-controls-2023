@@ -5,7 +5,6 @@ services:
     build:
       context: ./arduino-adapter/
       dockerfile: ./Dockerfile
-    image: pi-arduino-adapter:latest
     restart: on-failure
     privileged: true
     network_mode: "host"
