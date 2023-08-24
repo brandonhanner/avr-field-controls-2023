@@ -11,7 +11,8 @@ def mapRange(value, inMin, inMax, outMin, outMax):
 class Controller(object):
     def __init__(self):
 
-        self.fire_buildings = ["A", "B", "C", "D", "E", "F"]
+        self.ball_buildings = ["A", "B", "C"]
+        self.laser_buildings = ["D", "E", "F"]
 
         self.heater_buildings = ["G", "H", "I"]
 
@@ -20,14 +21,14 @@ class Controller(object):
         self.mqtt_client.register_callback("+/events/#", self.handle_events)
 
         # create a match
-        self.match = match.MatchModel(self.fire_buildings, self.heater_buildings)
+        self.match = match.MatchModel(self.ball_buildings, self.laser_buildings, self.heater_buildings)
 
     def handle_events(self, topic: str, msg: dict):
         parts = topic.split("/")
         source = parts[0]
         subsystem = parts[2]
         # see if the source is a building
-        if source in (self.fire_buildings + self.heater_buildings):
+        if source in (self.ball_buildings + self.laser_buildings + self.heater_buildings):
             if subsystem in ["laser_detector", "ball_detector"]:
                 event_type = msg.get("event_type", None)
                 if event_type == "hit":
@@ -113,21 +114,37 @@ class Controller(object):
         strip_len = 30
 
         for building_name, building in self.match.fire_buildings.items():
-            fire_level = building.current_fire_level
-            pixels_per_fs = strip_len/building.initial_fire_level
-
             data = {}
-
             data["pixel_data"] = []
-
             for i in range(0, strip_len):
-                if i < (pixels_per_fs * fire_level):
-                    data["pixel_data"].append([0, 0, 255])
-                else:
-                    data["pixel_data"].append([0, 0, 0])
+                data["pixel_data"].append([0, 0, 0])
+
+            fire_level = building.current_fire_level
+            init = building.initial_fire_level
+            pixels_per_fs = 2 if init <= 8 else 1
+
+            if fire_level > (init//2):
+                left = (init//2) * pixels_per_fs
+                right = (fire_level - (init//2)) * pixels_per_fs
+            elif fire_level <= (init//2):
+                left = fire_level * pixels_per_fs
+                right = 0
+            else:
+                left = 0
+                right = 0
+
+            # do the first window's portion of the led strip
+            if left > 0:
+                for i in range(0, left):
+                    data["pixel_data"][i] = [0,0,255]
+            # do the second window's portion of the led strip
+            if right > 0:
+                for i in range(strip_len - 1, strip_len - 1 - right, -1):
+                    data["pixel_data"][i] = [0,0,255]
 
             self.mqtt_client.publish(f"{building_name}/progress_bar/set", data)
 
+            # handle window portion
             if building.current_fire_level > (building.initial_fire_level/2):
                 self.mqtt_client.publish(
                     f"{building_name}/relay/set", {"channel": "window1", "state": "on"}

@@ -4,8 +4,10 @@ services:
     build:
       context: ./arduino-adapter/
       dockerfile: ./Dockerfile
+    image: pi-arduino-adapter:latest
     restart: on-failure
     privileged: true
     network_mode: "host"
     volumes:
       - ./configs:/app/configs
+      # - ./arduino-adapter/src/main.py:/app/main.py #for faster updates
