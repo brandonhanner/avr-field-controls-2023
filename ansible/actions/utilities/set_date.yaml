@@ -1,0 +1,27 @@
+---
+- name: Define Project Root
+  ansible.builtin.import_playbook: "../utilities/define_project_root.yaml"
+  when: project_root is not defined
+
+- name: Set Clock
+  hosts: "{{ ('reachable' not in groups and 'unreachable' not in groups) | ternary('all', 'reachable') }}"
+  strategy: free
+  gather_facts: false
+  tasks:
+    - name: Fetch local time
+      ansible.builtin.script:
+        cmd: >
+          {{ project_root }}/infrastructure/utilities/time.py
+          get
+        executable: python3
+      register: date_time
+      delegate_to: localhost
+
+    - name: Set Vehicle time
+      ansible.builtin.script:
+        cmd: >
+          {{ project_root }}/infrastructure/utilities/time.py
+          set
+          --datetime '{{ date_time.stdout }}'
+        executable: python3
+      become: yes

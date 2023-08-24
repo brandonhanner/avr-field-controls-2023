@@ -1,0 +1,10 @@
+---
+- name: Stop all running containers
+  ansible.builtin.shell:
+    cmd: docker stop $(docker ps -aq)
+  become: yes
+
+- name: Remove all running containers
+  ansible.builtin.shell:
+    cmd: docker rm $(docker ps -aq)
+  become: yes
