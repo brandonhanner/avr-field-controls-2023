@@ -1,0 +1,1 @@
+ansible-playbook  plays/deploy.yaml -i inventories/inventory.yaml --ask-vault-pass
