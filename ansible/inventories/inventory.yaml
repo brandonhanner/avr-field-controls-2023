@@ -1,14 +1,15 @@
 ---
 assets:
   vars:
-    docker_tarball: field_controls.tar
+    docker_tarball: arduino.tar
     mqtt_broker: 192.168.1.100
     heater_channel: 1
     light_channel: 2
     serial_port: /dev/ttyACM0
     interface: eth0
     username: ubuntu
-    pw: ####
+    pw: bellavr23
+    sync_clocks: true
   hosts:
     ############################################################################################################
     ######################################### R A S P B E R R Y  P I S #########################################
