@@ -11,7 +11,7 @@
     - name: Fetch local time
       ansible.builtin.script:
         cmd: >
-          {{ project_root }}/infrastructure/utilities/time.py
+          {{ project_root }}/ansible/utilities/time.py
           get
         executable: python3
       register: date_time
@@ -20,8 +20,8 @@
     - name: Set Vehicle time
       ansible.builtin.script:
         cmd: >
-          {{ project_root }}/infrastructure/utilities/time.py
+          {{ project_root }}/ansible/utilities/time.py
           set
           --datetime '{{ date_time.stdout }}'
         executable: python3
-      become: yes
+      become: true

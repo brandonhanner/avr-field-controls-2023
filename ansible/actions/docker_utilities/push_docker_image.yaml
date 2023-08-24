@@ -20,7 +20,7 @@
 - name: Load Container
   ansible.builtin.script:
     cmd: >
-      {{ project_root }}/ansible/utilities/docker/load_container.py
+      {{ project_root }}/ansible/utilities/load_container.py
       {{ data_root }}/containers/{{ tarfile }}
     executable: python3
   register: load_container_result
