@@ -1,0 +1,36 @@
+---
+# This playbook tries to ping all hosts (or if using the --limit command, just those specified)
+# and groups those that are able to be successfully pinged into a group called "reachable"
+#
+# Other plays can make use of this group to only try and execute against those in the "reachable" group
+- name: Check Reachable Hosts
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Ping hosts
+      ansible.builtin.command:
+        cmd: ping -c1 {{ ansible_host }}
+      delegate_to: localhost
+      register: ping_result
+      ignore_errors: yes
+      no_log: true
+
+    - name: Debug reachable
+      ansible.builtin.debug:
+        msg: "REACHABLE: {{ ansible_host }}"
+      when: ping_result.rc == 0
+
+    - name: Debug unreachable
+      ansible.builtin.debug:
+        msg: "UNREACHABLE: {{ ansible_host }}"
+      when: ping_result.rc != 0
+
+    - name: Group reachable
+      ansible.builtin.group_by:
+        key: reachable
+      when: ping_result.rc == 0
+
+    - name: Group unreachable
+      ansible.builtin.group_by:
+        key: unreachable
+      when: ping_result.rc != 0

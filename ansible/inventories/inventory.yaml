@@ -14,64 +14,82 @@ assets:
     ######################################### R A S P B E R R Y  P I S #########################################
     ############################################################################################################
     A: #Laser building 1
-      ansible_host: 192.168.1.1
+      ansible_host: 192.168.1.156
       ansible_user: "{{ username }}"
       ansible_ssh_pass: "{{ pw }}"
       ansible_become_password: "{{ ansible_ssh_pass }}"
       data_root: /home/{{ ansible_user }}
+      containers:
+        - image: "{{ docker_tarball: }}"
 
     B: #Laser building 1
-      ansible_host: 192.168.1.1
+      ansible_host: 192.168.1.158
       ansible_user: "{{ username }}"
       ansible_ssh_pass: "{{ pw }}"
       ansible_become_password: "{{ ansible_ssh_pass }}"
       data_root: /home/{{ ansible_user }}
+      containers:
+        - image: "{{ docker_tarball: }}"
 
     C: #Laser building 1
-      ansible_host: 192.168.1.1
+      ansible_host: 192.168.1.160
       ansible_user: "{{ username }}"
       ansible_ssh_pass: "{{ pw }}"
       ansible_become_password: "{{ ansible_ssh_pass }}"
       data_root: /home/{{ ansible_user }}
+      containers:
+        - image: "{{ docker_tarball: }}"
 
     D: #Laser building 1
-      ansible_host: 192.168.1.1
+      ansible_host: 192.168.1.161
       ansible_user: "{{ username }}"
       ansible_ssh_pass: "{{ pw }}"
       ansible_become_password: "{{ ansible_ssh_pass }}"
       data_root: /home/{{ ansible_user }}
+      containers:
+        - image: "{{ docker_tarball: }}"
 
     E: #Laser building 1
-      ansible_host: 192.168.1.1
+      ansible_host: 192.168.1.162
       ansible_user: "{{ username }}"
       ansible_ssh_pass: "{{ pw }}"
       ansible_become_password: "{{ ansible_ssh_pass }}"
       data_root: /home/{{ ansible_user }}
+      containers:
+        - image: "{{ docker_tarball: }}"
 
     F: #Laser building 1
-      ansible_host: 192.168.1.1
+      ansible_host: 192.168.1.163
       ansible_user: "{{ username }}"
       ansible_ssh_pass: "{{ pw }}"
       ansible_become_password: "{{ ansible_ssh_pass }}"
       data_root: /home/{{ ansible_user }}
+      containers:
+        - image: "{{ docker_tarball: }}"
 
     G: #Laser building 1
-      ansible_host: 192.168.1.1
+      ansible_host: 192.168.1.164
       ansible_user: "{{ username }}"
       ansible_ssh_pass: "{{ pw }}"
       ansible_become_password: "{{ ansible_ssh_pass }}"
       data_root: /home/{{ ansible_user }}
+      containers:
+        - image: "{{ docker_tarball: }}"
 
     H: #Laser building 1
-      ansible_host: 192.168.1.1
+      ansible_host: 192.168.1.165
       ansible_user: "{{ username }}"
       ansible_ssh_pass: "{{ pw }}"
       ansible_become_password: "{{ ansible_ssh_pass }}"
       data_root: /home/{{ ansible_user }}
+      containers:
+        - image: "{{ docker_tarball: }}"
 
     I: #Laser building 1
-      ansible_host: 192.168.1.1
+      ansible_host: 192.168.1.167
       ansible_user: "{{ username }}"
       ansible_ssh_pass: "{{ pw }}"
       ansible_become_password: "{{ ansible_ssh_pass }}"
       data_root: /home/{{ ansible_user }}
+      containers:
+        - image: "{{ docker_tarball: }}"

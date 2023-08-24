@@ -1,0 +1,29 @@
+- name: Create data_root
+  ansible.builtin.file:
+    path: "{{ data_root }}"
+    state: directory
+    recurse: true
+    owner: "{{ ansible_user }}"
+  become: true
+
+- name: Create containers folder
+  ansible.builtin.file:
+    path: "{{ data_root }}/containers"
+    state: directory
+    owner: "{{ ansible_user }}"
+
+- name: Ship Tar to target.
+  ansible.posix.synchronize:
+    src: "{{ tarfile }}""
+    dest: "{{ data_root }}/containers/"
+
+- name: Load Container
+  ansible.builtin.script:
+    cmd: >
+      {{ project_root }}/ansible/utilities/docker/load_container.py
+      {{ data_root }}/containers/{{ tarfile }}
+    executable: python3
+  register: load_container_result
+  failed_when: load_container_result.rc == 1
+  changed_when: load_container_result.rc != 0
+  become: yes

@@ -1,0 +1,22 @@
+---
+- name: Define Project Root
+  hosts: "{{ ('reachable' not in groups and 'unreachable' not in groups) | ternary('all', 'reachable') }}"
+  gather_facts: false
+  vars:
+    project_root_rel: "../../.."
+
+  tasks:
+    - name: Find Absolute Project Root
+      ansible.builtin.shell:
+        cmd: pwd | sed 's/ /\\ /g'
+        chdir: "{{ project_root_rel }}"
+      delegate_to: localhost
+      register: project_path_output
+
+    - name: Define Project Root Variable
+      ansible.builtin.set_fact:
+        project_root: "{{ project_path_output.stdout }}"
+
+    - name: Print Project Root
+      ansible.builtin.debug:
+        msg: "{{ project_root }}"
