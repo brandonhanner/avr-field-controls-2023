@@ -110,38 +110,42 @@ class Controller(object):
             {"building": self.match.random_hotspot_building},
         )
 
-    def publish_building_LED_commands(self):
+    def generate_LED_dict(self, building):
         strip_len = 30
+        data = {}
+        data["pixel_data"] = []
+        for i in range(0, strip_len):
+            data["pixel_data"].append([0, 0, 0])
 
+        fire_level = building.current_fire_level
+        init = building.initial_fire_level
+        pixels_per_fs = 2 if init <= 8 else 1
+
+        if fire_level > (init//2):
+            left = (init//2) * pixels_per_fs
+            right = (fire_level - (init//2)) * pixels_per_fs
+        elif fire_level <= (init//2):
+            left = fire_level * pixels_per_fs
+            right = 0
+        else:
+            left = 0
+            right = 0
+
+        # do the first window's portion of the led strip
+        if left > 0:
+            for i in range(0, left):
+                data["pixel_data"][i] = [0,0,255]
+        # do the second window's portion of the led strip
+        if right > 0:
+            for i in range(strip_len - 1, strip_len - 1 - right, -1):
+                data["pixel_data"][i] = [0,0,255]
+
+        return data
+
+    def publish_building_LED_commands(self):
         for building_name, building in self.match.fire_buildings.items():
-            data = {}
-            data["pixel_data"] = []
-            for i in range(0, strip_len):
-                data["pixel_data"].append([0, 0, 0])
 
-            fire_level = building.current_fire_level
-            init = building.initial_fire_level
-            pixels_per_fs = 2 if init <= 8 else 1
-
-            if fire_level > (init//2):
-                left = (init//2) * pixels_per_fs
-                right = (fire_level - (init//2)) * pixels_per_fs
-            elif fire_level <= (init//2):
-                left = fire_level * pixels_per_fs
-                right = 0
-            else:
-                left = 0
-                right = 0
-
-            # do the first window's portion of the led strip
-            if left > 0:
-                for i in range(0, left):
-                    data["pixel_data"][i] = [0,0,255]
-            # do the second window's portion of the led strip
-            if right > 0:
-                for i in range(strip_len - 1, strip_len - 1 - right, -1):
-                    data["pixel_data"][i] = [0,0,255]
-
+            data = self.generate_LED_dict(building=building)
             self.mqtt_client.publish(f"{building_name}/progress_bar/set", data)
 
             # handle window portion
@@ -180,11 +184,13 @@ class Controller(object):
     def run(self):
         self.mqtt_client.start_threaded()
         while True:
+            #publish UI data
             self.publish_score()
             self.publish_game_state()
             self.publish_hotspot_building()
             self.publish_timers()
             self.publish_building_table()
+            #publish building commands
             self.publish_building_LED_commands()
             self.publish_building_heater_commands()
             time.sleep(0.5)

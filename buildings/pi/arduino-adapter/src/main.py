@@ -74,6 +74,9 @@ class ArduinoAdapter(object):
         self.window_1_channel = 1
         self.window_2_channel = 2
 
+        self.prev_pixel_cmd = ""
+        self.last_pixel_write = 0
+
         #################### S T A T E  M A C H I N E   S T U F F ####################
         self.sm_lock = Lock()
         self.event_queue = Queue()
@@ -189,9 +192,9 @@ class ArduinoAdapter(object):
                 self.ser_lock.acquire()
                 try:
                     data = self.ser_connection.readline().decode("utf-8").rstrip()
+                    logger.debug(f"got message: {data} from arduino")
                 except Exception as e:
                     logger.debug("There was an error when trying to read from the serial port")
-                logger.debug(f"got message: {data} from arduino")
                 self.ser_lock.release()
 
             # if there is a new message, handle it
@@ -209,7 +212,7 @@ class ArduinoAdapter(object):
                 Thread(target=self.flash_led, args=()).start()
             if self.run_state_stop == True:
                 break
-            time.sleep(0.05)
+            time.sleep(0.01)
 
     def run_state_exit(self, state, event):
         if self.run_state_thread.is_alive():
@@ -279,28 +282,36 @@ class ArduinoAdapter(object):
         elif state == "off" and relay is not None:
             self.relays.open_relay(relay)
 
+    def generate_pixel_string(self, pixel_data):
+        pixel_cmd = ""
+        for index, pixel in enumerate(pixel_data):
+            r = pixel[0]
+            g = pixel[1]
+            b = pixel[2]
+
+            pixel_str = f"{r},{g},{b}"
+
+            if index == 0:
+                pixel_cmd += pixel_str
+            else:
+                pixel_cmd += "/" + pixel_str
+        return pixel_cmd
     def led_commands(self, topic: str, msg: dict):
         pixel_data = msg.get("pixel_data", None)
         if pixel_data is not None:
-            pixel_cmd = ""
-            for index, pixel in enumerate(pixel_data):
-                r = pixel[0]
-                g = pixel[1]
-                b = pixel[2]
+            pixel_cmd = self.generate_pixel_string(pixel_data=pixel_data)
 
-                pixel_str = f"{r},{g},{b}"
+            now = time.time()
+            # if the pixel data has changed OR we havent sent an update in a couple seconds
+            if (pixel_cmd != self.prev_pixel_cmd) or (now - self.last_pixel_write > 2):
+                self.ser_lock.acquire()
+                logger.debug(pixel_cmd)
+                self.ser_connection.write(pixel_cmd.encode("utf-8") + b"\n")
+                self.ser_lock.release()
 
-                if index == 0:
-                    pixel_cmd += pixel_str
-                else:
-                    pixel_cmd += "/" + pixel_str
-
-            # pixel_cmd += "\n"
-
-            self.ser_lock.acquire()
-            logger.debug(pixel_cmd)
-            self.ser_connection.write(pixel_cmd.encode("utf-8") + b"\n")
-            self.ser_lock.release()
+                # update the prev values
+                self.prev_pixel_cmd = pixel_cmd
+                self.last_pixel_write = now
 
     def get_ip(self):
         interfaces = ni.interfaces()
@@ -334,7 +345,7 @@ class ArduinoAdapter(object):
         Thread(target=self.publish_state, args=()).start()
 
         while True:
-            time.sleep(0.5)
+            time.sleep(0.1)
             while not self.event_queue.empty():
                 event = self.event_queue.get()
                 self.sm.dispatch(event)
