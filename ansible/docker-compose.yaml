@@ -1,0 +1,13 @@
+version: '3'
+services:
+  ansible-deploy:
+    image: ansible-deploy:latest
+    build:
+      context: ../
+      dockerfile: ./ansible/Dockerfile
+    environment:
+      - ANSIBLE_HOST_KEY_CHECKING=False
+    command: ansible-playbook /app/ansible/plays/stop_all.yaml -i /app/ansible/inventories/inventory.yaml
+    network_mode: "host"
+    volumes:
+      - ../:/app

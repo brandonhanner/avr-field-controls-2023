@@ -1,7 +1,7 @@
 version: '3'
 services:
   arduino-adapter:
-    image: pi-arduino-adapter:latest
+    image: arduino-adapter:latest
     build:
       context: ./arduino-adapter/
       dockerfile: ./Dockerfile

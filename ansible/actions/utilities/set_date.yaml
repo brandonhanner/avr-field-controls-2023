@@ -17,7 +17,7 @@
       register: date_time
       delegate_to: localhost
 
-    - name: Set Vehicle time
+    - name: Set Building time
       ansible.builtin.script:
         cmd: >
           {{ project_root }}/ansible/utilities/time.py

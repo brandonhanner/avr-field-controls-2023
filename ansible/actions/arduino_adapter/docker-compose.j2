@@ -1,0 +1,9 @@
+version: '3'
+services:
+  arduino-adapter:
+    image: arduino-adapter:latest
+    restart: on-failure
+    privileged: true
+    network_mode: "host"
+    volumes:
+      - ./configs:/app/configs

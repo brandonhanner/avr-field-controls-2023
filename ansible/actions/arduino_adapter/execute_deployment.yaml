@@ -1,3 +1,6 @@
 - name: Push Container Image (Tar)
   ansible.builtin.include_tasks: ../docker_utilities/push_docker_image.yaml
   when: not item.use_registry | default(False)
+
+- name: Ship Configs
+  ansible.builtin.include_tasks: ship_configs.yaml

@@ -1,0 +1,23 @@
+- name: Create data_root
+  ansible.builtin.file:
+    path: "{{ data_root }}"
+    state: directory
+    recurse: true
+    owner: "{{ ansible_user }}"
+  become: true
+
+- name: Create configs folder
+  ansible.builtin.file:
+    path: "{{ data_root }}/configs"
+    state: directory
+    owner: "{{ ansible_user }}"
+
+- name: Generate Config File
+  ansible.builtin.template:
+    src: "{{ project_root }}/ansible/actions/arduino_adapter/config.j2"
+    dest: "{{ data_root }}/configs/config.json"
+
+- name: Generate Compose File.
+  ansible.builtin.template:
+    src: "{{ project_root }}/ansible/actions/arduino_adapter/docker-compose.j2"
+    dest: "{{ data_root }}/docker-compose.yaml"

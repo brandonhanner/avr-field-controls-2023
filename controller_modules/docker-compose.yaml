@@ -16,6 +16,7 @@ services:
     volumes:
       - ./nodered/data:/data
   controller:
+    image: field-controller:latest
     build:
       context: ./controller/
       dockerfile: ./Dockerfile

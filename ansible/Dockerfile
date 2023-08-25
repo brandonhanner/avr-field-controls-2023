@@ -4,7 +4,6 @@
 
 FROM ubuntu:22.04
 
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y python3 python3-pip ansible sshpass
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y python3 python3-pip ansible sshpass iputils-ping rsync
 
-RUN /bin/bash -c 'echo "[defaults]\nhost_key_checking = False" > ~/.ansible.cfg'
 RUN ansible-galaxy collection install ansible.posix

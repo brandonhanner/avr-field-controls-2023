@@ -187,7 +187,10 @@ class ArduinoAdapter(object):
             if self.ser_connection.in_waiting > 0:
                 # and block until we get a terminating char
                 self.ser_lock.acquire()
-                data = self.ser_connection.readline().decode("utf-8").rstrip()
+                try:
+                    data = self.ser_connection.readline().decode("utf-8").rstrip()
+                except Exception as e:
+                    logger.debug("There was an error when trying to read from the serial port")
                 logger.debug(f"got message: {data} from arduino")
                 self.ser_lock.release()
 
