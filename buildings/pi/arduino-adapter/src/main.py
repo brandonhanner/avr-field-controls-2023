@@ -41,10 +41,10 @@ class LePotatoRelayModule(object):
             self.channels[relay].low()
 
     def get_relay_state(self, relay):
-        '''
+        """
         return 1 means closed
         return 0 means open
-        '''
+        """
         if relay >= 0 and relay <= (len(self.channels) - 1):
             pin_state = self.channels[relay].get_state()
             if pin_state == 0:
@@ -73,9 +73,12 @@ class ArduinoAdapter(object):
         self.light_channel = 0  # default, will be overridden by config
         self.window_1_channel = 1
         self.window_2_channel = 2
+        self.hopper_channel = 3
 
         self.prev_pixel_cmd = ""
         self.last_pixel_write = 0
+
+        self.has_arduino = True
 
         #################### S T A T E  M A C H I N E   S T U F F ####################
         self.sm_lock = Lock()
@@ -150,9 +153,15 @@ class ArduinoAdapter(object):
 
         logger.debug("Setting up the serial port")
         self.serial_port = self.config.get("serial_port", self.serial_port)
-        self.ser_connection = serial.Serial(self.serial_port, 9600, timeout=1.0)
-        time.sleep(4) #gives arduino time to setup and start sending. 
-        self.ser_connection.reset_input_buffer()
+        try:
+            self.ser_connection = serial.Serial(self.serial_port, 9600, timeout=1.0)
+            time.sleep(4)  # gives arduino time to setup and start sending
+            self.ser_connection.reset_input_buffer()
+        except serial.SerialException as e:
+            logger.warning(
+                f"*****THE DEFINED SERIAL PORT {self.serial_port} WAS NOT FOUND.. SETTING has_arduino TO FALSE*******"
+            )
+            self.has_arduino = False
 
         self.interface = self.config.get("interface", self.interface)
 
@@ -178,38 +187,42 @@ class ArduinoAdapter(object):
         self.run_state_stop = False
 
         self.mqtt_client.register_callback(f"{self.id}/relay/set", self.relay_commands)
-        self.mqtt_client.register_callback(
-            f"{self.id}/progress_bar/set", self.led_commands
-        )
+        if self.has_arduino:
+            self.mqtt_client.register_callback(
+                f"{self.id}/progress_bar/set", self.led_commands
+            )
 
         self.mqtt_client.publish(f"{self.id}/events/connected/", {"time": time.time()})
 
         while True:
-            data = ""
-            # see if there are any incoming bytes
-            if self.ser_connection.in_waiting > 0:
-                # and block until we get a terminating char
-                self.ser_lock.acquire()
-                try:
-                    data = self.ser_connection.readline().decode("utf-8").rstrip()
-                    logger.debug(f"got message: {data} from arduino")
-                except Exception as e:
-                    logger.debug("There was an error when trying to read from the serial port")
-                self.ser_lock.release()
+            if self.has_arduino:
+                data = ""
+                # see if there are any incoming bytes
+                if self.ser_connection.in_waiting > 0:
+                    # and block until we get a terminating char
+                    # self.ser_lock.acquire()
+                    try:
+                        data = self.ser_connection.readline().decode("utf-8").rstrip()
+                        logger.debug(f"got message: {data} from arduino")
+                    except Exception as e:
+                        logger.debug(
+                            "There was an error when trying to read from the serial port"
+                        )
+                    # self.ser_lock.release()
 
-            # if there is a new message, handle it
-            if data == "laser":
-                self.mqtt_client.publish(
-                    f"{self.id}/events/laser_detector/", {"event_type": "hit"}
-                )
-                # flash the LED
-                Thread(target=self.flash_led, args=()).start()
-            elif data == "ball":
-                self.mqtt_client.publish(
-                    f"{self.id}/events/ball_detector/", {"event_type": "hit"}
-                )
-                # flash the LED
-                Thread(target=self.flash_led, args=()).start()
+                # if there is a new message, handle it
+                if data == "laser":
+                    self.mqtt_client.publish(
+                        f"{self.id}/events/laser_detector/", {"event_type": "hit"}
+                    )
+                    # flash the LED
+                    Thread(target=self.flash_led, args=()).start()
+                elif data == "ball":
+                    self.mqtt_client.publish(
+                        f"{self.id}/events/ball_detector/", {"event_type": "hit"}
+                    )
+                    # flash the LED
+                    Thread(target=self.flash_led, args=()).start()
             if self.run_state_stop == True:
                 break
             time.sleep(0.01)
@@ -223,38 +236,46 @@ class ArduinoAdapter(object):
         logger.debug("Entering PROVISION state!")
 
         ip_addr = self.get_ip()
-
-        # generate the pixel pattern to show
-        colors = ["r", "g", "b"]
         pattern = []
 
-        # create a 5 pixel pattern
-        pattern.append("bl")
-        for i in range(0, 3):
-            if ip_addr is not None:
-                pattern.append(random.choice(colors))
-            else:
-                pattern.append("w")
-        pattern.append("bl")
+        if self.has_arduino:
+            # generate the pixel pattern to show
+            colors = ["r", "g", "b"]
 
-        # propogate that pattern 6 times to fill 30 pixels
-        pixel_data = []
-        for i in range(0, 6):
-            for entry in pattern:
-                if entry == "r":
-                    pixel_data.append([255, 0, 0])
-                elif entry == "g":
-                    pixel_data.append([0, 255, 0])
-                elif entry == "b":
-                    pixel_data.append([0, 0, 255])
-                elif entry == "bl":
-                    pixel_data.append([0, 0, 0])
-                elif entry == "w":
-                    pixel_data.append([255, 255, 255])
+            # create a 5 pixel pattern
+            pattern.append("bl")
+            for i in range(0, 3):
+                if ip_addr is not None:
+                    pattern.append(random.choice(colors))
+                else:
+                    pattern.append("w")
+            pattern.append("bl")
 
-        # render the pattern
-        self.led_commands("", {"pixel_data": pixel_data})
+            # propogate that pattern 6 times to fill 30 pixels
+            pixel_data = []
+            for i in range(0, 6):
+                for entry in pattern:
+                    if entry == "r":
+                        pixel_data.append([255, 0, 0])
+                    elif entry == "g":
+                        pixel_data.append([0, 255, 0])
+                    elif entry == "b":
+                        pixel_data.append([0, 0, 255])
+                    elif entry == "bl":
+                        pixel_data.append([0, 0, 0])
+                    elif entry == "w":
+                        pixel_data.append([255, 255, 255])
 
+            # render the pattern
+            self.led_commands("", {"pixel_data": pixel_data})
+        else:
+            first_relay = 4
+            for i in range(0, 3):
+                state = random.choice(["on", "off"])
+                pattern.append(state)
+                self.relay_commands(
+                    "internal", {"channel": i + first_relay, "state": state}
+                )
         # tell mqtt what the pattern is
         self.mqtt_client.publish(
             f"field/discovery/", {"pattern": pattern, "ip_addr": ip_addr}
@@ -273,6 +294,8 @@ class ArduinoAdapter(object):
             relay = self.window_1_channel
         elif channel == "window2":
             relay = self.window_2_channel
+        elif channel == "hopper":
+            relay = self.hopper_channel
         elif isinstance(channel, int):
             if channel > 0 and channel <= len(self.relays.channels):
                 relay = channel
@@ -296,22 +319,26 @@ class ArduinoAdapter(object):
             else:
                 pixel_cmd += "/" + pixel_str
         return pixel_cmd
+
     def led_commands(self, topic: str, msg: dict):
-        pixel_data = msg.get("pixel_data", None)
-        if pixel_data is not None:
-            pixel_cmd = self.generate_pixel_string(pixel_data=pixel_data)
+        if self.has_arduino:
+            pixel_data = msg.get("pixel_data", None)
+            if pixel_data is not None:
+                pixel_cmd = self.generate_pixel_string(pixel_data=pixel_data)
 
-            now = time.time()
-            # if the pixel data has changed OR we havent sent an update in a couple seconds
-            if (pixel_cmd != self.prev_pixel_cmd) or (now - self.last_pixel_write > 2):
-                self.ser_lock.acquire()
-                logger.debug(pixel_cmd)
-                self.ser_connection.write(pixel_cmd.encode("utf-8") + b"\n")
-                self.ser_lock.release()
+                now = time.time()
+                # if the pixel data has changed OR we havent sent an update in a couple seconds
+                if (pixel_cmd != self.prev_pixel_cmd) or (
+                    now - self.last_pixel_write > 2
+                ):
+                    self.ser_lock.acquire()
+                    # logger.debug(pixel_cmd)
+                    self.ser_connection.write(pixel_cmd.encode("utf-8") + b"\n")
+                    self.ser_lock.release()
 
-                # update the prev values
-                self.prev_pixel_cmd = pixel_cmd
-                self.last_pixel_write = now
+                    # update the prev values
+                    self.prev_pixel_cmd = pixel_cmd
+                    self.last_pixel_write = now
 
     def get_ip(self):
         interfaces = ni.interfaces()
@@ -334,7 +361,7 @@ class ArduinoAdapter(object):
                 self.mqtt_client.publish(
                     f"{self.id}/state/",
                     {
-                        "state": self.sm.state.name, # type: ignore
+                        "state": self.sm.state.name,  # type: ignore
                         "heater": "on" if heater_state == 1 else "off",
                     },
                 )

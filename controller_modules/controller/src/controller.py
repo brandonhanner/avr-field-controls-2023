@@ -21,14 +21,18 @@ class Controller(object):
         self.mqtt_client.register_callback("+/events/#", self.handle_events)
 
         # create a match
-        self.match = match.MatchModel(self.ball_buildings, self.laser_buildings, self.heater_buildings)
+        self.match = match.MatchModel(
+            self.ball_buildings, self.laser_buildings, self.heater_buildings
+        )
 
     def handle_events(self, topic: str, msg: dict):
         parts = topic.split("/")
         source = parts[0]
         subsystem = parts[2]
         # see if the source is a building
-        if source in (self.ball_buildings + self.laser_buildings + self.heater_buildings):
+        if source in (
+            self.ball_buildings + self.laser_buildings + self.heater_buildings
+        ):
             if subsystem in ["laser_detector", "ball_detector"]:
                 event_type = msg.get("event_type", None)
                 if event_type == "hit":
@@ -101,7 +105,7 @@ class Controller(object):
             if building.sm.state.name == "on_fire_state":
                 time_left = building.heater_timer.time_remaining
 
-        self.mqtt_client.publish( "ui/state/heater_countdown", {"time": time_left})
+        self.mqtt_client.publish("ui/state/heater_countdown", {"time": time_left})
 
     def publish_hotspot_building(self):
         # publish the hot spot building
@@ -121,10 +125,10 @@ class Controller(object):
         init = building.initial_fire_level
         pixels_per_fs = 2 if init <= 8 else 1
 
-        if fire_level > (init//2):
-            left = (init//2) * pixels_per_fs
-            right = (fire_level - (init//2)) * pixels_per_fs
-        elif fire_level <= (init//2):
+        if fire_level > (init // 2):
+            left = (init // 2) * pixels_per_fs
+            right = (fire_level - (init // 2)) * pixels_per_fs
+        elif fire_level <= (init // 2):
             left = fire_level * pixels_per_fs
             right = 0
         else:
@@ -134,11 +138,11 @@ class Controller(object):
         # do the first window's portion of the led strip
         if left > 0:
             for i in range(0, left):
-                data["pixel_data"][i] = [0,0,255]
+                data["pixel_data"][i] = [0, 0, 255]
         # do the second window's portion of the led strip
         if right > 0:
             for i in range(strip_len - 1, strip_len - 1 - right, -1):
-                data["pixel_data"][i] = [0,0,255]
+                data["pixel_data"][i] = [0, 0, 255]
 
         return data
 
@@ -149,7 +153,7 @@ class Controller(object):
             self.mqtt_client.publish(f"{building_name}/progress_bar/set", data)
 
             # handle window portion
-            if building.current_fire_level > (building.initial_fire_level/2):
+            if building.current_fire_level > (building.initial_fire_level / 2):
                 self.mqtt_client.publish(
                     f"{building_name}/relay/set", {"channel": "window1", "state": "on"}
                 )
@@ -171,6 +175,14 @@ class Controller(object):
                     f"{building_name}/relay/set", {"channel": "window2", "state": "off"}
                 )
 
+            # handle the hopper portion
+            relay_channel = "hopper"
+
+            state = "on" if self.match.sm.state.name == "phase_3_state" else "off"
+            self.mqtt_client.publish(
+                f"{building_name}/relay/set", {"channel": relay_channel, "state": state}
+            )
+
     def publish_building_heater_commands(self):
         relay_channel = "heater"
         for building_name, building in self.match.heater_buildings.items():
@@ -184,13 +196,13 @@ class Controller(object):
     def run(self):
         self.mqtt_client.start_threaded()
         while True:
-            #publish UI data
+            # publish UI data
             self.publish_score()
             self.publish_game_state()
             self.publish_hotspot_building()
             self.publish_timers()
             self.publish_building_table()
-            #publish building commands
+            # publish building commands
             self.publish_building_LED_commands()
             self.publish_building_heater_commands()
             time.sleep(0.5)
