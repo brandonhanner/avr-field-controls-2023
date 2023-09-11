@@ -190,7 +190,7 @@ class MatchModel(object):
          self.dispatch(Event("phase_iii_timeout_event"))
 
     def start_preheat(self, state, event):
-        if self.random_hotspot_building is not None:
+        if self.random_hotspot_building is not None and self.random_hotspot_building != "":
             self.heater_buildings[self.random_hotspot_building].ignite()
 
     ########################################################
