@@ -6,6 +6,7 @@ import time
 import timer
 from loguru import logger
 import random
+import json
 
 
 class MatchModel(object):
@@ -23,10 +24,12 @@ class MatchModel(object):
         for building in heater_buildings:
             self.heater_buildings[building] = buildings.HeaterBuildingModel(building)
 
+        with open('/configs/config.json', 'r') as file:
+            self.config = json.load(file)
 
-        self.phase_i_duration = 10
-        self.phase_ii_duration = 10
-        self.phase_iii_duration = 120
+        self.phase_i_duration = self.config.get("phase_1_duration", 10)
+        self.phase_ii_duration = self.config.get("phase_2_duration", 10)
+        self.phase_iii_duration = self.config.get("phase_3_duration", 120)
 
         self.random_hotspot_building = None
 

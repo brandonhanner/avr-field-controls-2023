@@ -6,6 +6,17 @@
     owner: "{{ ansible_user }}"
   become: true
 
+- name: Create configs folder
+  ansible.builtin.file:
+    path: "{{ data_root }}/configs"
+    state: directory
+    owner: "{{ ansible_user }}"
+
+- name: Generate Config File
+  ansible.builtin.template:
+    src: "{{ project_root }}/ansible/actions/controller/config.j2"
+    dest: "{{ data_root }}/configs/config.json"
+
 - name: Create mqtt folder
   ansible.builtin.file:
     path: "{{ data_root }}/mqtt"

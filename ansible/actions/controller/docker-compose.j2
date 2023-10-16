@@ -21,3 +21,5 @@ services:
     restart: on-failure
     depends_on:
       - mqtt
+    volumes:
+      - ./configs:/configs
