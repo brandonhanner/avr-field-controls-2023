@@ -1,0 +1,14 @@
+---
+- name: Define Project Root
+  ansible.builtin.import_playbook: "../utilities/define_project_root.yaml"
+  when: project_root is not defined
+
+- name: Set Hostname
+  hosts: "{{ ('reachable' not in groups and 'unreachable' not in groups) | ternary('all', 'reachable') }}"
+  strategy: free
+  gather_facts: false
+  tasks:
+    - name: Set Hostname
+      ansible.builtin.hostname:
+        name: potato-{{ inventory_hostname | lower }}
+      become: true

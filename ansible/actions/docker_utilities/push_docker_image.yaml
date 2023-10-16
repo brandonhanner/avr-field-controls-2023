@@ -14,16 +14,22 @@
 
 - name: Ship Tar to target.
   ansible.posix.synchronize:
-    src: "{{ project_root }}/exports/{{ tarfile }}"
+    src: "{{ project_root }}/exports/{{ item.image }}"
     dest: "{{ data_root }}/containers/"
 
 - name: Load Container
   ansible.builtin.script:
     cmd: >
-      {{ project_root }}/ansible/utilities/load_container.py
-      {{ data_root }}/containers/{{ tarfile }}
+      {{ project_root }}/ansible/utilities/load_container.py 
+      {{ data_root }}/containers/{{ item.image }} --force
     executable: python3
   register: load_container_result
   failed_when: load_container_result.rc == 1
   changed_when: load_container_result.rc != 0
   become: true
+
+- name: Cleanup
+  ansible.builtin.shell:
+    cmd: docker system prune -f
+  become: true
+  when: (cleanup is defined and cleanup == true) | default(False)

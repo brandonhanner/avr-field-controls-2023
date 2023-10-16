@@ -24,10 +24,10 @@ def docker_image_present(repotag):
     return proc.returncode == 0
 
 
-def main(tarpath):
+def main(tarpath, force):
     repotag = extract_repotag_from_tar(tarpath)
 
-    if not docker_image_present(repotag):
+    if not docker_image_present(repotag) or force:
         try:
             output = subprocess.check_output(f"docker load < {tarpath}", shell=True).decode(
                 "utf-8"
@@ -50,6 +50,9 @@ if __name__ == "__main__":
     parser.add_argument(
         "tarpath", type=str, help="Path to the tar'd image that you want to load"
     )
+    parser.add_argument(
+        "--force", required=False, action="store_true", help="force load the container even if the tag exists"
+    )
 
     args = parser.parse_args()
-    main(args.tarpath)
+    main(args.tarpath, args.force)

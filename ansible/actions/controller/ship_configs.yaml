@@ -1,0 +1,35 @@
+- name: Create data_root
+  ansible.builtin.file:
+    path: "{{ data_root }}"
+    state: directory
+    recurse: true
+    owner: "{{ ansible_user }}"
+  become: true
+
+- name: Create mqtt folder
+  ansible.builtin.file:
+    path: "{{ data_root }}/mqtt"
+    state: directory
+    owner: "{{ ansible_user }}"
+
+- name: Copy over mqtt config
+  ansible.builtin.copy:
+    src: "{{ project_root }}/controller_modules/mqtt/"
+    dest: "{{ data_root }}/mqtt"
+    owner: "{{ ansible_user }}"
+
+- name: Create nodered folder
+  ansible.builtin.file:
+    path: "{{ data_root }}/nodered"
+    state: directory
+    owner: "{{ ansible_user }}"
+
+- name: Copy over nodered data
+  ansible.posix.synchronize:
+    src: "{{ project_root }}/controller_modules/nodered/"
+    dest: "{{ data_root }}/nodered/"
+
+- name: Generate Compose File.
+  ansible.builtin.template:
+    src: "{{ project_root }}/ansible/actions/controller/docker-compose.j2"
+    dest: "{{ data_root }}/docker-compose.yaml"

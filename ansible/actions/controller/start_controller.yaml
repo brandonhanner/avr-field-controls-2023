@@ -3,19 +3,13 @@
   ansible.builtin.import_playbook: "../utilities/define_project_root.yaml"
   when: project_root is not defined 
 
-- name: Stop Container
+- name: Start Container
   hosts: "{{ ('reachable' not in groups and 'unreachable' not in groups) | ternary('all', 'reachable') }}"
   strategy: free
   gather_facts: false
   tasks:
-    - name: Stop Container
+    - name: Start Container
       ansible.builtin.shell:
-        cmd: docker compose down
+        cmd: docker compose up -d
         chdir: "{{ data_root }}"
       become: true
-    - name: Stop Containers leftover
-      ansible.builtin.shell:
-        cmd: docker stop $(docker ps -aq)
-        chdir: "{{ data_root }}"
-      become: true
-      failed_when: false

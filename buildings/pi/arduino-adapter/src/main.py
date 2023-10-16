@@ -10,6 +10,7 @@ import random
 import time
 from loguru import logger
 from queue import Queue
+import sys
 
 
 class LePotatoRelayModule(object):
@@ -146,6 +147,13 @@ class ArduinoAdapter(object):
         mqtt_broker = self.config.get("mqtt_broker", "192.168.1.100")
         self.mqtt_client = mqtt_client.MQTTClient(mqtt_broker, 1883)
         self.mqtt_client.start_threaded()
+        start_time = time.time()
+
+        while not self.mqtt_client.is_connected():
+            time.sleep(1)
+            if time.time() - start_time > 10:
+                logger.debug("Couldnt establish MQTT connection, quitting...")
+                sys.exit(1)
 
         logger.debug("Setting relay channels according to the config file")
         self.heater_channel = self.config.get("heater_channel", self.heater_channel)

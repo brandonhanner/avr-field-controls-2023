@@ -14,3 +14,8 @@
 # Start ArduinoAdapter
 - name: Start Software
   ansible.builtin.import_playbook: "../actions/arduino_adapter/start_arduino_adapter.yaml"
+
+# Start Controller
+- name: Start Software
+  ansible.builtin.import_playbook: "../actions/controller/start_controller.yaml"
+  when: inventory_hostname == "CONTROLLER"

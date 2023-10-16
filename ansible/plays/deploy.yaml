@@ -11,6 +11,14 @@
   ansible.builtin.import_playbook: "../actions/utilities/set_date.yaml"
   when: sync_clocks | default(False)
 
+- name: Set Hostname
+  ansible.builtin.import_playbook: "../actions/utilities/update_hostname.yaml"
+
 # Deploy ArduinoAdapter
 - name: Deploy ArduinoAdapter
   ansible.builtin.import_playbook: "../actions/arduino_adapter/deploy_arduino_adapter.yaml"
+  when: inventory_hostname != "CONTROLLER"
+
+- name: Deploy Controller
+  ansible.builtin.import_playbook: "../actions/controller/deploy_controller.yaml"
+  when: inventory_hostname == "CONTROLLER"

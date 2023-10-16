@@ -11,10 +11,10 @@ def mapRange(value, inMin, inMax, outMin, outMax):
 class Controller(object):
     def __init__(self):
 
-        self.ball_buildings = ["A", "B", "C"]
-        self.laser_buildings = ["D", "E", "F"]
+        self.ball_buildings = ["2", "6", "5"]
+        self.laser_buildings = ["1", "4", "3"]
 
-        self.heater_buildings = ["G", "H", "I"]
+        self.heater_buildings = ["7", "8", "9"]
 
         # create an MQTT client
         self.mqtt_client = mqtt_client.MQTTClient("mqtt", 1883)
