@@ -1,0 +1,109 @@
+---
+assets:
+  vars:
+    tarfile: arduino.tar
+    controller_tar: field_controller.tar
+    mqtt_broker: 192.168.1.100
+    heater_channel: 1
+    light_channel: 2
+    serial_port: /dev/ttyACM0
+    interface: eth0
+    username: ubuntu
+    pw: bellavr23
+    sync_clocks: true
+    cleanup: true
+  hosts:
+    ############################################################################################################
+    ######################################### R A S P B E R R Y  P I S #########################################
+    ############################################################################################################
+    CONTROLLER:
+      ansible_host: 192.168.1.100
+      ansible_user: "{{ username }}"
+      ansible_ssh_pass: "{{ pw }}"
+      ansible_become_password: "{{ ansible_ssh_pass }}"
+      data_root: /home/{{ ansible_user }}
+      containers:
+        - image: "{{ controller_tar }}"
+          type: "controller"
+        - image: "mosquitto.tar"
+        - image: "nodered.tar"
+    "2": #Laser building 1 - A
+      ansible_host: 192.168.1.205
+      ansible_user: "{{ username }}"
+      ansible_ssh_pass: "{{ pw }}"
+      ansible_become_password: "{{ ansible_ssh_pass }}"
+      data_root: /home/{{ ansible_user }}
+      containers:
+        - image: "{{ tarfile }}"
+
+    "6": #Laser building 2 - B
+      ansible_host: 192.168.1.207
+      ansible_user: "{{ username }}"
+      ansible_ssh_pass: "{{ pw }}"
+      ansible_become_password: "{{ ansible_ssh_pass }}"
+      data_root: /home/{{ ansible_user }}
+      containers:
+        - image: "{{ tarfile }}"
+
+    "5": #Laser building 3 - C
+      ansible_host: 192.168.1.206
+      ansible_user: "{{ username }}"
+      ansible_ssh_pass: "{{ pw }}"
+      ansible_become_password: "{{ ansible_ssh_pass }}"
+      data_root: /home/{{ ansible_user }}
+      containers:
+        - image: "{{ tarfile }}"
+
+    "1": #Ball building 1 - D
+      ansible_host: 192.168.1.202
+      ansible_user: "{{ username }}"
+      ansible_ssh_pass: "{{ pw }}"
+      ansible_become_password: "{{ ansible_ssh_pass }}"
+      data_root: /home/{{ ansible_user }}
+      containers:
+        - image: "{{ tarfile }}"
+
+    "4": #Laser building 2 - E
+      ansible_host: 192.168.1.203
+      ansible_user: "{{ username }}"
+      ansible_ssh_pass: "{{ pw }}"
+      ansible_become_password: "{{ ansible_ssh_pass }}"
+      data_root: /home/{{ ansible_user }}
+      containers:
+        - image: "{{ tarfile }}"
+
+    "3": #Laser building 3 - F
+      ansible_host: 192.168.1.204
+      ansible_user: "{{ username }}"
+      ansible_ssh_pass: "{{ pw }}"
+      ansible_become_password: "{{ ansible_ssh_pass }}"
+      data_root: /home/{{ ansible_user }}
+      containers:
+        - image: "{{ tarfile }}"
+
+    "7": #Hot spot building 1 - G
+      ansible_host: 192.168.1.209
+      ansible_user: "{{ username }}"
+      ansible_ssh_pass: "{{ pw }}"
+      ansible_become_password: "{{ ansible_ssh_pass }}"
+      data_root: /home/{{ ansible_user }}
+      containers:
+        - image: "{{ tarfile }}"
+
+    "8": #Hot spot building 2 - H
+      ansible_host: 192.168.1.210
+      ansible_user: "{{ username }}"
+      ansible_ssh_pass: "{{ pw }}"
+      ansible_become_password: "{{ ansible_ssh_pass }}"
+      data_root: /home/{{ ansible_user }}
+      containers:
+        - image: "{{ tarfile }}"
+
+    "9": #Hot spot building 3 - I
+      ansible_host: 192.168.1.208
+      ansible_user: "{{ username }}"
+      ansible_ssh_pass: "{{ pw }}"
+      ansible_become_password: "{{ ansible_ssh_pass }}"
+      data_root: /home/{{ ansible_user }}
+      containers:
+        - image: "{{ tarfile }}"

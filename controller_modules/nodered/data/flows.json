@@ -176,21 +176,11 @@
         "type": "ui_group",
         "name": "Scoring",
         "tab": "a52d199521293c21",
-        "order": 4,
+        "order": 3,
         "disp": true,
         "width": "8",
         "collapse": false,
         "className": ""
-    },
-    {
-        "id": "299a516f1b54b221",
-        "type": "ui_spacer",
-        "z": "03a81b1a548b2458",
-        "name": "spacer",
-        "group": "3d5cfe386cfdbc03",
-        "order": 3,
-        "width": 1,
-        "height": 1
     },
     {
         "id": "e1a07cb3602771da",
@@ -204,11 +194,74 @@
     {
         "id": "8b1b820aae8133ac",
         "type": "ui_group",
-        "name": "Toggles",
+        "name": "End of Match",
+        "tab": "e1a07cb3602771da",
+        "order": 4,
+        "disp": true,
+        "width": "10",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f944e199cc48d4f0",
+        "type": "ui_group",
+        "name": "Phase I",
         "tab": "e1a07cb3602771da",
         "order": 1,
         "disp": true,
-        "width": "6",
+        "width": "10",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "33acfd463831b93c",
+        "type": "ui_spacer",
+        "z": "53990f839c1cf5ed",
+        "name": "spacer",
+        "group": "f944e199cc48d4f0",
+        "order": 9,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "0f0a7004fe689f56",
+        "type": "ui_spacer",
+        "z": "53990f839c1cf5ed",
+        "name": "spacer",
+        "group": "f944e199cc48d4f0",
+        "order": 6,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "91ae1b2d2153bba4",
+        "type": "ui_spacer",
+        "z": "53990f839c1cf5ed",
+        "name": "spacer",
+        "group": "f944e199cc48d4f0",
+        "order": 3,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "71f2708261e35ed8",
+        "type": "ui_group",
+        "name": "Phase II",
+        "tab": "e1a07cb3602771da",
+        "order": 2,
+        "disp": true,
+        "width": "10",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "591219e8a1be384d",
+        "type": "ui_group",
+        "name": "Phase III",
+        "tab": "e1a07cb3602771da",
+        "order": 3,
+        "disp": true,
+        "width": "10",
         "collapse": false,
         "className": ""
     },
@@ -499,8 +552,8 @@
         "correl": "",
         "expiry": "",
         "broker": "7a77a26bef88c80e",
-        "x": 540,
-        "y": 320,
+        "x": 580,
+        "y": 340,
         "wires": []
     },
     {
@@ -740,10 +793,10 @@
         "type": "ui_switch",
         "z": "53990f839c1cf5ed",
         "name": "",
-        "label": "switch",
+        "label": "AVR Drone Parked in Time",
         "tooltip": "",
         "group": "8b1b820aae8133ac",
-        "order": 0,
+        "order": 3,
         "width": 0,
         "height": 0,
         "passthru": true,
@@ -761,10 +814,12 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 190,
-        "y": 260,
+        "x": 160,
+        "y": 1280,
         "wires": [
-            []
+            [
+                "9087fb414813a9e7"
+            ]
         ]
     },
     {
@@ -772,7 +827,7 @@
         "type": "ui_switch",
         "z": "53990f839c1cf5ed",
         "name": "",
-        "label": "switch",
+        "label": "Tello Parked in Time",
         "tooltip": "",
         "group": "8b1b820aae8133ac",
         "order": 1,
@@ -793,10 +848,12 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 190,
-        "y": 320,
+        "x": 140,
+        "y": 1240,
         "wires": [
-            []
+            [
+                "9087fb414813a9e7"
+            ]
         ]
     },
     {
@@ -804,7 +861,7 @@
         "type": "ui_switch",
         "z": "53990f839c1cf5ed",
         "name": "",
-        "label": "switch",
+        "label": "RVR Parked in Time",
         "tooltip": "",
         "group": "8b1b820aae8133ac",
         "order": 2,
@@ -825,10 +882,729 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 190,
-        "y": 380,
+        "x": 140,
+        "y": 1160,
         "wires": [
-            []
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "3a2031281981c8fd",
+        "type": "ui_dropdown",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Smoke Jumper",
+        "tooltip": "",
+        "place": "",
+        "group": "f944e199cc48d4f0",
+        "order": 10,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Failed To Launch",
+                "value": "0",
+                "type": "str"
+            },
+            {
+                "label": "Launched",
+                "value": "1",
+                "type": "str"
+            },
+            {
+                "label": "Touched House",
+                "value": "2",
+                "type": "str"
+            },
+            {
+                "label": "Landed Inside House",
+                "value": "3",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 120,
+        "y": 360,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "e6b2d14b923fc468",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "RVR Completed Path",
+        "tooltip": "",
+        "group": "f944e199cc48d4f0",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 140,
+        "y": 160,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "0f181af477fd7520",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "RVR Autonomous",
+        "tooltip": "",
+        "group": "f944e199cc48d4f0",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 130,
+        "y": 200,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "f60b936187eae4ef",
+        "type": "ui_slider",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Sphero Recon Completed",
+        "tooltip": "",
+        "group": "f944e199cc48d4f0",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "4",
+        "step": 1,
+        "className": "",
+        "x": 150,
+        "y": 40,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "d751e1664722954c",
+        "type": "ui_slider",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Sphero Recon Autonomous",
+        "tooltip": "",
+        "group": "f944e199cc48d4f0",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "4",
+        "step": 1,
+        "className": "",
+        "x": 160,
+        "y": 80,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "330cd0e4af79eab0",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Tello Completed Path",
+        "tooltip": "",
+        "group": "f944e199cc48d4f0",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 140,
+        "y": 260,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "c9f53e34408bc89b",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Tello Autonomous",
+        "tooltip": "",
+        "group": "f944e199cc48d4f0",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 130,
+        "y": 300,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "d6141cb57be06834",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "AVR Drone Takeoff",
+        "tooltip": "",
+        "group": "f944e199cc48d4f0",
+        "order": 11,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 130,
+        "y": 440,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "bb34cd2bbc53784c",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "AVR Drone AprilTag Recognition",
+        "tooltip": "",
+        "group": "f944e199cc48d4f0",
+        "order": 12,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 170,
+        "y": 480,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "c5e7905f64148979",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "AVR Drone Landing",
+        "tooltip": "",
+        "group": "f944e199cc48d4f0",
+        "order": 13,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 130,
+        "y": 520,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "f44393a9d2bc5b91",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "AVR Drone Autonomous",
+        "tooltip": "",
+        "group": "f944e199cc48d4f0",
+        "order": 14,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 150,
+        "y": 560,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "4a3a399b84186ac9",
+        "type": "ui_slider",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "First Responders Loaded",
+        "tooltip": "",
+        "group": "71f2708261e35ed8",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "2",
+        "step": 1,
+        "className": "",
+        "x": 150,
+        "y": 660,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "ebbedc47e8be04a0",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "AVR Lands on Residential Building",
+        "tooltip": "",
+        "group": "71f2708261e35ed8",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 180,
+        "y": 700,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "15dd4d8be50d8ca6",
+        "type": "ui_slider",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Spheros Unloaded on Residential Building",
+        "tooltip": "",
+        "group": "71f2708261e35ed8",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "className": "",
+        "x": 210,
+        "y": 740,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "116cc2b436b15c4e",
+        "type": "ui_slider",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Stranded Launch From Fire Escape",
+        "tooltip": "",
+        "group": "71f2708261e35ed8",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "className": "",
+        "x": 180,
+        "y": 780,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "61c7e5d92d1f19d2",
+        "type": "ui_slider",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Land in RVR",
+        "tooltip": "",
+        "group": "71f2708261e35ed8",
+        "order": 9,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "className": "",
+        "x": 110,
+        "y": 820,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "9087fb414813a9e7",
+        "type": "mqtt out",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "topic": "/ui/events",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7a77a26bef88c80e",
+        "x": 960,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "9fb234ecaaafb0ed",
+        "type": "ui_slider",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "AVR Delivers First Responders To Ground",
+        "tooltip": "",
+        "group": "71f2708261e35ed8",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "className": "",
+        "x": 200,
+        "y": 860,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "0ee8d75a3c818401",
+        "type": "ui_slider",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Stranded Delivered to Safe Zone by RVR",
+        "tooltip": "",
+        "group": "71f2708261e35ed8",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "className": "",
+        "x": 200,
+        "y": 900,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "ec40bd9e05e530ee",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Hands Free Unloading of RVR",
+        "tooltip": "",
+        "group": "71f2708261e35ed8",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 170,
+        "y": 980,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "a6e5945fd6c24c9b",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Water Balls Dropped via AprilTag",
+        "tooltip": "",
+        "group": "591219e8a1be384d",
+        "order": 11,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 180,
+        "y": 1060,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "fd489c8a49102476",
+        "type": "ui_slider",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "First Respnders Parked in Time",
+        "tooltip": "",
+        "group": "8b1b820aae8133ac",
+        "order": 12,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "className": "",
+        "x": 170,
+        "y": 1200,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "049a63b78174c3b3",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Tello Identified Safe Zone",
+        "tooltip": "",
+        "group": "71f2708261e35ed8",
+        "order": 10,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 150,
+        "y": 940,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
         ]
     }
 ]

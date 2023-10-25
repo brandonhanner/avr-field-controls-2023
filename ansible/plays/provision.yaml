@@ -1,0 +1,18 @@
+---
+# See which assets are online
+- name: Check Reachable
+  ansible.builtin.import_playbook: "../actions/utilities/check_reachable.yaml"
+
+- name: Define Project Root
+  ansible.builtin.import_playbook: "../actions/utilities/define_project_root.yaml"
+
+# Synchronize Target clock with Ansible Machine's clock (optional)
+- name: Sync Clocks
+  ansible.builtin.import_playbook: "../actions/utilities/set_date.yaml"
+  when: sync_clocks | default(False)
+
+- name: Set Hostname
+  ansible.builtin.import_playbook: "../actions/utilities/update_hostname.yaml"
+
+- name: Disable Wait For Online
+  ansible.builtin.import_playbook: "../actions/utilities/disable_wait_for_online.yaml"
