@@ -23,6 +23,8 @@ services:
     restart: on-failure
     depends_on:
       - mqtt
+    volumes:
+    - ./controller/configs:/configs/
   # event-processor:
   #   build:
   #     context: ./event-processor/

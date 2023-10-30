@@ -6,7 +6,7 @@ import timer
 
 
 class FireBuildingModel(object):
-    def __init__(self, name: str, initial_fire_level=16, points_per_window = 4):
+    def __init__(self, name: str, initial_fire_level=16, points_per_window = 4, b_type="unknown"):
         self.name = name
         self.fire_douse_amount = 1
         self.initial_fire_level = initial_fire_level
@@ -14,6 +14,7 @@ class FireBuildingModel(object):
         self.auto_ignite = False
         self.partial_score = 0
         self.points_per_window = points_per_window
+        self.b_type: str = b_type
 
         #################### S T A T E  M A C H I N E   S T U F F ####################
         self.sm_lock = Lock()

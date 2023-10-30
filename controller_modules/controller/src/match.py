@@ -16,9 +16,9 @@ class MatchModel(object):
 
         self.fire_buildings:Dict[str,buildings.FireBuildingModel] = {}
         for building in ball_buildings:
-            self.fire_buildings[building] = buildings.FireBuildingModel(building, initial_fire_level=16, points_per_window=4)
+            self.fire_buildings[building] = buildings.FireBuildingModel(building, initial_fire_level=16, points_per_window=4, "ball")
         for building in laser_buildings:
-            self.fire_buildings[building] = buildings.FireBuildingModel(building, initial_fire_level=8, points_per_window=3)
+            self.fire_buildings[building] = buildings.FireBuildingModel(building, initial_fire_level=8, points_per_window=3, "laser")
 
         self.heater_buildings: Dict[str, buildings.HeaterBuildingModel] = {}
         for building in heater_buildings:
@@ -37,6 +37,49 @@ class MatchModel(object):
         self.match_timer = timer.Timer()
 
         self.phase_three_job_should_exit = False
+
+
+        #phase I vars
+
+        self.sphero_recon = 0
+        self.sphero_recon_autonomous = 0
+
+        self.rvr_recon = False
+        self.rvr_recon_autonomous = False
+        self.rvr_auto_turns = 0
+        self.rvr_enter_fire_station = False
+
+        self.tello_recon = False
+        self.tello_recon_autonomous = False
+
+        self.smoke_jumper_launch = False
+        self.smoke_jumper_parachute = False
+        self.smoke_jumper_landed_on_touch = False
+        self.smoke_jumper_landed_in = False
+        self.smoke_jumper_autonomous = False
+
+        self.avr_takeoff_recon = False
+        self.avr_apriltag = False
+        self.avr_landing = False
+        self.avr_autonomous = False
+
+        #phase 2 vars
+        self.first_responders_loaded = 0
+        self.avr_lands_residential = False
+        self.avr_residential_autonomous = False
+        self.spheros_unloaded = 0
+        self.stranded_launch_from_fire_escape = 0
+        self.stranded_in_rvr = 0
+        self.avr_delivered_first_responders = 0
+        self.tello_identified_safe_zone = False #TODO ask rohn
+        self.rvr_handsfree_unloaded = False
+
+        #phase 3 vars
+        self.avr_water_drop_autonomous = False
+        self.rvr_parked = False
+        self.first_responders = False
+        self.tello_parked = False
+        self.avr_parked = False
 
         ###############################################################################
 
@@ -199,9 +242,96 @@ class MatchModel(object):
     ########################################################
     def calculate_score(self):
         score = 0
+
+        if self.sphero_recon_autonomous > 0:
+            score += self.sphero_recon_autonomous * 2
+        if self.sphero_recon > 0:
+            score += self.sphero_recon * 2
+
+
+        if self.rvr_recon_autonomous is True:
+            if self.rvr_auto_turns > 0:
+                score += self.rvr_auto_turns
+            if self.rvr_enter_fire_station is True:
+                score +=2
+        else:
+            if self.rvr_recon is True:
+                score += 2
+
+        if self.tello_recon_autonomous is True:
+            score += 4
+        elif self.tello_recon is True:
+            score +=2
+
+        if self.smoke_jumper_autonomous is True:
+            if self.smoke_jumper_launch:
+                score += 3
+            if self.smoke_jumper_parachute:
+                score += 2
+            if self.smoke_jumper_landed_on_touch:
+                score += 3
+            if self.smoke_jumper_landed_in:
+                score += 5
+        else:
+            if self.smoke_jumper_launch:
+                score += 1
+            if self.smoke_jumper_parachute:
+                score += 1
+            if self.smoke_jumper_landed_on_touch:
+                score += 1
+            if self.smoke_jumper_landed_in:
+                score += 3
+
+        if self.avr_autonomous is True:
+            if self.avr_takeoff_recon is True:
+                score += 10
+            if self.avr_apriltag is True:
+                score += 3
+            if self.avr_landing is True:
+                score += 7
+        else:
+            if self.avr_takeoff_recon is True:
+                score += 2
+            if self.avr_apriltag is True:
+                score += 2
+            if self.avr_landing is True:
+                score += 1
+
+        #phase 2 vars
+        if self.first_responders_loaded > 0:
+            score += 1
+        if self.avr_lands_residential is True:
+            score += 5
+        if self.avr_residential_autonomous is True:
+            score += 5
+        if self.spheros_unloaded > 0:
+            score += self.spheros_unloaded
+        if self.stranded_launch_from_fire_escape > 0:
+            score += self.stranded_launch_from_fire_escape
+        if self.stranded_in_rvr > 0:
+            score += self.stranded_in_rvr * 2
+        if self.avr_delivered_first_responders > 0:
+            score += self.avr_delivered_first_responders * 2
+        # self.tello_identified_safe_zone = False #TODO ask rohn
+        if self.rvr_handsfree_unloaded is True:
+            score += 5
+
+        #phase 3 vars
         for building in self.fire_buildings.values():
-            score = score + building.get_score()
-        # TODO - do the other stuff here
+            if building.b_type == "ball":
+                score += building.get_score()
+                if self.avr_water_drop_autonomous:
+                    score += ((building.get_score()/4) * 2)
+            elif building.b_type == "laser":
+                score += building.get_score()
+        if self.rvr_parked is True:
+            score += 3
+        if self.first_responders > 0:
+            score += self.first_responders
+        if self.tello_parked is True:
+            score += 3
+        if self.avr_parked is True:
+            score += 3
         return score
 
     def randomize_hotspot(self):

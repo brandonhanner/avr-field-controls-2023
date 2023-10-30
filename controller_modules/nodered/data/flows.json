@@ -219,7 +219,7 @@
         "z": "53990f839c1cf5ed",
         "name": "spacer",
         "group": "f944e199cc48d4f0",
-        "order": 9,
+        "order": 11,
         "width": 1,
         "height": 1
     },
@@ -229,7 +229,7 @@
         "z": "53990f839c1cf5ed",
         "name": "spacer",
         "group": "f944e199cc48d4f0",
-        "order": 6,
+        "order": 8,
         "width": 1,
         "height": 1
     },
@@ -815,7 +815,7 @@
         "animate": false,
         "className": "",
         "x": 160,
-        "y": 1280,
+        "y": 1640,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -849,7 +849,7 @@
         "animate": false,
         "className": "",
         "x": 140,
-        "y": 1240,
+        "y": 1600,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -883,55 +883,7 @@
         "animate": false,
         "className": "",
         "x": 140,
-        "y": 1160,
-        "wires": [
-            [
-                "9087fb414813a9e7"
-            ]
-        ]
-    },
-    {
-        "id": "3a2031281981c8fd",
-        "type": "ui_dropdown",
-        "z": "53990f839c1cf5ed",
-        "name": "",
-        "label": "Smoke Jumper",
-        "tooltip": "",
-        "place": "",
-        "group": "f944e199cc48d4f0",
-        "order": 10,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "multiple": false,
-        "options": [
-            {
-                "label": "Failed To Launch",
-                "value": "0",
-                "type": "str"
-            },
-            {
-                "label": "Launched",
-                "value": "1",
-                "type": "str"
-            },
-            {
-                "label": "Touched House",
-                "value": "2",
-                "type": "str"
-            },
-            {
-                "label": "Landed Inside House",
-                "value": "3",
-                "type": "str"
-            }
-        ],
-        "payload": "",
-        "topic": "topic",
-        "topicType": "msg",
-        "className": "",
-        "x": 120,
-        "y": 360,
+        "y": 1520,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -965,7 +917,7 @@
         "animate": false,
         "className": "",
         "x": 140,
-        "y": 160,
+        "y": 140,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -1068,7 +1020,7 @@
         "label": "Tello Completed Path",
         "tooltip": "",
         "group": "f944e199cc48d4f0",
-        "order": 7,
+        "order": 9,
         "width": 0,
         "height": 0,
         "passthru": true,
@@ -1087,7 +1039,7 @@
         "animate": false,
         "className": "",
         "x": 140,
-        "y": 260,
+        "y": 400,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -1102,41 +1054,7 @@
         "label": "Tello Autonomous",
         "tooltip": "",
         "group": "f944e199cc48d4f0",
-        "order": 8,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 130,
-        "y": 300,
-        "wires": [
-            [
-                "9087fb414813a9e7"
-            ]
-        ]
-    },
-    {
-        "id": "d6141cb57be06834",
-        "type": "ui_switch",
-        "z": "53990f839c1cf5ed",
-        "name": "",
-        "label": "AVR Drone Takeoff",
-        "tooltip": "",
-        "group": "f944e199cc48d4f0",
-        "order": 11,
+        "order": 10,
         "width": 0,
         "height": 0,
         "passthru": true,
@@ -1163,14 +1081,14 @@
         ]
     },
     {
-        "id": "bb34cd2bbc53784c",
+        "id": "d6141cb57be06834",
         "type": "ui_switch",
         "z": "53990f839c1cf5ed",
         "name": "",
-        "label": "AVR Drone AprilTag Recognition",
+        "label": "AVR Drone Takeoff And Recon",
         "tooltip": "",
         "group": "f944e199cc48d4f0",
-        "order": 12,
+        "order": 17,
         "width": 0,
         "height": 0,
         "passthru": true,
@@ -1189,7 +1107,41 @@
         "animate": false,
         "className": "",
         "x": 170,
-        "y": 480,
+        "y": 840,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "bb34cd2bbc53784c",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "AVR Drone AprilTag Recognition",
+        "tooltip": "",
+        "group": "f944e199cc48d4f0",
+        "order": 18,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 170,
+        "y": 880,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -1204,7 +1156,7 @@
         "label": "AVR Drone Landing",
         "tooltip": "",
         "group": "f944e199cc48d4f0",
-        "order": 13,
+        "order": 19,
         "width": 0,
         "height": 0,
         "passthru": true,
@@ -1223,7 +1175,7 @@
         "animate": false,
         "className": "",
         "x": 130,
-        "y": 520,
+        "y": 920,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -1238,7 +1190,7 @@
         "label": "AVR Drone Autonomous",
         "tooltip": "",
         "group": "f944e199cc48d4f0",
-        "order": 14,
+        "order": 20,
         "width": 0,
         "height": 0,
         "passthru": true,
@@ -1257,7 +1209,7 @@
         "animate": false,
         "className": "",
         "x": 150,
-        "y": 560,
+        "y": 960,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -1284,7 +1236,7 @@
         "step": 1,
         "className": "",
         "x": 150,
-        "y": 660,
+        "y": 1020,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -1318,7 +1270,7 @@
         "animate": false,
         "className": "",
         "x": 180,
-        "y": 700,
+        "y": 1060,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -1345,7 +1297,7 @@
         "step": 1,
         "className": "",
         "x": 210,
-        "y": 740,
+        "y": 1100,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -1372,7 +1324,7 @@
         "step": 1,
         "className": "",
         "x": 180,
-        "y": 780,
+        "y": 1140,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -1399,7 +1351,7 @@
         "step": 1,
         "className": "",
         "x": 110,
-        "y": 820,
+        "y": 1180,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -1444,7 +1396,7 @@
         "step": 1,
         "className": "",
         "x": 200,
-        "y": 860,
+        "y": 1220,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -1471,7 +1423,7 @@
         "step": 1,
         "className": "",
         "x": 200,
-        "y": 900,
+        "y": 1260,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -1505,7 +1457,7 @@
         "animate": false,
         "className": "",
         "x": 170,
-        "y": 980,
+        "y": 1340,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -1539,7 +1491,7 @@
         "animate": false,
         "className": "",
         "x": 180,
-        "y": 1060,
+        "y": 1420,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -1566,7 +1518,7 @@
         "step": 1,
         "className": "",
         "x": 170,
-        "y": 1200,
+        "y": 1560,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -1600,7 +1552,204 @@
         "animate": false,
         "className": "",
         "x": 150,
-        "y": 940,
+        "y": 1300,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "069dc24cf0e0b861",
+        "type": "ui_slider",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Number of RVR Turns",
+        "tooltip": "",
+        "group": "f944e199cc48d4f0",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "3",
+        "step": 1,
+        "className": "",
+        "x": 140,
+        "y": 240,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "a23585b1e33efba2",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "RVR in Fire Station",
+        "tooltip": "",
+        "group": "f944e199cc48d4f0",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 130,
+        "y": 280,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "7790b9d34cb6195b",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Smoke Jumper Launched",
+        "tooltip": "",
+        "group": "f944e199cc48d4f0",
+        "order": 13,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 150,
+        "y": 540,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "598806b21476c8f3",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Smoke Jumper Parachute Deployed",
+        "tooltip": "",
+        "group": "f944e199cc48d4f0",
+        "order": 14,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 190,
+        "y": 580,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "0b15c0051faa29b0",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Smoke Jumper Landed On/ Touched House",
+        "tooltip": "",
+        "group": "f944e199cc48d4f0",
+        "order": 15,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 210,
+        "y": 620,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "609d3f5a1d5f38f2",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Smoke Jumper Landed Inside House",
+        "tooltip": "",
+        "group": "f944e199cc48d4f0",
+        "order": 16,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 190,
+        "y": 660,
         "wires": [
             [
                 "9087fb414813a9e7"
