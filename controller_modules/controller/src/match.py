@@ -16,9 +16,9 @@ class MatchModel(object):
 
         self.fire_buildings:Dict[str,buildings.FireBuildingModel] = {}
         for building in ball_buildings:
-            self.fire_buildings[building] = buildings.FireBuildingModel(building, initial_fire_level=16, points_per_window=4, "ball")
+            self.fire_buildings[building] = buildings.FireBuildingModel(building, initial_fire_level=16, points_per_window=4, b_type="ball")
         for building in laser_buildings:
-            self.fire_buildings[building] = buildings.FireBuildingModel(building, initial_fire_level=8, points_per_window=3, "laser")
+            self.fire_buildings[building] = buildings.FireBuildingModel(building, initial_fire_level=8, points_per_window=3, b_type="laser")
 
         self.heater_buildings: Dict[str, buildings.HeaterBuildingModel] = {}
         for building in heater_buildings:
@@ -77,7 +77,7 @@ class MatchModel(object):
         #phase 3 vars
         self.avr_water_drop_autonomous = False
         self.rvr_parked = False
-        self.first_responders = False
+        self.first_responders_parked = False
         self.tello_parked = False
         self.avr_parked = False
 
@@ -326,8 +326,8 @@ class MatchModel(object):
                 score += building.get_score()
         if self.rvr_parked is True:
             score += 3
-        if self.first_responders > 0:
-            score += self.first_responders
+        if self.first_responders_parked > 0:
+            score += self.first_responders_parked
         if self.tello_parked is True:
             score += 3
         if self.avr_parked is True:
