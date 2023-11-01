@@ -38,48 +38,46 @@ class MatchModel(object):
 
         self.phase_three_job_should_exit = False
 
+        self.ui_toggles = {
+            "sphero_recon": 0,
+            "sphero_recon_autonomous": 0,
 
-        #phase I vars
+            "rvr_recon": False,
+            "rvr_recon_autonomous": False,
 
-        self.sphero_recon = 0
-        self.sphero_recon_autonomous = 0
+            "tello_recon": False,
+            "smoke_jumper_launch": False,
+            "smoke_jumper_parachute": False,
+            "smoke_jumper_landed_on_touch": False,
+            "smoke_jumper_landed_in": False,
+            "tello_recon_autonomous": False,
 
-        self.rvr_recon = False
-        self.rvr_recon_autonomous = False
-        self.rvr_auto_turns = 0
-        self.rvr_enter_fire_station = False
+            "avr_takeoff_recon": False,
+            "avr_apriltag": False,
+            "avr_landing": False,
+            "avr_autonomous": False,
 
-        self.tello_recon = False
-        self.tello_recon_autonomous = False
+            "first_responders_loaded": 0,
+            "avr_ided_hotspot_and_dropped_fr": False,
+            "avr_flashed_led": False,
 
-        self.smoke_jumper_launch = False
-        self.smoke_jumper_parachute = False
-        self.smoke_jumper_landed_on_touch = False
-        self.smoke_jumper_landed_in = False
-        self.smoke_jumper_autonomous = False
+            "first_responders_unloaded": 0,
+            "stranded_launched_from_fire_escape": 0,
+            "stranded_in_rvr" : 0,
+            "avr_delivered_first_responders": 0,
 
-        self.avr_takeoff_recon = False
-        self.avr_apriltag = False
-        self.avr_landing = False
-        self.avr_autonomous = False
+            "stranded_delivered_to_safe_zone": 0,
+            "tello_identified_safe_zone": False,
 
-        #phase 2 vars
-        self.first_responders_loaded = 0
-        self.avr_lands_residential = False
-        self.avr_residential_autonomous = False
-        self.spheros_unloaded = 0
-        self.stranded_launch_from_fire_escape = 0
-        self.stranded_in_rvr = 0
-        self.avr_delivered_first_responders = 0
-        self.tello_identified_safe_zone = False #TODO ask rohn
-        self.rvr_handsfree_unloaded = False
+            "rvr_handsfree_unloaded": False,
 
-        #phase 3 vars
-        self.avr_water_drop_autonomous = False
-        self.rvr_parked = False
-        self.first_responders_parked = False
-        self.tello_parked = False
-        self.avr_parked = False
+            "avr_water_drop_autonomous": False,
+
+            "rvr_parked": False,
+            "first_responders_parked": False,
+            "tello_parked": False,
+            "avr_parked": False,
+        }
 
         ###############################################################################
 
@@ -93,7 +91,8 @@ class MatchModel(object):
 
         self.idle_state = State('idle_state')
         self.idle_state.handlers = {
-            "enter":self.idle_enter
+            "enter":self.idle_enter,
+            "reset_match_event":self.idle_enter
         }
         self.staging_state = State('staging_state')
         self.staging_state.handlers = {
@@ -163,6 +162,8 @@ class MatchModel(object):
             building.reset()
         for building in self.heater_buildings.values():
             building.reset()
+        self.reset_ui_toggles()
+
     def phase_one_enter(self, state, event):
         logger.debug("starting phase 1 timer thread!")
 
@@ -243,94 +244,99 @@ class MatchModel(object):
     def calculate_score(self):
         score = 0
 
-        if self.sphero_recon_autonomous > 0:
-            score += self.sphero_recon_autonomous * 2
-        if self.sphero_recon > 0:
-            score += self.sphero_recon * 2
+        if self.ui_toggles["sphero_recon_autonomous"] > 0:
+            score += self.ui_toggles["sphero_recon_autonomous"] * 2
+        if self.ui_toggles["sphero_recon"] > 0:
+            score += self.ui_toggles["sphero_recon"]
 
 
-        if self.rvr_recon_autonomous is True:
-            if self.rvr_auto_turns > 0:
-                score += self.rvr_auto_turns
-            if self.rvr_enter_fire_station is True:
-                score +=2
+        if self.ui_toggles["rvr_recon_autonomous"] is True:
+            score += 5
         else:
-            if self.rvr_recon is True:
+            if self.ui_toggles["rvr_recon"] is True:
                 score += 2
 
-        if self.tello_recon_autonomous is True:
+        if self.ui_toggles["tello_recon_autonomous"] is True:
             score += 4
-        elif self.tello_recon is True:
+        elif self.ui_toggles["tello_recon"] is True:
             score +=2
 
-        if self.smoke_jumper_autonomous is True:
-            if self.smoke_jumper_launch:
+        if self.ui_toggles["tello_recon_autonomous"] is True:
+            if self.ui_toggles["smoke_jumper_launch"]:
                 score += 3
-            if self.smoke_jumper_parachute:
+            if self.ui_toggles["smoke_jumper_parachute"]:
                 score += 2
-            if self.smoke_jumper_landed_on_touch:
-                score += 3
-            if self.smoke_jumper_landed_in:
+            if self.ui_toggles["smoke_jumper_landed_in"]:
                 score += 5
+            elif self.ui_toggles["smoke_jumper_landed_on_touch"]:
+                score += 3
         else:
-            if self.smoke_jumper_launch:
+            if self.ui_toggles["smoke_jumper_launch"]:
                 score += 1
-            if self.smoke_jumper_parachute:
+            if self.ui_toggles["smoke_jumper_parachute"]:
                 score += 1
-            if self.smoke_jumper_landed_on_touch:
-                score += 1
-            if self.smoke_jumper_landed_in:
+            if self.ui_toggles["smoke_jumper_landed_in"]:
                 score += 3
+            elif self.ui_toggles["smoke_jumper_landed_on_touch"]:
+                score += 1
 
-        if self.avr_autonomous is True:
-            if self.avr_takeoff_recon is True:
+        if self.ui_toggles["avr_autonomous"] is True:
+            if self.ui_toggles["avr_takeoff_recon"] is True:
                 score += 10
-            if self.avr_apriltag is True:
+            if self.ui_toggles["avr_apriltag"] is True:
                 score += 3
-            if self.avr_landing is True:
+            if self.ui_toggles["avr_landing"] is True:
                 score += 7
         else:
-            if self.avr_takeoff_recon is True:
+            if self.ui_toggles["avr_takeoff_recon"] is True:
                 score += 2
-            if self.avr_apriltag is True:
+            if self.ui_toggles["avr_apriltag"] is True:
                 score += 2
-            if self.avr_landing is True:
+            if self.ui_toggles["avr_landing"] is True:
                 score += 1
 
         #phase 2 vars
-        if self.first_responders_loaded > 0:
-            score += 1
-        if self.avr_lands_residential is True:
+        if self.ui_toggles["first_responders_loaded"] > 0:
+            score += self.ui_toggles["first_responders_loaded"]
+
+        if self.ui_toggles["avr_ided_hotspot_and_dropped_fr"] is True:
             score += 5
-        if self.avr_residential_autonomous is True:
+        if self.ui_toggles["avr_flashed_led"] is True:
             score += 5
-        if self.spheros_unloaded > 0:
-            score += self.spheros_unloaded
-        if self.stranded_launch_from_fire_escape > 0:
-            score += self.stranded_launch_from_fire_escape
-        if self.stranded_in_rvr > 0:
-            score += self.stranded_in_rvr * 2
-        if self.avr_delivered_first_responders > 0:
-            score += self.avr_delivered_first_responders * 2
-        # self.tello_identified_safe_zone = False #TODO ask rohn
-        if self.rvr_handsfree_unloaded is True:
+
+        if self.ui_toggles["first_responders_unloaded"] > 0:
+            score += self.ui_toggles["first_responders_unloaded"]
+        if self.ui_toggles["stranded_launched_from_fire_escape"] > 0:
+            score += self.ui_toggles["stranded_launched_from_fire_escape"]
+        if self.ui_toggles["stranded_in_rvr"] > 0:
+            score += self.ui_toggles["stranded_in_rvr"] * 2
+        if self.ui_toggles["avr_delivered_first_responders"] > 0:
+            score += self.ui_toggles["avr_delivered_first_responders"] * 2
+
+        if self.ui_toggles["stranded_delivered_to_safe_zone"] > 0:
+            score += self.ui_toggles["stranded_delivered_to_safe_zone"]
+        if self.ui_toggles["tello_identified_safe_zone"] is True:
+            score += self.ui_toggles["stranded_delivered_to_safe_zone"]
+
+
+        if self.ui_toggles["rvr_handsfree_unloaded"] is True:
             score += 5
 
         #phase 3 vars
         for building in self.fire_buildings.values():
             if building.b_type == "ball":
                 score += building.get_score()
-                if self.avr_water_drop_autonomous:
+                if self.ui_toggles["avr_water_drop_autonomous"]:
                     score += ((building.get_score()/4) * 2)
             elif building.b_type == "laser":
                 score += building.get_score()
-        if self.rvr_parked is True:
+        if self.ui_toggles["rvr_parked"] is True:
             score += 3
-        if self.first_responders_parked > 0:
-            score += self.first_responders_parked
-        if self.tello_parked is True:
+        if self.ui_toggles["first_responders_parked"] > 0:
+            score += self.ui_toggles["first_responders_parked"]
+        if self.ui_toggles["tello_parked"] is True:
             score += 3
-        if self.avr_parked is True:
+        if self.ui_toggles["avr_parked"] is True:
             score += 3
         return score
 
@@ -340,3 +346,56 @@ class MatchModel(object):
 
     def douse_fire(self, source):
         self.dispatch(Event("fire_doused_event", source=source))
+
+    def reset_ui_toggles(self):
+            self.ui_toggles["sphero_recon"] = 0
+            self.ui_toggles["sphero_recon_autonomous"] = 0
+            self.ui_toggles["rvr_recon"] = False
+            self.ui_toggles["rvr_recon_autonomous"] = False
+            self.ui_toggles["tello_recon"] = False
+            self.ui_toggles["smoke_jumper_launch"] = False
+            self.ui_toggles["smoke_jumper_parachute"] = False
+            self.ui_toggles["smoke_jumper_landed_on_touch"] = False
+            self.ui_toggles["smoke_jumper_landed_in"] = False
+            self.ui_toggles["tello_recon_autonomous"] = False
+            self.ui_toggles["avr_takeoff_recon"] = False
+            self.ui_toggles["avr_apriltag"] = False
+            self.ui_toggles["avr_landing"] = False
+            self.ui_toggles["avr_autonomous"] = False
+            self.ui_toggles["first_responders_loaded"] = 0
+            self.ui_toggles["avr_ided_hotspot_and_dropped_fr"] = False
+            self.ui_toggles["avr_flashed_led"] = False
+            self.ui_toggles["first_responders_unloaded"] = 0
+            self.ui_toggles["stranded_launched_from_fire_escape"] = 0
+            self.ui_toggles["stranded_in_rvr"] = 0
+            self.ui_toggles["avr_delivered_first_responders"] = 0
+            self.ui_toggles["stranded_delivered_to_safe_zone"] = 0
+            self.ui_toggles["tello_identified_safe_zone"] = False
+            self.ui_toggles["rvr_handsfree_unloaded"] = False
+            self.ui_toggles["avr_water_drop_autonomous"] = False
+            self.ui_toggles["rvr_parked"] = False
+            self.ui_toggles["first_responders_parked"] = False
+            self.ui_toggles["tello_parked"] = False
+            self.ui_toggles["avr_parked"] = False
+    def handle_ui_toggles(self, data):
+        toggle = data.get("toggle", None)
+        payload = data.get("payload", None)
+        if toggle in self.ui_toggles.keys():
+
+            #handle the special case
+            if toggle=="sphero_recon":
+                if self.ui_toggles["sphero_recon_autonomous"] + payload > 3:
+                    self.ui_toggles["sphero_recon_autonomous"] = 3 - payload
+                    self.ui_toggles["sphero_recon"] = payload
+                elif payload <= 3:
+                    self.ui_toggles["sphero_recon"] = payload
+            elif toggle == "sphero_recon_autonomous":
+                if self.ui_toggles["sphero_recon"] + payload > 3:
+                    self.ui_toggles["sphero_recon"] = 3 - payload
+                    self.ui_toggles["sphero_recon_autonomous"] = payload
+                elif payload <= 3:
+                    self.ui_toggles["sphero_recon_autonomous"] = payload
+            elif isinstance(payload, bool) or isinstance(payload, int):
+                self.ui_toggles[toggle] = payload
+        else:
+            logger.debug(f"{toggle} not in toggles dict")

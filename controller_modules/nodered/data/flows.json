@@ -16,30 +16,12 @@
         "env": []
     },
     {
-        "id": "3fa2d8ae2aa3a288",
-        "type": "group",
-        "z": "53990f839c1cf5ed",
-        "style": {
-            "stroke": "#999999",
-            "stroke-opacity": "1",
-            "fill": "none",
-            "fill-opacity": "1",
-            "label": true,
-            "label-position": "nw",
-            "color": "#a4a4a4"
-        },
-        "nodes": [
-            "49e4e5b54dc7c4d3",
-            "f21e9b99c723f718",
-            "049a63b78174c3b3",
-            "0ee8d75a3c818401",
-            "68827abcc4a72859",
-            "6b8358c984a00c10"
-        ],
-        "x": 1154,
-        "y": 1219,
-        "w": 792,
-        "h": 122
+        "id": "ea0124433f9b92b1",
+        "type": "tab",
+        "label": "Building Controls",
+        "disabled": false,
+        "info": "",
+        "env": []
     },
     {
         "id": "a52d199521293c21",
@@ -240,36 +222,6 @@
         "className": ""
     },
     {
-        "id": "33acfd463831b93c",
-        "type": "ui_spacer",
-        "z": "53990f839c1cf5ed",
-        "name": "spacer",
-        "group": "f944e199cc48d4f0",
-        "order": 12,
-        "width": 1,
-        "height": 1
-    },
-    {
-        "id": "0f0a7004fe689f56",
-        "type": "ui_spacer",
-        "z": "53990f839c1cf5ed",
-        "name": "spacer",
-        "group": "f944e199cc48d4f0",
-        "order": 9,
-        "width": 1,
-        "height": 1
-    },
-    {
-        "id": "91ae1b2d2153bba4",
-        "type": "ui_spacer",
-        "z": "53990f839c1cf5ed",
-        "name": "spacer",
-        "group": "f944e199cc48d4f0",
-        "order": 4,
-        "width": 1,
-        "height": 1
-    },
-    {
         "id": "71f2708261e35ed8",
         "type": "ui_group",
         "name": "Phase II",
@@ -288,6 +240,95 @@
         "order": 3,
         "disp": true,
         "width": "10",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "5a748fe373609874",
+        "type": "ui_spacer",
+        "z": "53990f839c1cf5ed",
+        "name": "spacer",
+        "group": "f944e199cc48d4f0",
+        "order": 3,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "0d17e1a7f54b426e",
+        "type": "ui_spacer",
+        "z": "53990f839c1cf5ed",
+        "name": "spacer",
+        "group": "f944e199cc48d4f0",
+        "order": 6,
+        "width": 10,
+        "height": 1
+    },
+    {
+        "id": "32ac2f18b9c68ad1",
+        "type": "ui_spacer",
+        "z": "53990f839c1cf5ed",
+        "name": "spacer",
+        "group": "f944e199cc48d4f0",
+        "order": 13,
+        "width": "10",
+        "height": "1"
+    },
+    {
+        "id": "e317c7076c4581a3",
+        "type": "ui_spacer",
+        "z": "53990f839c1cf5ed",
+        "name": "spacer",
+        "group": "71f2708261e35ed8",
+        "order": 2,
+        "width": "10",
+        "height": "1"
+    },
+    {
+        "id": "5077511d5745072b",
+        "type": "ui_spacer",
+        "z": "53990f839c1cf5ed",
+        "name": "spacer",
+        "group": "71f2708261e35ed8",
+        "order": 5,
+        "width": "10",
+        "height": "1"
+    },
+    {
+        "id": "dbb8758ef2c04582",
+        "type": "ui_spacer",
+        "z": "53990f839c1cf5ed",
+        "name": "spacer",
+        "group": "71f2708261e35ed8",
+        "order": 10,
+        "width": "10",
+        "height": "1"
+    },
+    {
+        "id": "d474436ed6a88d1f",
+        "type": "ui_spacer",
+        "z": "53990f839c1cf5ed",
+        "name": "spacer",
+        "group": "71f2708261e35ed8",
+        "order": 7,
+        "width": "10",
+        "height": "1"
+    },
+    {
+        "id": "1cd8dff592c91210",
+        "type": "ui_tab",
+        "name": "Building Controls",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "e3c7fb2f0f485333",
+        "type": "ui_group",
+        "name": "Building Controls",
+        "tab": "1cd8dff592c91210",
+        "order": 1,
+        "disp": false,
+        "width": "6",
         "collapse": false,
         "className": ""
     },
@@ -815,6 +856,53 @@
         ]
     },
     {
+        "id": "ab7a79fabac1c028",
+        "type": "ui_text_input",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "label": "Match ID",
+        "tooltip": "",
+        "group": "366e589a14f99cf0",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "mode": "text",
+        "delay": 300,
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 360,
+        "y": 520,
+        "wires": [
+            [
+                "ce178390c4ef29c4"
+            ]
+        ]
+    },
+    {
+        "id": "c8cbfe72d74ed1f7",
+        "type": "mqtt in",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "topic": "ui/state/match_id",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "7a77a26bef88c80e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 520,
+        "wires": [
+            [
+                "ab7a79fabac1c028"
+            ]
+        ]
+    },
+    {
         "id": "7b3c4815a9189b6f",
         "type": "ui_switch",
         "z": "53990f839c1cf5ed",
@@ -840,8 +928,8 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 500,
-        "y": 1640,
+        "x": 880,
+        "y": 1840,
         "wires": [
             [
                 "6f2a528b3d689d22"
@@ -874,8 +962,8 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 480,
-        "y": 1600,
+        "x": 860,
+        "y": 1800,
         "wires": [
             [
                 "66ea65e0b703cea9"
@@ -908,8 +996,8 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 480,
-        "y": 1520,
+        "x": 860,
+        "y": 1720,
         "wires": [
             [
                 "34f61c24ae0b4b9d"
@@ -924,7 +1012,7 @@
         "label": "RVR Completed Path",
         "tooltip": "",
         "group": "f944e199cc48d4f0",
-        "order": 5,
+        "order": 4,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -942,7 +1030,7 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 480,
+        "x": 860,
         "y": 140,
         "wires": [
             [
@@ -958,7 +1046,7 @@
         "label": "RVR Autonomous",
         "tooltip": "",
         "group": "f944e199cc48d4f0",
-        "order": 6,
+        "order": 5,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -976,7 +1064,7 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 470,
+        "x": 850,
         "y": 200,
         "wires": [
             [
@@ -992,7 +1080,7 @@
         "label": "Sphero Recon Completed",
         "tooltip": "",
         "group": "f944e199cc48d4f0",
-        "order": 2,
+        "order": 1,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1000,10 +1088,10 @@
         "topic": "payload",
         "topicType": "msg",
         "min": 0,
-        "max": "4",
+        "max": "3",
         "step": 1,
         "className": "",
-        "x": 490,
+        "x": 870,
         "y": 40,
         "wires": [
             [
@@ -1019,7 +1107,7 @@
         "label": "Sphero Recon Autonomous",
         "tooltip": "",
         "group": "f944e199cc48d4f0",
-        "order": 3,
+        "order": 2,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1027,10 +1115,10 @@
         "topic": "topic",
         "topicType": "msg",
         "min": 0,
-        "max": "4",
+        "max": "3",
         "step": 1,
         "className": "",
-        "x": 500,
+        "x": 880,
         "y": 80,
         "wires": [
             [
@@ -1046,7 +1134,7 @@
         "label": "Tello Completed Path",
         "tooltip": "",
         "group": "f944e199cc48d4f0",
-        "order": 10,
+        "order": 7,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1064,7 +1152,7 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 480,
+        "x": 860,
         "y": 400,
         "wires": [
             [
@@ -1080,7 +1168,7 @@
         "label": "Tello Autonomous",
         "tooltip": "",
         "group": "f944e199cc48d4f0",
-        "order": 11,
+        "order": 12,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1098,8 +1186,8 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 470,
-        "y": 440,
+        "x": 850,
+        "y": 700,
         "wires": [
             [
                 "83d3d8e2431001af"
@@ -1114,7 +1202,7 @@
         "label": "AVR Drone Takeoff And Recon",
         "tooltip": "",
         "group": "f944e199cc48d4f0",
-        "order": 18,
+        "order": 14,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1132,7 +1220,7 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 510,
+        "x": 890,
         "y": 840,
         "wires": [
             [
@@ -1148,7 +1236,7 @@
         "label": "AVR Drone AprilTag Recognition",
         "tooltip": "",
         "group": "f944e199cc48d4f0",
-        "order": 19,
+        "order": 15,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1166,7 +1254,7 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 510,
+        "x": 890,
         "y": 880,
         "wires": [
             [
@@ -1182,7 +1270,7 @@
         "label": "AVR Drone Landing",
         "tooltip": "",
         "group": "f944e199cc48d4f0",
-        "order": 20,
+        "order": 16,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1200,7 +1288,7 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 470,
+        "x": 850,
         "y": 920,
         "wires": [
             [
@@ -1216,7 +1304,7 @@
         "label": "AVR Drone Autonomous",
         "tooltip": "",
         "group": "f944e199cc48d4f0",
-        "order": 21,
+        "order": 17,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1234,7 +1322,7 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 490,
+        "x": 870,
         "y": 960,
         "wires": [
             [
@@ -1258,11 +1346,11 @@
         "topic": "topic",
         "topicType": "msg",
         "min": 0,
-        "max": "2",
+        "max": "3",
         "step": 1,
         "className": "",
-        "x": 490,
-        "y": 1020,
+        "x": 870,
+        "y": 1040,
         "wires": [
             [
                 "0777de5b9bbdce60"
@@ -1274,10 +1362,10 @@
         "type": "ui_switch",
         "z": "53990f839c1cf5ed",
         "name": "",
-        "label": "AVR Lands on Residential Building",
+        "label": "Hotspot Bldg IDed & First Responder Dropped Off",
         "tooltip": "",
         "group": "71f2708261e35ed8",
-        "order": 4,
+        "order": 3,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1295,8 +1383,8 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 520,
-        "y": 1060,
+        "x": 950,
+        "y": 1080,
         "wires": [
             [
                 "99aef6f8b8fbbcad"
@@ -1308,7 +1396,7 @@
         "type": "ui_slider",
         "z": "53990f839c1cf5ed",
         "name": "",
-        "label": "Spheros Unloaded on Residential Building",
+        "label": "First Responders Unloaded on Residential Bldgs",
         "tooltip": "",
         "group": "71f2708261e35ed8",
         "order": 6,
@@ -1319,11 +1407,11 @@
         "topic": "topic",
         "topicType": "msg",
         "min": 0,
-        "max": 10,
+        "max": "2",
         "step": 1,
         "className": "",
-        "x": 550,
-        "y": 1100,
+        "x": 950,
+        "y": 1200,
         "wires": [
             [
                 "4cd4c951782688cf"
@@ -1335,7 +1423,7 @@
         "type": "ui_slider",
         "z": "53990f839c1cf5ed",
         "name": "",
-        "label": "Stranded Launch From Fire Escape",
+        "label": "Stranded Launched From Fire Escape",
         "tooltip": "",
         "group": "71f2708261e35ed8",
         "order": 8,
@@ -1346,11 +1434,11 @@
         "topic": "topic",
         "topicType": "msg",
         "min": 0,
-        "max": 10,
+        "max": "6",
         "step": 1,
         "className": "",
-        "x": 520,
-        "y": 1140,
+        "x": 910,
+        "y": 1240,
         "wires": [
             [
                 "bc838bc1476392f9"
@@ -1362,7 +1450,7 @@
         "type": "ui_slider",
         "z": "53990f839c1cf5ed",
         "name": "",
-        "label": "Land in RVR",
+        "label": "Stranded Landed in RVR",
         "tooltip": "",
         "group": "71f2708261e35ed8",
         "order": 9,
@@ -1373,11 +1461,11 @@
         "topic": "topic",
         "topicType": "msg",
         "min": 0,
-        "max": 10,
+        "max": "6",
         "step": 1,
         "className": "",
-        "x": 450,
-        "y": 1180,
+        "x": 870,
+        "y": 1280,
         "wires": [
             [
                 "11c18a7a5cd834d5"
@@ -1389,7 +1477,7 @@
         "type": "mqtt out",
         "z": "53990f839c1cf5ed",
         "name": "",
-        "topic": "/ui/events",
+        "topic": "ui/events/",
         "qos": "",
         "retain": "",
         "respTopic": "",
@@ -1398,8 +1486,8 @@
         "correl": "",
         "expiry": "",
         "broker": "7a77a26bef88c80e",
-        "x": 1380,
-        "y": 920,
+        "x": 1960,
+        "y": 940,
         "wires": []
     },
     {
@@ -1407,10 +1495,10 @@
         "type": "ui_slider",
         "z": "53990f839c1cf5ed",
         "name": "",
-        "label": "AVR Delivers First Responders To Ground",
+        "label": "First Responders Delivered to Ground",
         "tooltip": "",
         "group": "71f2708261e35ed8",
-        "order": 3,
+        "order": 11,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1418,11 +1506,11 @@
         "topic": "topic",
         "topicType": "msg",
         "min": 0,
-        "max": 10,
+        "max": "3",
         "step": 1,
         "className": "",
-        "x": 540,
-        "y": 1220,
+        "x": 910,
+        "y": 1320,
         "wires": [
             [
                 "6b1bb911a9f6846f"
@@ -1433,24 +1521,23 @@
         "id": "0ee8d75a3c818401",
         "type": "ui_slider",
         "z": "53990f839c1cf5ed",
-        "g": "3fa2d8ae2aa3a288",
         "name": "",
-        "label": "Stranded Delivered to Safe Zone by RVR",
+        "label": "Stranded Delivered to a Safe Zone by RVR",
         "tooltip": "",
         "group": "71f2708261e35ed8",
-        "order": 5,
+        "order": 12,
         "width": 0,
         "height": 0,
-        "passthru": true,
+        "passthru": false,
         "outs": "end",
         "topic": "topic",
         "topicType": "msg",
         "min": 0,
-        "max": 10,
+        "max": "6",
         "step": 1,
         "className": "",
-        "x": 1600,
-        "y": 1260,
+        "x": 930,
+        "y": 1400,
         "wires": [
             [
                 "6b8358c984a00c10"
@@ -1462,234 +1549,9 @@
         "type": "ui_switch",
         "z": "53990f839c1cf5ed",
         "name": "",
-        "label": "Hands Free Unloading of RVR",
+        "label": "Stranded Unloaded Hands Free",
         "tooltip": "",
         "group": "71f2708261e35ed8",
-        "order": 7,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "decouple": "true",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 510,
-        "y": 1340,
-        "wires": [
-            [
-                "a15c6ac8960a06e1"
-            ]
-        ]
-    },
-    {
-        "id": "a6e5945fd6c24c9b",
-        "type": "ui_switch",
-        "z": "53990f839c1cf5ed",
-        "name": "",
-        "label": "Water Balls Dropped via AprilTag",
-        "tooltip": "",
-        "group": "591219e8a1be384d",
-        "order": 11,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "decouple": "true",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 520,
-        "y": 1420,
-        "wires": [
-            [
-                "f88e5556a1ee2b1b"
-            ]
-        ]
-    },
-    {
-        "id": "fd489c8a49102476",
-        "type": "ui_slider",
-        "z": "53990f839c1cf5ed",
-        "name": "",
-        "label": "First Respnders Parked in Time",
-        "tooltip": "",
-        "group": "8b1b820aae8133ac",
-        "order": 12,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "outs": "end",
-        "topic": "topic",
-        "topicType": "msg",
-        "min": 0,
-        "max": 10,
-        "step": 1,
-        "className": "",
-        "x": 510,
-        "y": 1560,
-        "wires": [
-            [
-                "456c80a3c9dc2776"
-            ]
-        ]
-    },
-    {
-        "id": "049a63b78174c3b3",
-        "type": "ui_switch",
-        "z": "53990f839c1cf5ed",
-        "g": "3fa2d8ae2aa3a288",
-        "name": "",
-        "label": "Tello Identified Safe Zone",
-        "tooltip": "",
-        "group": "71f2708261e35ed8",
-        "order": 10,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 1550,
-        "y": 1300,
-        "wires": [
-            [
-                "68827abcc4a72859"
-            ]
-        ]
-    },
-    {
-        "id": "069dc24cf0e0b861",
-        "type": "ui_slider",
-        "z": "53990f839c1cf5ed",
-        "name": "",
-        "label": "Number of RVR Turns",
-        "tooltip": "",
-        "group": "f944e199cc48d4f0",
-        "order": 7,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "outs": "end",
-        "topic": "topic",
-        "topicType": "msg",
-        "min": 0,
-        "max": "3",
-        "step": 1,
-        "className": "",
-        "x": 480,
-        "y": 240,
-        "wires": [
-            [
-                "c1ee7dcc4948bfa1"
-            ]
-        ]
-    },
-    {
-        "id": "a23585b1e33efba2",
-        "type": "ui_switch",
-        "z": "53990f839c1cf5ed",
-        "name": "",
-        "label": "RVR in Fire Station",
-        "tooltip": "",
-        "group": "f944e199cc48d4f0",
-        "order": 8,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "decouple": "true",
-        "topic": "payload",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 470,
-        "y": 280,
-        "wires": [
-            [
-                "8fd387e680d2fc73"
-            ]
-        ]
-    },
-    {
-        "id": "7790b9d34cb6195b",
-        "type": "ui_switch",
-        "z": "53990f839c1cf5ed",
-        "name": "",
-        "label": "Smoke Jumper Launched",
-        "tooltip": "",
-        "group": "f944e199cc48d4f0",
-        "order": 13,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "decouple": "true",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 490,
-        "y": 540,
-        "wires": [
-            [
-                "750c5f9470e62386"
-            ]
-        ]
-    },
-    {
-        "id": "598806b21476c8f3",
-        "type": "ui_switch",
-        "z": "53990f839c1cf5ed",
-        "name": "",
-        "label": "Smoke Jumper Parachute Deployed",
-        "tooltip": "",
-        "group": "f944e199cc48d4f0",
         "order": 14,
         "width": 0,
         "height": 0,
@@ -1708,7 +1570,170 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 530,
+        "x": 890,
+        "y": 1540,
+        "wires": [
+            [
+                "a15c6ac8960a06e1"
+            ]
+        ]
+    },
+    {
+        "id": "a6e5945fd6c24c9b",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Water Balls Dropped via AprilTag",
+        "tooltip": "",
+        "group": "591219e8a1be384d",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": "true",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 900,
+        "y": 1620,
+        "wires": [
+            [
+                "f88e5556a1ee2b1b"
+            ]
+        ]
+    },
+    {
+        "id": "fd489c8a49102476",
+        "type": "ui_slider",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "First Respnders Parked in Time",
+        "tooltip": "",
+        "group": "8b1b820aae8133ac",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "3",
+        "step": 1,
+        "className": "",
+        "x": 890,
+        "y": 1760,
+        "wires": [
+            [
+                "456c80a3c9dc2776"
+            ]
+        ]
+    },
+    {
+        "id": "049a63b78174c3b3",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Tello Identified Safe Zone",
+        "tooltip": "",
+        "group": "71f2708261e35ed8",
+        "order": 13,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": "true",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 870,
+        "y": 1440,
+        "wires": [
+            [
+                "68827abcc4a72859"
+            ]
+        ]
+    },
+    {
+        "id": "7790b9d34cb6195b",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Smoke Jumper Launched",
+        "tooltip": "",
+        "group": "f944e199cc48d4f0",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": "true",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 870,
+        "y": 540,
+        "wires": [
+            [
+                "750c5f9470e62386"
+            ]
+        ]
+    },
+    {
+        "id": "598806b21476c8f3",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Smoke Jumper Parachute Deployed",
+        "tooltip": "",
+        "group": "f944e199cc48d4f0",
+        "order": 9,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": "true",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 910,
         "y": 580,
         "wires": [
             [
@@ -1724,7 +1749,7 @@
         "label": "Smoke Jumper Landed On/ Touched House",
         "tooltip": "",
         "group": "f944e199cc48d4f0",
-        "order": 15,
+        "order": 10,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1742,7 +1767,7 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 550,
+        "x": 930,
         "y": 620,
         "wires": [
             [
@@ -1758,7 +1783,7 @@
         "label": "Smoke Jumper Landed Inside House",
         "tooltip": "",
         "group": "f944e199cc48d4f0",
-        "order": 16,
+        "order": 11,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1776,7 +1801,7 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 530,
+        "x": 910,
         "y": 660,
         "wires": [
             [
@@ -1793,9 +1818,9 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"sphero_recon\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"sphero_recon\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
+        "x": 1280,
         "y": 40,
         "wires": [
             [
@@ -1812,9 +1837,9 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"sphero_recon_autonomous\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"sphero_recon_autonomous\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
+        "x": 1280,
         "y": 80,
         "wires": [
             [
@@ -1831,9 +1856,9 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"rvr_recon\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"rvr_recon\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
+        "x": 1280,
         "y": 140,
         "wires": [
             [
@@ -1850,48 +1875,10 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"rvr_recon_autonomous\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"rvr_recon_autonomous\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
+        "x": 1280,
         "y": 200,
-        "wires": [
-            [
-                "9087fb414813a9e7"
-            ]
-        ]
-    },
-    {
-        "id": "c1ee7dcc4948bfa1",
-        "type": "template",
-        "z": "53990f839c1cf5ed",
-        "name": "",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"rvr_auto_turns\",\n    \"data\":{{payload}}\n}",
-        "output": "str",
-        "x": 800,
-        "y": 240,
-        "wires": [
-            [
-                "9087fb414813a9e7"
-            ]
-        ]
-    },
-    {
-        "id": "8fd387e680d2fc73",
-        "type": "template",
-        "z": "53990f839c1cf5ed",
-        "name": "",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"rvr_enter_fire_station\",\n    \"data\":{{payload}}\n}",
-        "output": "str",
-        "x": 800,
-        "y": 280,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -1907,9 +1894,9 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"tello_recon\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"tello_recon\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
+        "x": 1280,
         "y": 400,
         "wires": [
             [
@@ -1926,10 +1913,10 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"tello_recon_autonomous\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"tello_recon_autonomous\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
-        "y": 440,
+        "x": 1280,
+        "y": 700,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -1945,9 +1932,9 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"smoke_jumper_launch\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"smoke_jumper_launch\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
+        "x": 1280,
         "y": 540,
         "wires": [
             [
@@ -1964,9 +1951,9 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"smoke_jumper_parachute\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"smoke_jumper_parachute\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
+        "x": 1280,
         "y": 580,
         "wires": [
             [
@@ -1983,9 +1970,9 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"smoke_jumper_landed_on_touch\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"smoke_jumper_landed_on_touch\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
+        "x": 1280,
         "y": 620,
         "wires": [
             [
@@ -2002,9 +1989,9 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"smoke_jumper_landed_in\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"smoke_jumper_landed_in\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
+        "x": 1280,
         "y": 660,
         "wires": [
             [
@@ -2021,9 +2008,9 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"avr_takeoff_recon\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"avr_takeoff_recon\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
+        "x": 1280,
         "y": 840,
         "wires": [
             [
@@ -2040,9 +2027,9 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"avr_apriltag\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"avr_apriltag\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
+        "x": 1280,
         "y": 880,
         "wires": [
             [
@@ -2059,9 +2046,9 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"avr_landing\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"avr_landing\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
+        "x": 1280,
         "y": 920,
         "wires": [
             [
@@ -2078,9 +2065,9 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"avr_autonomous\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"avr_autonomous\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
+        "x": 1280,
         "y": 960,
         "wires": [
             [
@@ -2097,10 +2084,10 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"first_responders_loaded\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"first_responders_loaded\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
-        "y": 1020,
+        "x": 1280,
+        "y": 1040,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -2116,10 +2103,10 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"avr_lands_residential\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"avr_ided_hotspot_and_dropped_fr\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
-        "y": 1060,
+        "x": 1280,
+        "y": 1080,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -2135,10 +2122,10 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"spheros_unloaded\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"first_responders_unloaded\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
-        "y": 1100,
+        "x": 1280,
+        "y": 1200,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -2154,10 +2141,10 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"stranded_launch_from_fire_escape\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"stranded_launched_from_fire_escape\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
-        "y": 1140,
+        "x": 1280,
+        "y": 1240,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -2173,10 +2160,10 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"stranded_in_rvr\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"stranded_in_rvr\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
-        "y": 1180,
+        "x": 1280,
+        "y": 1280,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -2192,10 +2179,10 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"avr_delivered_first_responders\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"avr_delivered_first_responders\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
-        "y": 1220,
+        "x": 1280,
+        "y": 1320,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -2206,16 +2193,15 @@
         "id": "6b8358c984a00c10",
         "type": "template",
         "z": "53990f839c1cf5ed",
-        "g": "3fa2d8ae2aa3a288",
         "name": "",
         "field": "payload",
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"null\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"stranded_delivered_to_safe_zone\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 1860,
-        "y": 1260,
+        "x": 1280,
+        "y": 1400,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -2226,16 +2212,15 @@
         "id": "68827abcc4a72859",
         "type": "template",
         "z": "53990f839c1cf5ed",
-        "g": "3fa2d8ae2aa3a288",
         "name": "",
         "field": "payload",
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "This is the payload: {{payload}} !",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"tello_identified_safe_zone\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 1860,
-        "y": 1300,
+        "x": 1280,
+        "y": 1440,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -2251,10 +2236,10 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"rvr_handsfree_unloaded\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"rvr_handsfree_unloaded\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
-        "y": 1340,
+        "x": 1280,
+        "y": 1540,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -2270,10 +2255,10 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"avr_water_drop_autonomous\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"avr_water_drop_autonomous\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
-        "y": 1420,
+        "x": 1280,
+        "y": 1620,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -2289,10 +2274,10 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"rvr_parked\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"rvr_parked\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
-        "y": 1520,
+        "x": 1280,
+        "y": 1720,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -2308,10 +2293,10 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"first_responders_parked\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"first_responders_parked\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
-        "y": 1560,
+        "x": 1280,
+        "y": 1760,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -2327,10 +2312,10 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"tello_parked\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"tello_parked\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
-        "y": 1600,
+        "x": 1280,
+        "y": 1800,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -2346,63 +2331,10 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"avr_parked\",\n    \"data\":{{payload}}\n}",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"avr_parked\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
-        "x": 800,
-        "y": 1640,
-        "wires": [
-            [
-                "9087fb414813a9e7"
-            ]
-        ]
-    },
-    {
-        "id": "2bbf9b369b183b15",
-        "type": "ui_switch",
-        "z": "53990f839c1cf5ed",
-        "name": "",
-        "label": "Smoke Jumper Autonomous",
-        "tooltip": "",
-        "group": "f944e199cc48d4f0",
-        "order": 17,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "decouple": "true",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 500,
-        "y": 700,
-        "wires": [
-            [
-                "8f8987419a1d562c"
-            ]
-        ]
-    },
-    {
-        "id": "8f8987419a1d562c",
-        "type": "template",
-        "z": "53990f839c1cf5ed",
-        "name": "",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "{\n    \"event_type\":\"smoke_jumper_autonomous\",\n    \"data\":{{payload}}\n}",
-        "output": "str",
-        "x": 800,
-        "y": 700,
+        "x": 1280,
+        "y": 1840,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -2426,7 +2358,7 @@
         "y": 40,
         "wires": [
             [
-                "f60b936187eae4ef"
+                "f76b018c39bc8b0a"
             ]
         ]
     },
@@ -2447,7 +2379,7 @@
         "y": 80,
         "wires": [
             [
-                "d751e1664722954c"
+                "c8091d53e36b5545"
             ]
         ]
     },
@@ -2468,7 +2400,7 @@
         "y": 140,
         "wires": [
             [
-                "e6b2d14b923fc468"
+                "4ec7d6fb92eadda8"
             ]
         ]
     },
@@ -2489,49 +2421,7 @@
         "y": 200,
         "wires": [
             [
-                "0f181af477fd7520"
-            ]
-        ]
-    },
-    {
-        "id": "4adbb9b1111f3db1",
-        "type": "mqtt in",
-        "z": "53990f839c1cf5ed",
-        "name": "",
-        "topic": "ui/state/rvr_auto_turns",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "7a77a26bef88c80e",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 120,
-        "y": 240,
-        "wires": [
-            [
-                "069dc24cf0e0b861"
-            ]
-        ]
-    },
-    {
-        "id": "5f318910b3f39160",
-        "type": "mqtt in",
-        "z": "53990f839c1cf5ed",
-        "name": "",
-        "topic": "ui/state/rvr_enter_fire_station",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "7a77a26bef88c80e",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 140,
-        "y": 280,
-        "wires": [
-            [
-                "a23585b1e33efba2"
+                "bbf9f108eb8b027c"
             ]
         ]
     },
@@ -2541,7 +2431,7 @@
         "z": "53990f839c1cf5ed",
         "name": "",
         "topic": "ui/state/tello_recon",
-        "qos": "2",
+        "qos": "0",
         "datatype": "auto-detect",
         "broker": "7a77a26bef88c80e",
         "nl": false,
@@ -2552,7 +2442,7 @@
         "y": 400,
         "wires": [
             [
-                "330cd0e4af79eab0"
+                "642874fc83da91a1"
             ]
         ]
     },
@@ -2570,10 +2460,10 @@
         "rh": 0,
         "inputs": 0,
         "x": 150,
-        "y": 440,
+        "y": 700,
         "wires": [
             [
-                "c9f53e34408bc89b"
+                "ce0464832c16e68e"
             ]
         ]
     },
@@ -2594,7 +2484,7 @@
         "y": 540,
         "wires": [
             [
-                "7790b9d34cb6195b"
+                "7e1fadd18b8600da"
             ]
         ]
     },
@@ -2615,7 +2505,7 @@
         "y": 580,
         "wires": [
             [
-                "598806b21476c8f3"
+                "669f174fd5d49566"
             ]
         ]
     },
@@ -2636,7 +2526,7 @@
         "y": 620,
         "wires": [
             [
-                "0b15c0051faa29b0"
+                "2a991fc52638d487"
             ]
         ]
     },
@@ -2657,28 +2547,7 @@
         "y": 660,
         "wires": [
             [
-                "609d3f5a1d5f38f2"
-            ]
-        ]
-    },
-    {
-        "id": "732ec38ab29bbe30",
-        "type": "mqtt in",
-        "z": "53990f839c1cf5ed",
-        "name": "",
-        "topic": "ui/state/smoke_jumper_autonomous",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "7a77a26bef88c80e",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 160,
-        "y": 700,
-        "wires": [
-            [
-                "2bbf9b369b183b15"
+                "35988e5cf3681309"
             ]
         ]
     },
@@ -2699,7 +2568,7 @@
         "y": 840,
         "wires": [
             [
-                "d6141cb57be06834"
+                "3f47a1a70b8887f6"
             ]
         ]
     },
@@ -2720,7 +2589,7 @@
         "y": 880,
         "wires": [
             [
-                "bb34cd2bbc53784c"
+                "6e3b73d73f7589ce"
             ]
         ]
     },
@@ -2741,7 +2610,7 @@
         "y": 920,
         "wires": [
             [
-                "c5e7905f64148979"
+                "3b3b9af91794f79d"
             ]
         ]
     },
@@ -2762,7 +2631,7 @@
         "y": 960,
         "wires": [
             [
-                "f44393a9d2bc5b91"
+                "fb372e9da6cc1ee5"
             ]
         ]
     },
@@ -2780,10 +2649,10 @@
         "rh": 0,
         "inputs": 0,
         "x": 150,
-        "y": 1020,
+        "y": 1040,
         "wires": [
             [
-                "4a3a399b84186ac9"
+                "45645cd6f28186cb"
             ]
         ]
     },
@@ -2792,49 +2661,7 @@
         "type": "mqtt in",
         "z": "53990f839c1cf5ed",
         "name": "",
-        "topic": "ui/state/avr_lands_residential",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "7a77a26bef88c80e",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 140,
-        "y": 1060,
-        "wires": [
-            [
-                "ebbedc47e8be04a0"
-            ]
-        ]
-    },
-    {
-        "id": "2350964cd8e45d5e",
-        "type": "mqtt in",
-        "z": "53990f839c1cf5ed",
-        "name": "",
-        "topic": "ui/state/spheros_unloaded",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "7a77a26bef88c80e",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 130,
-        "y": 1100,
-        "wires": [
-            [
-                "15dd4d8be50d8ca6"
-            ]
-        ]
-    },
-    {
-        "id": "ddc719b4c22e6309",
-        "type": "mqtt in",
-        "z": "53990f839c1cf5ed",
-        "name": "",
-        "topic": "ui/state/stranded_launch_from_fire_escape",
+        "topic": "ui/state/avr_ided_hotspot_and_dropped_fr",
         "qos": "2",
         "datatype": "auto-detect",
         "broker": "7a77a26bef88c80e",
@@ -2843,10 +2670,52 @@
         "rh": 0,
         "inputs": 0,
         "x": 180,
-        "y": 1140,
+        "y": 1080,
         "wires": [
             [
-                "116cc2b436b15c4e"
+                "6615fa7b55840acf"
+            ]
+        ]
+    },
+    {
+        "id": "2350964cd8e45d5e",
+        "type": "mqtt in",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "topic": "ui/state/first_responders_unloaded",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7a77a26bef88c80e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 1200,
+        "wires": [
+            [
+                "ec44e0e01a771a17"
+            ]
+        ]
+    },
+    {
+        "id": "ddc719b4c22e6309",
+        "type": "mqtt in",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "topic": "ui/state/stranded_launched_from_fire_escape",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7a77a26bef88c80e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 1240,
+        "wires": [
+            [
+                "05ef480e69e913a2"
             ]
         ]
     },
@@ -2864,10 +2733,10 @@
         "rh": 0,
         "inputs": 0,
         "x": 120,
-        "y": 1180,
+        "y": 1280,
         "wires": [
             [
-                "61c7e5d92d1f19d2"
+                "06cac31f0fda48da"
             ]
         ]
     },
@@ -2885,10 +2754,10 @@
         "rh": 0,
         "inputs": 0,
         "x": 170,
-        "y": 1220,
+        "y": 1320,
         "wires": [
             [
-                "9fb234ecaaafb0ed"
+                "74f9274f3e1ff71a"
             ]
         ]
     },
@@ -2906,10 +2775,10 @@
         "rh": 0,
         "inputs": 0,
         "x": 150,
-        "y": 1340,
+        "y": 1540,
         "wires": [
             [
-                "ec40bd9e05e530ee"
+                "05ba0748e0c73607"
             ]
         ]
     },
@@ -2927,10 +2796,10 @@
         "rh": 0,
         "inputs": 0,
         "x": 170,
-        "y": 1420,
+        "y": 1620,
         "wires": [
             [
-                "a6e5945fd6c24c9b"
+                "db66d4b48731d4d2"
             ]
         ]
     },
@@ -2948,10 +2817,10 @@
         "rh": 0,
         "inputs": 0,
         "x": 110,
-        "y": 1520,
+        "y": 1720,
         "wires": [
             [
-                "901662141c3392d5"
+                "0d7084c19bec504f"
             ]
         ]
     },
@@ -2969,10 +2838,10 @@
         "rh": 0,
         "inputs": 0,
         "x": 150,
-        "y": 1560,
+        "y": 1760,
         "wires": [
             [
-                "fd489c8a49102476"
+                "8cb65b6a9ecc5e67"
             ]
         ]
     },
@@ -2990,10 +2859,10 @@
         "rh": 0,
         "inputs": 0,
         "x": 110,
-        "y": 1600,
+        "y": 1800,
         "wires": [
             [
-                "4bb94d226752a132"
+                "5ea21f7218d5b79d"
             ]
         ]
     },
@@ -3011,10 +2880,10 @@
         "rh": 0,
         "inputs": 0,
         "x": 110,
-        "y": 1640,
+        "y": 1840,
         "wires": [
             [
-                "7b3c4815a9189b6f"
+                "aca64ce4971c2f42"
             ]
         ]
     },
@@ -3022,20 +2891,20 @@
         "id": "f21e9b99c723f718",
         "type": "mqtt in",
         "z": "53990f839c1cf5ed",
-        "g": "3fa2d8ae2aa3a288",
         "name": "",
-        "topic": "",
+        "topic": "ui/state/stranded_delivered_to_safe_zone",
         "qos": "2",
         "datatype": "auto-detect",
+        "broker": "7a77a26bef88c80e",
         "nl": false,
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 1230,
-        "y": 1260,
+        "x": 180,
+        "y": 1400,
         "wires": [
             [
-                "0ee8d75a3c818401"
+                "bc7789bf4e5f411b"
             ]
         ]
     },
@@ -3043,20 +2912,899 @@
         "id": "49e4e5b54dc7c4d3",
         "type": "mqtt in",
         "z": "53990f839c1cf5ed",
-        "g": "3fa2d8ae2aa3a288",
         "name": "",
-        "topic": "",
+        "topic": "ui/state/tello_identified_safe_zone",
         "qos": "2",
         "datatype": "auto-detect",
+        "broker": "7a77a26bef88c80e",
         "nl": false,
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 1230,
-        "y": 1300,
+        "x": 160,
+        "y": 1440,
+        "wires": [
+            [
+                "8c914ecac0d65bc4"
+            ]
+        ]
+    },
+    {
+        "id": "935dda019ef8cd43",
+        "type": "ui_switch",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Autonomous LED Flash Over Hotspot",
+        "tooltip": "",
+        "group": "71f2708261e35ed8",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": "true",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 910,
+        "y": 1120,
+        "wires": [
+            [
+                "0c10eff5ffc19132"
+            ]
+        ]
+    },
+    {
+        "id": "0c10eff5ffc19132",
+        "type": "template",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"avr_flashed_led\",\n        \"payload\":{{payload}}\n    }\n}",
+        "output": "str",
+        "x": 1280,
+        "y": 1120,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
+    },
+    {
+        "id": "d3ceae5250c45ee5",
+        "type": "mqtt in",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "topic": "ui/state/avr_flashed_led",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7a77a26bef88c80e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 1120,
+        "wires": [
+            [
+                "e0ca292bdef9a10a"
+            ]
+        ]
+    },
+    {
+        "id": "bbf9f108eb8b027c",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 200,
+        "wires": [
+            [
+                "0f181af477fd7520"
+            ]
+        ]
+    },
+    {
+        "id": "f76b018c39bc8b0a",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 40,
+        "wires": [
+            [
+                "f60b936187eae4ef"
+            ]
+        ]
+    },
+    {
+        "id": "c8091d53e36b5545",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 80,
+        "wires": [
+            [
+                "d751e1664722954c"
+            ]
+        ]
+    },
+    {
+        "id": "4ec7d6fb92eadda8",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 140,
+        "wires": [
+            [
+                "e6b2d14b923fc468"
+            ]
+        ]
+    },
+    {
+        "id": "642874fc83da91a1",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 400,
+        "wires": [
+            [
+                "330cd0e4af79eab0"
+            ]
+        ]
+    },
+    {
+        "id": "7e1fadd18b8600da",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 540,
+        "wires": [
+            [
+                "7790b9d34cb6195b"
+            ]
+        ]
+    },
+    {
+        "id": "669f174fd5d49566",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 580,
+        "wires": [
+            [
+                "598806b21476c8f3"
+            ]
+        ]
+    },
+    {
+        "id": "2a991fc52638d487",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 620,
+        "wires": [
+            [
+                "0b15c0051faa29b0"
+            ]
+        ]
+    },
+    {
+        "id": "35988e5cf3681309",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 660,
+        "wires": [
+            [
+                "609d3f5a1d5f38f2"
+            ]
+        ]
+    },
+    {
+        "id": "ce0464832c16e68e",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 700,
+        "wires": [
+            [
+                "c9f53e34408bc89b"
+            ]
+        ]
+    },
+    {
+        "id": "3f47a1a70b8887f6",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 840,
+        "wires": [
+            [
+                "d6141cb57be06834"
+            ]
+        ]
+    },
+    {
+        "id": "6e3b73d73f7589ce",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 880,
+        "wires": [
+            [
+                "bb34cd2bbc53784c"
+            ]
+        ]
+    },
+    {
+        "id": "3b3b9af91794f79d",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 920,
+        "wires": [
+            [
+                "c5e7905f64148979"
+            ]
+        ]
+    },
+    {
+        "id": "fb372e9da6cc1ee5",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 960,
+        "wires": [
+            [
+                "f44393a9d2bc5b91"
+            ]
+        ]
+    },
+    {
+        "id": "45645cd6f28186cb",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 1040,
+        "wires": [
+            [
+                "4a3a399b84186ac9"
+            ]
+        ]
+    },
+    {
+        "id": "6615fa7b55840acf",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 1080,
+        "wires": [
+            [
+                "ebbedc47e8be04a0"
+            ]
+        ]
+    },
+    {
+        "id": "e0ca292bdef9a10a",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 1120,
+        "wires": [
+            [
+                "935dda019ef8cd43"
+            ]
+        ]
+    },
+    {
+        "id": "ec44e0e01a771a17",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 1200,
+        "wires": [
+            [
+                "15dd4d8be50d8ca6"
+            ]
+        ]
+    },
+    {
+        "id": "05ef480e69e913a2",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 1240,
+        "wires": [
+            [
+                "116cc2b436b15c4e"
+            ]
+        ]
+    },
+    {
+        "id": "06cac31f0fda48da",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 1280,
+        "wires": [
+            [
+                "61c7e5d92d1f19d2"
+            ]
+        ]
+    },
+    {
+        "id": "74f9274f3e1ff71a",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 1320,
+        "wires": [
+            [
+                "9fb234ecaaafb0ed"
+            ]
+        ]
+    },
+    {
+        "id": "bc7789bf4e5f411b",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 1400,
+        "wires": [
+            [
+                "0ee8d75a3c818401"
+            ]
+        ]
+    },
+    {
+        "id": "8c914ecac0d65bc4",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 1440,
         "wires": [
             [
                 "049a63b78174c3b3"
+            ]
+        ]
+    },
+    {
+        "id": "05ba0748e0c73607",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 1540,
+        "wires": [
+            [
+                "ec40bd9e05e530ee"
+            ]
+        ]
+    },
+    {
+        "id": "db66d4b48731d4d2",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 1620,
+        "wires": [
+            [
+                "a6e5945fd6c24c9b"
+            ]
+        ]
+    },
+    {
+        "id": "0d7084c19bec504f",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 1720,
+        "wires": [
+            [
+                "901662141c3392d5"
+            ]
+        ]
+    },
+    {
+        "id": "8cb65b6a9ecc5e67",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 1760,
+        "wires": [
+            [
+                "fd489c8a49102476"
+            ]
+        ]
+    },
+    {
+        "id": "5ea21f7218d5b79d",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 1800,
+        "wires": [
+            [
+                "4bb94d226752a132"
+            ]
+        ]
+    },
+    {
+        "id": "aca64ce4971c2f42",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 1840,
+        "wires": [
+            [
+                "7b3c4815a9189b6f"
+            ]
+        ]
+    },
+    {
+        "id": "8ec637db3f5d4ede",
+        "type": "ui_button",
+        "z": "ea0124433f9b92b1",
+        "name": "",
+        "group": "e3c7fb2f0f485333",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "1 - Laser Hit",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "1",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 190,
+        "y": 220,
+        "wires": [
+            [
+                "29d9d87bca5d59b9"
+            ]
+        ]
+    },
+    {
+        "id": "e1bea56f0bc532de",
+        "type": "ui_button",
+        "z": "ea0124433f9b92b1",
+        "name": "",
+        "group": "e3c7fb2f0f485333",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "2 - Ball Hit",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "2",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 190,
+        "y": 260,
+        "wires": [
+            [
+                "1fbacb80ae7e733f"
+            ]
+        ]
+    },
+    {
+        "id": "6c5cb1e733d7aa6d",
+        "type": "mqtt out",
+        "z": "ea0124433f9b92b1",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7a77a26bef88c80e",
+        "x": 1050,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "db1b0eefc7ed675d",
+        "type": "ui_button",
+        "z": "ea0124433f9b92b1",
+        "name": "",
+        "group": "e3c7fb2f0f485333",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "3 - Laser Hit",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "3",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 190,
+        "y": 320,
+        "wires": [
+            [
+                "29d9d87bca5d59b9"
+            ]
+        ]
+    },
+    {
+        "id": "ae19e80cb294cf23",
+        "type": "ui_button",
+        "z": "ea0124433f9b92b1",
+        "name": "",
+        "group": "e3c7fb2f0f485333",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "4 - Laser Hit",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "4",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 190,
+        "y": 360,
+        "wires": [
+            [
+                "29d9d87bca5d59b9"
+            ]
+        ]
+    },
+    {
+        "id": "c28a10b779309836",
+        "type": "ui_button",
+        "z": "ea0124433f9b92b1",
+        "name": "",
+        "group": "e3c7fb2f0f485333",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "5 - Ball Hit",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "5",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 190,
+        "y": 420,
+        "wires": [
+            [
+                "1fbacb80ae7e733f"
+            ]
+        ]
+    },
+    {
+        "id": "b758e7f5fba42419",
+        "type": "ui_button",
+        "z": "ea0124433f9b92b1",
+        "name": "",
+        "group": "e3c7fb2f0f485333",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "6 - Ball Hit",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "6",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 190,
+        "y": 460,
+        "wires": [
+            [
+                "1fbacb80ae7e733f"
+            ]
+        ]
+    },
+    {
+        "id": "29d9d87bca5d59b9",
+        "type": "change",
+        "z": "ea0124433f9b92b1",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "msg.payload & \"/events/laser_detector/\"",
+                "tot": "jsonata"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"event_type\": \"hit\"}",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 760,
+        "y": 240,
+        "wires": [
+            [
+                "6c5cb1e733d7aa6d"
+            ]
+        ]
+    },
+    {
+        "id": "1fbacb80ae7e733f",
+        "type": "change",
+        "z": "ea0124433f9b92b1",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "msg.payload & \"/events/ball_detector/\"",
+                "tot": "jsonata"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"event_type\": \"hit\"}",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 760,
+        "y": 320,
+        "wires": [
+            [
+                "6c5cb1e733d7aa6d"
             ]
         ]
     }

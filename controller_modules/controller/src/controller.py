@@ -40,7 +40,12 @@ class Controller(object):
         elif source == "ui":
             event_type = msg.get("event_type", None)
             if event_type is not None:
-                self.match.dispatch(event_type)
+                if event_type == "ui_toggle":
+                    # logger.debug("got a toggle event")
+                    self.match.handle_ui_toggles(msg.get("data"))
+                else:
+                    logger.debug("Got a normal event")
+                    self.match.dispatch(event_type)
 
     def publish_score(self):
         # publish score
@@ -70,6 +75,13 @@ class Controller(object):
             table_data.append(row_data)
 
         self.mqtt_client.publish("ui/state/table_data", table_data)
+
+    def publish_toggles(self):
+        for key, value in self.match.ui_toggles.items():
+            self.mqtt_client.publish(
+                f"ui/state/{key}",
+                {"data": value}
+            )
 
     def publish_game_state(self):
         # publish the states
@@ -195,17 +207,21 @@ class Controller(object):
 
     def run(self):
         self.mqtt_client.start_threaded()
+        last_update_time = time.time()
         while True:
-            # publish UI data
-            self.publish_score()
-            self.publish_game_state()
-            self.publish_hotspot_building()
-            self.publish_timers()
-            self.publish_building_table()
-            # publish building commands
-            self.publish_building_LED_commands()
-            self.publish_building_heater_commands()
-            time.sleep(0.5)
+            if time.time() - last_update_time > .5:
+                # publish UI data
+                self.publish_score()
+                self.publish_game_state()
+                self.publish_hotspot_building()
+                self.publish_timers()
+                self.publish_building_table()
+                # publish building commands
+                self.publish_building_LED_commands()
+                self.publish_building_heater_commands()
+                last_update_time = time.time()
+            self.publish_toggles()
+            time.sleep(0.1)
 
 
 if __name__ == "__main__":
