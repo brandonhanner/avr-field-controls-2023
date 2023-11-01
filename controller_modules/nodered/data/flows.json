@@ -24,6 +24,14 @@
         "env": []
     },
     {
+        "id": "03369aabd249c7c8",
+        "type": "tab",
+        "label": "Download",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "a52d199521293c21",
         "type": "ui_tab",
         "name": "Field Operations",
@@ -318,6 +326,7 @@
         "type": "ui_tab",
         "name": "Building Controls",
         "icon": "dashboard",
+        "order": 3,
         "disabled": false,
         "hidden": false
     },
@@ -328,6 +337,26 @@
         "tab": "1cd8dff592c91210",
         "order": 1,
         "disp": false,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "1e218dae9a2ce1b9",
+        "type": "ui_tab",
+        "name": "Download",
+        "icon": "dashboard",
+        "order": 4,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "c01041292c9d033f",
+        "type": "ui_group",
+        "name": "Download",
+        "tab": "1e218dae9a2ce1b9",
+        "order": 1,
+        "disp": true,
         "width": "6",
         "collapse": false,
         "className": ""
@@ -619,8 +648,8 @@
         "correl": "",
         "expiry": "",
         "broker": "7a77a26bef88c80e",
-        "x": 580,
-        "y": 340,
+        "x": 900,
+        "y": 320,
         "wires": []
     },
     {
@@ -868,16 +897,16 @@
         "height": 0,
         "passthru": false,
         "mode": "text",
-        "delay": 300,
-        "topic": "topic",
-        "sendOnBlur": true,
+        "delay": "500",
+        "topic": "payload",
+        "sendOnBlur": false,
         "className": "",
         "topicType": "msg",
-        "x": 360,
-        "y": 520,
+        "x": 520,
+        "y": 480,
         "wires": [
             [
-                "ce178390c4ef29c4"
+                "40d9d1b156c1c5d3"
             ]
         ]
     },
@@ -895,6 +924,44 @@
         "rh": 0,
         "inputs": 0,
         "x": 140,
+        "y": 520,
+        "wires": [
+            [
+                "8f72873b24693183"
+            ]
+        ]
+    },
+    {
+        "id": "40d9d1b156c1c5d3",
+        "type": "template",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"match_id\",\n        \"payload\":\"{{payload}}\"\n    }\n}",
+        "output": "str",
+        "x": 700,
+        "y": 440,
+        "wires": [
+            [
+                "ce178390c4ef29c4"
+            ]
+        ]
+    },
+    {
+        "id": "8f72873b24693183",
+        "type": "function",
+        "z": "03a81b1a548b2458",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
         "y": 520,
         "wires": [
             [
@@ -3805,6 +3872,231 @@
         "wires": [
             [
                 "6c5cb1e733d7aa6d"
+            ]
+        ]
+    },
+    {
+        "id": "f31a598d.9fd2c8",
+        "type": "function",
+        "z": "03369aabd249c7c8",
+        "name": "Set base path",
+        "func": "//restrict to c:\\temp\\\nvar basePath = \"/logs/\";\nvar filename = msg.req.params.fn;\n\n\nif(filename.includes(\"..\\\\\")){\n    msg.payload = \"Illegal file path\";\n    msg.statusCode = 405;//not allowed\n    return [null, msg];//fire output 2\n} else if(filename.includes(\"../\")){\n    msg.payload = \"Illegal file path\";\n    msg.statusCode = 405;//not allowed\n    return [null, msg];//fire output 2\n} \n//TODO: add more checks\n\nmsg.filename = basePath + filename;\nreturn [msg, null];//fire output 1\n\n\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 140,
+        "wires": [
+            [
+                "34dc99e5.495466"
+            ],
+            [
+                "98261154.3006"
+            ]
+        ]
+    },
+    {
+        "id": "98261154.3006",
+        "type": "http response",
+        "z": "03369aabd249c7c8",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 630,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "34dc99e5.495466",
+        "type": "file in",
+        "z": "03369aabd249c7c8",
+        "name": "",
+        "filename": "filename",
+        "filenameType": "msg",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 470,
+        "y": 120,
+        "wires": [
+            [
+                "98261154.3006"
+            ]
+        ]
+    },
+    {
+        "id": "38d65d59.1d8aa2",
+        "type": "catch",
+        "z": "03369aabd249c7c8",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 100,
+        "y": 220,
+        "wires": [
+            [
+                "3b8014a.86ad8ec",
+                "5b18a8e7.fb8da8"
+            ]
+        ]
+    },
+    {
+        "id": "3b8014a.86ad8ec",
+        "type": "function",
+        "z": "03369aabd249c7c8",
+        "name": "Set 404",
+        "func": "msg.payload = msg.error;\nmsg.statusCode = 404;//resource not found\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 220,
+        "wires": [
+            [
+                "98261154.3006"
+            ]
+        ]
+    },
+    {
+        "id": "5b18a8e7.fb8da8",
+        "type": "debug",
+        "z": "03369aabd249c7c8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 130,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "5de7cbb4.fa21a4",
+        "type": "comment",
+        "z": "03369aabd249c7c8",
+        "name": "Create http endpoint <nodered>/files/xxx  where xxx is the file name to download",
+        "info": "",
+        "x": 320,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "67ecfa7f.3f0e24",
+        "type": "http in",
+        "z": "03369aabd249c7c8",
+        "name": "",
+        "url": "/files/:fn",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 140,
+        "wires": [
+            [
+                "f31a598d.9fd2c8"
+            ]
+        ]
+    },
+    {
+        "id": "5e1f0081.6dc3c",
+        "type": "ui_template",
+        "z": "03369aabd249c7c8",
+        "group": "c01041292c9d033f",
+        "name": "window redirect",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "format": "<script>\n(function(scope) {\n    scope.$watch('msg.payload', function(data) {\n        if (data != undefined)\n        {\n            window.open(\"/files/\"+ data +\".json\");\n        }\n        \n    });\n})(scope);\n</script>",
+        "storeOutMessages": false,
+        "fwdInMessages": false,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 480,
+        "y": 440,
+        "wires": [
+            [
+                "8582289.2d757d8"
+            ]
+        ]
+    },
+    {
+        "id": "8582289.2d757d8",
+        "type": "debug",
+        "z": "03369aabd249c7c8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "b2d05f8f.b1732",
+        "type": "ui_form",
+        "z": "03369aabd249c7c8",
+        "name": "",
+        "label": "",
+        "group": "c01041292c9d033f",
+        "order": 0,
+        "width": "6",
+        "height": "3",
+        "options": [
+            {
+                "label": "Round ID",
+                "value": "textInput",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "textInput": ""
+        },
+        "payload": "",
+        "submit": "Submit",
+        "cancel": "",
+        "topic": "form",
+        "topicType": "str",
+        "splitLayout": false,
+        "className": "",
+        "x": 70,
+        "y": 440,
+        "wires": [
+            [
+                "9d6e6b78.881d88"
+            ]
+        ]
+    },
+    {
+        "id": "9d6e6b78.881d88",
+        "type": "function",
+        "z": "03369aabd249c7c8",
+        "name": "Extract Text",
+        "func": "msg.payload = msg.payload.textInput;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 440,
+        "wires": [
+            [
+                "5e1f0081.6dc3c"
             ]
         ]
     }

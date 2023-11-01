@@ -7,6 +7,7 @@ import timer
 from loguru import logger
 import random
 import json
+import re
 
 
 class MatchModel(object):
@@ -77,13 +78,10 @@ class MatchModel(object):
             "first_responders_parked": False,
             "tello_parked": False,
             "avr_parked": False,
+            "match_id": ""
         }
 
         ###############################################################################
-
-        phase_i_auto_achieved = False
-        phase_ii_auto_achieved = False
-        # TODO - get more
 
         ################### S T A T E  -  M A C H I N E   S T U F F ###################
         self.sm_lock = Lock()
@@ -115,7 +113,8 @@ class MatchModel(object):
         }
         self.post_match_state = State('post_match_state')
         self.post_match_state.handlers = {
-            "enter": self.post_match_enter
+            "enter": self.post_match_enter,
+            "exit": self.post_match_exit
         }
 
         self.sm.add_state(self.idle_state, initial=True)
@@ -223,6 +222,23 @@ class MatchModel(object):
     def post_match_enter(self, state, event):
         self.match_timer.reset()
         self.phase_timer.reset()
+
+    def post_match_exit(self, state, event):
+        match_id = self.ui_toggles["match_id"]
+        if match_id != "" and self.calculate_score() > 0:
+
+                score_json = self.ui_toggles
+                score_json["buildings"] = {}
+                for id, building in self.fire_buildings.items():
+                    score_json["buildings"][str(id)] = {}
+                    score_json["buildings"][str(id)]["hits"] = building.get_hits()
+                    score_json["buildings"][str(id)]["windows"] = building.get_windows()
+                filename = match_id
+                filename = filename.replace("-", "_")
+                filename = "".join([c for c in filename if re.match(r'\w', c)])
+                with open(f"/logs/{filename}.json","w") as file:
+                    file.write(json.dumps(score_json, indent=2))
+
 
     def randomize_building(self, state, event):
         self.randomize_hotspot()
@@ -377,6 +393,7 @@ class MatchModel(object):
             self.ui_toggles["first_responders_parked"] = False
             self.ui_toggles["tello_parked"] = False
             self.ui_toggles["avr_parked"] = False
+            self.ui_toggles["match_id"] = ""
     def handle_ui_toggles(self, data):
         toggle = data.get("toggle", None)
         payload = data.get("payload", None)
@@ -395,6 +412,8 @@ class MatchModel(object):
                     self.ui_toggles["sphero_recon_autonomous"] = payload
                 elif payload <= 3:
                     self.ui_toggles["sphero_recon_autonomous"] = payload
+            elif toggle == "match_id":
+                self.ui_toggles[toggle] = payload
             elif isinstance(payload, bool) or isinstance(payload, int):
                 self.ui_toggles[toggle] = payload
         else:

@@ -123,6 +123,12 @@ class FireBuildingModel(object):
     def get_score(self):
         return self.partial_score // (self.initial_fire_level / 2) * self.points_per_window
 
+    def get_hits(self):
+        return self.partial_score
+
+    def get_windows(self):
+        return int(self.partial_score // (self.initial_fire_level / 2))
+
 
 class HeaterBuildingModel(object):
     def __init__(self, name: str):

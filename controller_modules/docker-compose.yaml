@@ -15,6 +15,7 @@ services:
       - 1880:1880
     volumes:
       - ./nodered/data:/data
+      - ./controller/logs:/logs/
   controller:
     image: field-controller:latest
     build:
@@ -25,6 +26,8 @@ services:
       - mqtt
     volumes:
     - ./controller/configs:/configs/
+    - ./controller/logs:/logs/
+
   # event-processor:
   #   build:
   #     context: ./event-processor/
