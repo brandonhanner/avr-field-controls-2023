@@ -4020,7 +4020,7 @@
         "resendOnRefresh": false,
         "templateScope": "local",
         "className": "",
-        "x": 480,
+        "x": 720,
         "y": 440,
         "wires": [
             [
@@ -4040,7 +4040,7 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 690,
+        "x": 930,
         "y": 440,
         "wires": []
     },
@@ -4098,6 +4098,86 @@
             [
                 "5e1f0081.6dc3c"
             ]
+        ]
+    },
+    {
+        "id": "e46b3c3887c08af6",
+        "type": "watch",
+        "z": "03369aabd249c7c8",
+        "name": "",
+        "files": "/logs/",
+        "recursive": "",
+        "x": 70,
+        "y": 500,
+        "wires": [
+            [
+                "c42696639385d3d6"
+            ]
+        ]
+    },
+    {
+        "id": "c42696639385d3d6",
+        "type": "delay",
+        "z": "03369aabd249c7c8",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "5",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 240,
+        "y": 500,
+        "wires": [
+            [
+                "14ca1c1e783fadf2"
+            ]
+        ]
+    },
+    {
+        "id": "14ca1c1e783fadf2",
+        "type": "function",
+        "z": "03369aabd249c7c8",
+        "name": "Extract Filename",
+        "func": "function extractFileNameAndExtension(filePath) {\n    // Extract filename and extension using regular expression\n    const regex = /^.*[\\\\/]/;\n    const fullPathWithoutPath = filePath.replace(regex, '');\n\n    const lastDotIndex = fullPathWithoutPath.lastIndexOf('.');\n    const fileName = fullPathWithoutPath.substring(0, lastDotIndex);\n    const extension = fullPathWithoutPath.substring(lastDotIndex + 1);\n\n    return {\n        fileName: fileName,\n        extension: extension\n    };\n}\n\nmsg.payload = extractFileNameAndExtension(msg.payload).fileName;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 520,
+        "wires": [
+            [
+                "f1bdadee19d6d1a3"
+            ]
+        ]
+    },
+    {
+        "id": "f1bdadee19d6d1a3",
+        "type": "ui_template",
+        "z": "03369aabd249c7c8",
+        "group": "366e589a14f99cf0",
+        "name": "window redirect",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "format": "<script>\n(function(scope) {\n    scope.$watch('msg.payload', function(data) {\n        if (data != undefined)\n        {\n            window.open(\"/files/\"+ data +\".json\");\n        }\n        \n    });\n})(scope);\n</script>",
+        "storeOutMessages": false,
+        "fwdInMessages": false,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 720,
+        "y": 520,
+        "wires": [
+            []
         ]
     }
 ]
