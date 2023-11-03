@@ -8,6 +8,7 @@ from loguru import logger
 import random
 import json
 import re
+import copy
 
 
 class MatchModel(object):
@@ -230,15 +231,15 @@ class MatchModel(object):
         match_id = self.ui_toggles["match_id"]
         if match_id != "" and self.calculate_score() > 0:
 
-                score_json = self.ui_toggles
+                score_json = copy.deepcopy(self.ui_toggles)
                 score_json["buildings"] = {}
                 for id, building in self.fire_buildings.items():
                     score_json["buildings"][str(id)] = {}
                     score_json["buildings"][str(id)]["hits"] = building.get_hits()
                     score_json["buildings"][str(id)]["windows"] = building.get_windows()
 
-                score_json["safezone"] = self.safezone
-                score_json["hotspot"] = self.random_hotspot_building
+                score_json["safezone"] = str(self.safezone)
+                score_json["hotspot"] = str(self.random_hotspot_building)
 
                 filename = match_id
                 filename = filename.replace("-", "_")
