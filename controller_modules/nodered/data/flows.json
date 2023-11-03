@@ -297,7 +297,7 @@
         "z": "53990f839c1cf5ed",
         "name": "spacer",
         "group": "71f2708261e35ed8",
-        "order": 5,
+        "order": 6,
         "width": "10",
         "height": "1"
     },
@@ -307,7 +307,7 @@
         "z": "53990f839c1cf5ed",
         "name": "spacer",
         "group": "71f2708261e35ed8",
-        "order": 10,
+        "order": 11,
         "width": "10",
         "height": "1"
     },
@@ -317,7 +317,7 @@
         "z": "53990f839c1cf5ed",
         "name": "spacer",
         "group": "71f2708261e35ed8",
-        "order": 7,
+        "order": 8,
         "width": "10",
         "height": "1"
     },
@@ -410,7 +410,7 @@
         "topic": "payload",
         "topicType": "msg",
         "x": 120,
-        "y": 320,
+        "y": 280,
         "wires": [
             [
                 "ce178390c4ef29c4"
@@ -444,7 +444,7 @@
         "z": "03a81b1a548b2458",
         "name": "",
         "group": "329b865365aa8a43",
-        "order": 3,
+        "order": 5,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -472,7 +472,7 @@
         "z": "03a81b1a548b2458",
         "name": "",
         "group": "329b865365aa8a43",
-        "order": 4,
+        "order": 6,
         "width": 0,
         "height": 0,
         "gtype": "donut",
@@ -491,7 +491,7 @@
         "diff": false,
         "className": "",
         "x": 620,
-        "y": 940,
+        "y": 1000,
         "wires": []
     },
     {
@@ -499,7 +499,7 @@
         "type": "ui_text",
         "z": "03a81b1a548b2458",
         "group": "366e589a14f99cf0",
-        "order": 4,
+        "order": 5,
         "width": 0,
         "height": 0,
         "name": "",
@@ -521,7 +521,7 @@
         "z": "03a81b1a548b2458",
         "name": "",
         "group": "366e589a14f99cf0",
-        "order": 9,
+        "order": 10,
         "width": 0,
         "height": 0,
         "passthru": true,
@@ -536,7 +536,7 @@
         "topic": "payload",
         "topicType": "msg",
         "x": 150,
-        "y": 280,
+        "y": 240,
         "wires": [
             [
                 "ce178390c4ef29c4"
@@ -570,7 +570,7 @@
         "z": "03a81b1a548b2458",
         "name": "",
         "group": "366e589a14f99cf0",
-        "order": 7,
+        "order": 8,
         "width": 0,
         "height": 0,
         "passthru": true,
@@ -687,7 +687,7 @@
         "rh": 0,
         "inputs": 0,
         "x": 150,
-        "y": 940,
+        "y": 1000,
         "wires": [
             [
                 "62130e8067c67491"
@@ -700,7 +700,7 @@
         "z": "03a81b1a548b2458",
         "name": "",
         "group": "366e589a14f99cf0",
-        "order": 8,
+        "order": 9,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -776,7 +776,7 @@
         "outputs": 0,
         "cts": false,
         "x": 570,
-        "y": 1020,
+        "y": 1080,
         "wires": []
     },
     {
@@ -793,7 +793,7 @@
         "rh": 0,
         "inputs": 0,
         "x": 130,
-        "y": 1020,
+        "y": 1080,
         "wires": [
             [
                 "72992788d1823c56"
@@ -805,7 +805,7 @@
         "type": "ui_text",
         "z": "03a81b1a548b2458",
         "group": "366e589a14f99cf0",
-        "order": 5,
+        "order": 6,
         "width": 0,
         "height": 0,
         "name": "",
@@ -847,7 +847,7 @@
         "type": "ui_text",
         "z": "03a81b1a548b2458",
         "group": "366e589a14f99cf0",
-        "order": 6,
+        "order": 7,
         "width": 0,
         "height": 0,
         "name": "",
@@ -968,6 +968,76 @@
                 "ab7a79fabac1c028"
             ]
         ]
+    },
+    {
+        "id": "0193c7152e974fac",
+        "type": "ui_button",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "group": "329b865365aa8a43",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Randomize Safe Zone",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "{\"event_type\":\"randomize_safezone_event\"}",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 120,
+        "y": 320,
+        "wires": [
+            [
+                "ce178390c4ef29c4"
+            ]
+        ]
+    },
+    {
+        "id": "f0a2303ec1ac019f",
+        "type": "mqtt in",
+        "z": "03a81b1a548b2458",
+        "name": "",
+        "topic": "ui/state/safezone",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7a77a26bef88c80e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 940,
+        "wires": [
+            [
+                "1c2067149d080c59"
+            ]
+        ]
+    },
+    {
+        "id": "1c2067149d080c59",
+        "type": "ui_text",
+        "z": "03a81b1a548b2458",
+        "group": "329b865365aa8a43",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Safezone",
+        "format": "{{msg.payload[\"zone\"]}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 600,
+        "y": 940,
+        "wires": []
     },
     {
         "id": "7b3c4815a9189b6f",
@@ -1432,7 +1502,7 @@
         "label": "Hotspot Bldg IDed & First Responder Dropped Off",
         "tooltip": "",
         "group": "71f2708261e35ed8",
-        "order": 3,
+        "order": 4,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1466,7 +1536,7 @@
         "label": "First Responders Unloaded on Residential Bldgs",
         "tooltip": "",
         "group": "71f2708261e35ed8",
-        "order": 6,
+        "order": 7,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1493,7 +1563,7 @@
         "label": "Stranded Launched From Fire Escape",
         "tooltip": "",
         "group": "71f2708261e35ed8",
-        "order": 8,
+        "order": 9,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1520,7 +1590,7 @@
         "label": "Stranded Landed in RVR",
         "tooltip": "",
         "group": "71f2708261e35ed8",
-        "order": 9,
+        "order": 10,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1565,7 +1635,7 @@
         "label": "First Responders Delivered to Ground",
         "tooltip": "",
         "group": "71f2708261e35ed8",
-        "order": 11,
+        "order": 12,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1592,7 +1662,7 @@
         "label": "Stranded Delivered to a Safe Zone by RVR",
         "tooltip": "",
         "group": "71f2708261e35ed8",
-        "order": 12,
+        "order": 13,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1619,7 +1689,7 @@
         "label": "Stranded Unloaded Hands Free",
         "tooltip": "",
         "group": "71f2708261e35ed8",
-        "order": 14,
+        "order": 16,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1714,7 +1784,7 @@
         "label": "Tello Identified Safe Zone",
         "tooltip": "",
         "group": "71f2708261e35ed8",
-        "order": 13,
+        "order": 15,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -3004,7 +3074,7 @@
         "label": "Autonomous LED Flash Over Hotspot",
         "tooltip": "",
         "group": "71f2708261e35ed8",
-        "order": 4,
+        "order": 5,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -3622,6 +3692,90 @@
         ]
     },
     {
+        "id": "27efd1cec5f5ad78",
+        "type": "ui_text",
+        "z": "53990f839c1cf5ed",
+        "group": "71f2708261e35ed8",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Hotspot",
+        "format": "{{msg.payload[\"building\"]}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 480,
+        "y": 2020,
+        "wires": []
+    },
+    {
+        "id": "3422619eed2f1edb",
+        "type": "mqtt in",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "topic": "ui/state/hotspot_building",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7a77a26bef88c80e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 2020,
+        "wires": [
+            [
+                "27efd1cec5f5ad78"
+            ]
+        ]
+    },
+    {
+        "id": "7102af352d2bc3c9",
+        "type": "mqtt in",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "topic": "ui/state/safezone",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7a77a26bef88c80e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 2080,
+        "wires": [
+            [
+                "fde82b7dd3a13e27"
+            ]
+        ]
+    },
+    {
+        "id": "fde82b7dd3a13e27",
+        "type": "ui_text",
+        "z": "53990f839c1cf5ed",
+        "group": "71f2708261e35ed8",
+        "order": 14,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Safezone",
+        "format": "{{msg.payload[\"zone\"]}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 480,
+        "y": 2080,
+        "wires": []
+    },
+    {
         "id": "8ec637db3f5d4ede",
         "type": "ui_button",
         "z": "ea0124433f9b92b1",
@@ -4165,7 +4319,7 @@
         "z": "03369aabd249c7c8",
         "group": "366e589a14f99cf0",
         "name": "window redirect",
-        "order": 3,
+        "order": 4,
         "width": 0,
         "height": 0,
         "format": "<script>\n(function(scope) {\n    scope.$watch('msg.payload', function(data) {\n        if (data != undefined)\n        {\n            window.open(\"/files/\"+ data +\".json\");\n        }\n        \n    });\n})(scope);\n</script>",

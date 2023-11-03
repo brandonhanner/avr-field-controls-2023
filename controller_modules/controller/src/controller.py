@@ -126,6 +126,13 @@ class Controller(object):
             {"building": self.match.random_hotspot_building},
         )
 
+    def publish_safezone(self):
+        # publish the hot spot building
+        self.mqtt_client.publish(
+            "ui/state/safezone",
+            {"zone": self.match.safezone},
+        )
+
     def generate_LED_dict(self, building):
         strip_len = 30
         data = {}
@@ -214,6 +221,7 @@ class Controller(object):
                 self.publish_score()
                 self.publish_game_state()
                 self.publish_hotspot_building()
+                self.publish_safezone()
                 self.publish_timers()
                 self.publish_building_table()
                 # publish building commands

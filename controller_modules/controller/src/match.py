@@ -33,6 +33,7 @@ class MatchModel(object):
         self.phase_iii_duration = self.config.get("phase_3_duration", 120)
 
         self.random_hotspot_building = None
+        self.safezone = None
 
         self.phase_timer = timer.Timer()
         self.match_timer = timer.Timer()
@@ -95,6 +96,7 @@ class MatchModel(object):
         self.staging_state = State('staging_state')
         self.staging_state.handlers = {
             "randomize_hotspot_event": self.randomize_building,
+            "randomize_safezone_event": self.randomize_safezone,
             "start_preheat_event": self.start_preheat,
         }
         self.phase_1_state = State('phase_1_state')
@@ -156,6 +158,7 @@ class MatchModel(object):
 
     def idle_enter(self, state, enter):
         self.random_hotspot_building = ""
+        self.safezone = ""
         for building in self.fire_buildings.values():
             building.auto_ignite = False
             building.reset()
@@ -233,6 +236,10 @@ class MatchModel(object):
                     score_json["buildings"][str(id)] = {}
                     score_json["buildings"][str(id)]["hits"] = building.get_hits()
                     score_json["buildings"][str(id)]["windows"] = building.get_windows()
+
+                score_json["safezone"] = self.safezone
+                score_json["hotspot"] = self.random_hotspot_building
+
                 filename = match_id
                 filename = filename.replace("-", "_")
                 filename = "".join([c for c in filename if re.match(r'\w', c)])
@@ -242,6 +249,9 @@ class MatchModel(object):
 
     def randomize_building(self, state, event):
         self.randomize_hotspot()
+
+    def randomize_safezone(self, state, event):
+        self.random_zone()
 
     def phase_i_timeout(self):
          self.dispatch(Event("phase_i_timeout_event"))
@@ -360,6 +370,11 @@ class MatchModel(object):
         name, object = random.choice(list(self.heater_buildings.items()))
         self.random_hotspot_building = name
 
+    def random_zone(self):
+        zone = random.choice(["RED", "BLUE"])
+        self.safezone = zone
+
+
     def douse_fire(self, source):
         self.dispatch(Event("fire_doused_event", source=source))
 
@@ -394,6 +409,7 @@ class MatchModel(object):
             self.ui_toggles["tello_parked"] = False
             self.ui_toggles["avr_parked"] = False
             self.ui_toggles["match_id"] = ""
+    
     def handle_ui_toggles(self, data):
         toggle = data.get("toggle", None)
         payload = data.get("payload", None)
