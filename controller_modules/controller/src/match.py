@@ -268,9 +268,10 @@ class MatchModel(object):
             self.heater_buildings[self.random_hotspot_building].ignite()
 
     ########################################################
-    def calculate_score(self):
+    def calculate_phase_i(self):
         score = 0
 
+        #phase I
         if self.ui_toggles["sphero_recon_autonomous"] > 0:
             score += self.ui_toggles["sphero_recon_autonomous"] * 2
         if self.ui_toggles["sphero_recon"] > 0:
@@ -322,7 +323,11 @@ class MatchModel(object):
             if self.ui_toggles["avr_landing"] is True:
                 score += 1
 
-        #phase 2 vars
+        return score
+
+    def calculate_phase_ii(self):
+        score = 0
+         #phase 2 vars
         if self.ui_toggles["first_responders_loaded"] > 0:
             score += self.ui_toggles["first_responders_loaded"]
 
@@ -348,8 +353,10 @@ class MatchModel(object):
 
         if self.ui_toggles["rvr_handsfree_unloaded"] is True:
             score += 5
+        return score
 
-        #phase 3 vars
+    def calculate_phase_iii(self):
+        score = 0
         for building in self.fire_buildings.values():
             if building.b_type == "ball":
                 score += building.get_score()
@@ -366,6 +373,20 @@ class MatchModel(object):
         if self.ui_toggles["avr_parked"] is True:
             score += 3
         return score
+
+    def calculate_score(self):
+        #phase I
+        phase_i = self.calculate_phase_i()
+
+        #phase 2 vars
+        phase_ii = self.calculate_phase_ii()
+
+        #phase 3 vars
+        phase_iii = self.calculate_phase_iii()
+
+        cumulative = phase_i + phase_ii + phase_iii
+
+        return cumulative
 
     def randomize_hotspot(self):
         name, object = random.choice(list(self.heater_buildings.items()))

@@ -52,6 +52,15 @@ class Controller(object):
         current_score = self.match.calculate_score()
         self.mqtt_client.publish("ui/state/score", {"current_score": current_score})
 
+        phase_i = self.match.calculate_phase_i()
+        self.mqtt_client.publish("ui/state/phase_i_score", {"current_score": phase_i})
+
+        phase_ii = self.match.calculate_phase_ii()
+        self.mqtt_client.publish("ui/state/phase_ii_score", {"current_score": phase_ii})
+
+        phase_iii = self.match.calculate_phase_iii()
+        self.mqtt_client.publish("ui/state/phase_iii_score", {"current_score": phase_iii})
+
     def publish_building_table(self):
         table_data = []
         for building_name, building in self.match.fire_buildings.items():

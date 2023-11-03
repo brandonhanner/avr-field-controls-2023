@@ -134,7 +134,7 @@ class HeaterBuildingModel(object):
     def __init__(self, name: str):
         self.name = name
         self.heater_timer = timer.Timer()
-        self.on_fire_duration = 60
+        self.on_fire_duration = 120
 
         #################### S T A T E  M A C H I N E   S T U F F ####################
         self.sm_lock = Lock()
