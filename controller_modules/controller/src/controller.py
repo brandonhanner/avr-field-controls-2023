@@ -206,7 +206,7 @@ class Controller(object):
             # handle the hopper portion
             relay_channel = "hopper"
 
-            state = "on" if self.match.sm.state.name == "phase_3_state" else "off"
+            state = "on" if self.match.sm.state.name in ["phase_1_state","phase_2_state","phase_3_state","post_match_state"] else "off"
             self.mqtt_client.publish(
                 f"{building_name}/relay/set", {"channel": relay_channel, "state": state}
             )
