@@ -12,6 +12,12 @@
     state: directory
     owner: "{{ ansible_user }}"
 
+- name: Create Logs folder
+  ansible.builtin.file:
+    path: "{{ data_root }}/logs"
+    state: directory
+    owner: "{{ ansible_user }}"
+
 - name: Generate Config File
   ansible.builtin.template:
     src: "{{ project_root }}/ansible/actions/controller/config.j2"

@@ -1047,7 +1047,7 @@
         "label": "AVR Drone Parked in Time",
         "tooltip": "",
         "group": "591219e8a1be384d",
-        "order": 4,
+        "order": 5,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1081,7 +1081,7 @@
         "label": "Tello Parked in Time",
         "tooltip": "",
         "group": "591219e8a1be384d",
-        "order": 2,
+        "order": 3,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1115,7 +1115,7 @@
         "label": "RVR Parked in Time",
         "tooltip": "",
         "group": "591219e8a1be384d",
-        "order": 3,
+        "order": 4,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1533,7 +1533,7 @@
         "type": "ui_slider",
         "z": "53990f839c1cf5ed",
         "name": "",
-        "label": "First Responders Unloaded on Residential Bldgs",
+        "label": "First Responders Unloaded onto Remaining Bldgs",
         "tooltip": "",
         "group": "71f2708261e35ed8",
         "order": 7,
@@ -1719,6 +1719,7 @@
         "id": "a6e5945fd6c24c9b",
         "type": "ui_switch",
         "z": "53990f839c1cf5ed",
+        "d": true,
         "name": "",
         "label": "Water Balls Dropped via AprilTag",
         "tooltip": "",
@@ -1742,7 +1743,7 @@
         "animate": false,
         "className": "",
         "x": 900,
-        "y": 1740,
+        "y": 1700,
         "wires": [
             [
                 "f88e5556a1ee2b1b"
@@ -1757,7 +1758,7 @@
         "label": "First Respnders Parked in Time",
         "tooltip": "",
         "group": "591219e8a1be384d",
-        "order": 5,
+        "order": 6,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -2395,7 +2396,7 @@
         "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"avr_water_drop_autonomous\",\n        \"payload\":{{payload}}\n    }\n}",
         "output": "str",
         "x": 1280,
-        "y": 1740,
+        "y": 1680,
         "wires": [
             [
                 "9087fb414813a9e7"
@@ -2933,7 +2934,7 @@
         "rh": 0,
         "inputs": 0,
         "x": 170,
-        "y": 1740,
+        "y": 1700,
         "wires": [
             [
                 "db66d4b48731d4d2"
@@ -3608,7 +3609,7 @@
         "finalize": "",
         "libs": [],
         "x": 510,
-        "y": 1740,
+        "y": 1700,
         "wires": [
             [
                 "a6e5945fd6c24c9b"
@@ -3872,8 +3873,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 180,
-        "y": 1780,
+        "x": 120,
+        "y": 1800,
         "wires": [
             [
                 "7099ed9713b50624"
@@ -3885,7 +3886,7 @@
         "type": "ui_text",
         "z": "53990f839c1cf5ed",
         "group": "591219e8a1be384d",
-        "order": 6,
+        "order": 7,
         "width": 0,
         "height": 0,
         "name": "",
@@ -3898,7 +3899,7 @@
         "fontSize": 16,
         "color": "#000000",
         "x": 810,
-        "y": 1780,
+        "y": 1800,
         "wires": []
     },
     {
@@ -4068,6 +4069,92 @@
         "x": 510,
         "y": 2380,
         "wires": []
+    },
+    {
+        "id": "f96f61aa59d4f7e1",
+        "type": "mqtt in",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "topic": "ui/state/buildings_autonomously_cleared",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7a77a26bef88c80e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 180,
+        "y": 1740,
+        "wires": [
+            [
+                "37519f1bd0bce855"
+            ]
+        ]
+    },
+    {
+        "id": "37519f1bd0bce855",
+        "type": "function",
+        "z": "53990f839c1cf5ed",
+        "name": "mqtt_parser",
+        "func": "return {payload: msg.payload.data};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 1740,
+        "wires": [
+            [
+                "3ff0e63ecfc90cad"
+            ]
+        ]
+    },
+    {
+        "id": "3ff0e63ecfc90cad",
+        "type": "ui_slider",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "label": "Buildings Autonomously Cleared",
+        "tooltip": "",
+        "group": "591219e8a1be384d",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "9",
+        "step": 1,
+        "className": "",
+        "x": 900,
+        "y": 1740,
+        "wires": [
+            [
+                "3257ed19b0d968fe"
+            ]
+        ]
+    },
+    {
+        "id": "3257ed19b0d968fe",
+        "type": "template",
+        "z": "53990f839c1cf5ed",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"event_type\":\"ui_toggle\",\n    \"data\": {\n        \"toggle\": \"buildings_autonomously_cleared\",\n        \"payload\":{{payload}}\n    }\n}",
+        "output": "str",
+        "x": 1280,
+        "y": 1740,
+        "wires": [
+            [
+                "9087fb414813a9e7"
+            ]
+        ]
     },
     {
         "id": "8ec637db3f5d4ede",

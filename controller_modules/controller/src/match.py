@@ -75,6 +75,7 @@ class MatchModel(object):
             "rvr_handsfree_unloaded": False,
 
             "avr_water_drop_autonomous": False,
+            "buildings_autonomously_cleared": 0,
 
             "rvr_parked": False,
             "first_responders_parked": False,
@@ -360,10 +361,12 @@ class MatchModel(object):
         for building in self.fire_buildings.values():
             if building.b_type == "ball":
                 score += building.get_score()
-                if self.ui_toggles["avr_water_drop_autonomous"]:
-                    score += ((building.get_score()/4) * 2)
+                # if self.ui_toggles["avr_water_drop_autonomous"]:
+                #     score += ((building.get_score()/4) * 2)
             elif building.b_type == "laser":
                 score += building.get_score()
+        if self.ui_toggles["buildings_autonomously_cleared"] > 0:
+                    score += (4 * self.ui_toggles["buildings_autonomously_cleared"]) #2 pts per window * 2 windows per building
         if self.ui_toggles["rvr_parked"] is True:
             score += 3
         if self.ui_toggles["first_responders_parked"] > 0:
@@ -426,12 +429,13 @@ class MatchModel(object):
             self.ui_toggles["tello_identified_safe_zone"] = False
             self.ui_toggles["rvr_handsfree_unloaded"] = False
             self.ui_toggles["avr_water_drop_autonomous"] = False
+            self.ui_toggles["buildings_autonomously_cleared"] = 0
             self.ui_toggles["rvr_parked"] = False
             self.ui_toggles["first_responders_parked"] = False
             self.ui_toggles["tello_parked"] = False
             self.ui_toggles["avr_parked"] = False
             self.ui_toggles["match_id"] = ""
-    
+
     def handle_ui_toggles(self, data):
         toggle = data.get("toggle", None)
         payload = data.get("payload", None)
