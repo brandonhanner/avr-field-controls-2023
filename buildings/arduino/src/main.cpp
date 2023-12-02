@@ -1,167 +1,189 @@
 /*
-BAVR Field Edge node - arduino uno code for controlling and edgenode.  Need and Ethernet shield and expects
-to connect to an MQTT host at IPAddress server(192, 168, 1, 112) (or change appropriately)
+2023 BELL FLIGHT AVR COMPETITION IN PARTNERSHIP WITH REC FOUNDATION
+FILE: main.cpp
+TARGET: Arduino Mega 2560
 
-NOTE -  no delays should be anywhere in the loops -- will work to make sure that this is true especially in LED animations
-
+This is the main to run in all buildings. designed to me imaged once at the bench. Task is three comunications: 
+1. UPLINK - Ball dropped event 
+2. UPLINK - Laser hit event 
+3. DOWNLINK - Change Apearance on LED Adressable Strip
 */
+//change
 
-#include <SPI.h>
-#include <Ethernet.h>
-#include <PubSubClient.h>
-#include <Wire.h>
+//---------------------
+// IMPORTS
+//---------------------
+#include <Arduino.h>
+#include "config.hpp"
+#include "Adafruit_TCS34725.h"
 #include "BallDetect.hpp"
 #include "LaserDetect.hpp"
 #include "LEDAnimations.hpp"
-#include "BAVRFieldComms.hpp"
-#include "BAVRFieldController.hpp"
-#include "ether.hpp"
-#include "uuid.hpp"
-#include "BAVRFreeMemory.hpp"
-#include "config.hpp"
-
-// UUID
-UUID uuid;
-
-// networking
-EthernetClient ethClient;
-PubSubClient client(ethClient);
-BAVRFieldComms field_comms;
-IPAddress ip_addr(mqtt_server[0],mqtt_server[1],mqtt_server[2],mqtt_server[3]); // MQTT server
-
-// for leds
-LEDAnimations led_animations;
-
-// ball detector
-BallDetect ball_detect;
-
-// laser detector
+LEDAnimations led_animations; 
+BallDetect ball_detect; 
 LaserDetect laser_detect;
+LEDStrip led_strip;
 
 
-// Where the real work gets handed out
-BAVRFieldController *controller;
-void interruptPinBallDrop()
-{
-  controller->interrupt(BALL_DROP_PIN);
+//---------------------
+// Global Veriables
+//---------------------
+String data;
+uint8_t newInstruction = NO;
+const int MAX_LEDS = 30; // Maximum number of LEDs
+const int RGB_VALUES = 3; // Number of RGB values per LED
+uint32_t lastISR_time = 0;
+
+
+//---------------------
+// Instuction Parser
+//---------------------
+void parseLEDString(const String& inputString, int ledArray[MAX_LEDS][RGB_VALUES], int& numLeds) {
+  String ledData;
+  int ledIndex = 0;
+  int rgbIndex = 0;
+  
+  for (size_t i = 0; i < inputString.length(); i++) 
+  {
+    char c = inputString.charAt(i);
+    if (c == '/') 
+    {
+        ledIndex++;
+        rgbIndex = 0;
+        if (ledIndex >= MAX_LEDS) 
+        {
+            break;
+        }
+    }
+    else if (c == ',') 
+    {
+      rgbIndex++;
+      if (rgbIndex >= RGB_VALUES) 
+      {
+        break;
+      }
+    }
+    else if (isdigit(c)) 
+    {
+      int value = c - '0';
+      while (i + 1 < inputString.length() && isdigit(inputString.charAt(i + 1))) 
+      {
+        value = value * 10 + (inputString.charAt(i + 1) - '0');
+        i++;
+      }
+      ledArray[ledIndex][rgbIndex] = value;
+    }/////
+  }
+  
+  numLeds = ledIndex + 1;
 }
 
-// Handle all of the MQTT Messages -- they are being handed off to the controller to do the work
-void callback(char *topic, byte *payload, unsigned int length)
+//---------------------
+// Ball Detection Interupt Service Routine
+//---------------------
+void ballDetectISR()
 {
-  controller->callback(topic, payload, length);
+    if((millis() - lastISR_time) > 50)
+    {
+      Serial.println("ball"); //send to pi via serial 
+      lastISR_time = millis(); //reset fire itme. 
+    }
+    
 }
 
+String piInstructionsSerial()
+{
+    if(Serial.available() > 0) //if > 0 then somthing is in buffer
+    {
+        //data is a command from pi
+        newInstruction = YES;
+        data = Serial.readStringUntil('\n'); //read string untll a new line
+    }
+    else 
+    {
+      newInstruction = NO;
+    }
+    return data;
+}
+
+//---------------------
+// LED Controller
+//---------------------
+void LEDdisplay(String& inputString)
+{
+    // MESSAGE PARSING 
+    //String inputString = "255,0,0/0,255,0/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/0,0,255/";
+    //String inputString = "255,0,0/0,255,0/0,0,255/255,0,0/0,255,0/0,0,255/255,0,0/0,255,0/0,0,255/255,0,0/0,255,0/0,0,255/255,0,0/0,255,0/0,0,255/255,0,0/0,255,0/0,0,255/255,0,0/0,255,0/0,0,255/255,0,0/0,255,0/0,0,255/255,0,0/0,255,0/0,0,255/255,0,0/0,255,0/0,0,255/";
+    int ledArray[MAX_LEDS][RGB_VALUES];
+    int numLeds = 0;
+
+    parseLEDString(inputString, ledArray, numLeds); //Instruction Parser
+
+    // Print the parsed LED data
+    led_animations.strips[0].blackout_strip();
+    for (int i = 0; i < numLeds; i++) 
+    {  
+        CRGB color(ledArray[i][1], ledArray[i][0], ledArray[i][2]); //RED GREEN BLUE order of data stream
+        led_animations.strips[0].set_pixel_color(i, color);
+    }
+    led_animations.draw();    
+}
+
+//---------------------
+// Setup Loop
+//---------------------
 void setup()
 {
-  // set up serial
-  Serial.begin(115200);
+    //Serial Setup 
+    //Serial.println(F("Serial Comunication Setup..."));
+    Serial.begin(9600); //baudrate, opens serial for USB port and RX/TX. 
+    Serial.setTimeout(100); //was 10 //lower it is the higher the risk of not complete reciving or sending. 
+    while(!Serial){} //this is for portability. not needed on Arduino Mega. waits for serial to be configured
 
-  // set up the LED animations (do this first so we can use the gutters as indicators)
-  Serial.println(F("LED Animations setup..."));
-  led_animations.setup();
-  led_animations.boot_sequence(1);
+    //LED Animations Setup
+    //Serial.println(F("LED Strip Animations Setup...")); //what pin for Din? 
+    led_animations.setup(); 
+    led_animations.boot_sequence(1);
 
-  // setup uuid
-  uuid.init();
-  Serial.println(F("Board ID Comes from https://github.com/lanceriedel/burn-uuid-eeprom"));
-  Serial.print(F("BOARD_ID:"));
-  Serial.println(((char *)uuid.simpl_uuid));
+    //Ball Detector Setup
+    //Serial.println(F("Ball Detector Setup..."));
+    ball_detect.ball_init(BallDetectTrigger);
+    pinMode(BallDetectTrigger, INPUT_PULLUP);
+    attachInterrupt(digitalPinToInterrupt(BallDetectTrigger), ballDetectISR, FALLING);
+    led_animations.boot_sequence(2);
 
-  // set up ethernet
-  Serial.println(F("Ethernet setup..."));
-  byte macheader[3] = {0x90, 0xA2, 0xDA};
-  byte mac[] = {
-      macheader[0],
-      macheader[1],
-      macheader[2],
-      uuid.uuid[3],
-      uuid.uuid[4],
-      uuid.uuid[5]};
-  ethernet_setup(mac);
-  Serial.print(F("My IP address: "));
-  Serial.println(Ethernet.localIP());
-  delay(1500); // Allow the hardware to sort itself out
+    //Laser Detector Setup 
+    //Serial.println(F("Laser Detector Setup..."));
+    laser_detect.laser_init();
+    led_animations.boot_sequence(5);
 
-  led_animations.boot_sequence(2);
-
-  // set up the ball detector
-  Serial.println(F("Ball Detector setup..."));
-  ball_detect.ball_init(BALL_DROP_PIN);
-  led_animations.boot_sequence(3);
-
-  // set up the laser detector
-  Serial.println(F("Laser Detector setup..."));
-  laser_detect.laser_init();
-  led_animations.boot_sequence(4);
-
-
-  led_animations.boot_sequence(5);
-
-  Serial.println(F("Pubsub setup..."));
-  // pubsub init
-  client.setServer(ip_addr, mqtt_port);
-  client.setCallback(callback);
-  client.setBufferSize(1024);
-  delay(1500);
-  led_animations.boot_sequence(6);
-
-  // comms setup
-  Serial.println(F("Comms setup..."));
-  byte *suuid = uuid.simpl_uuid;
-  field_comms.setup((const char *)suuid, &client);
-  led_animations.boot_sequence(7);
-
-  Serial.println(F("Setup Done begin loops..."));
-  pinMode(HEATER_PIN,OUTPUT);
-  digitalWrite(HEATER_PIN, LOW);
-
-
-  pinMode(LED_PIN_MOS1,OUTPUT);
-  // digitalWrite(LASER_LIGHT_PIN, LOW);
-
-  controller = new BAVRFieldController(&led_animations, &laser_detect, &field_comms, &ball_detect);
-  Serial.println(F("Controller created..."));
-
-  controller->set_heater_pin(HEATER_PIN);
-
-  delay(1500);
-  Serial.println(F("Controller setup..."));
-
-  controller->setup((const char *)suuid);
-  attachInterrupt(digitalPinToInterrupt(BALL_DROP_PIN), interruptPinBallDrop, FALLING);
-
-  Serial.println(F("LED boot_sequence(0)..."));
-
-  led_animations.boot_sequence(0);
+    Serial.println(F("Setup Complete")); //setup complete 
 }
 
-
-unsigned long start_time = 0;
-unsigned long end_time = 0;
-unsigned long last_print_time = 0;
-unsigned long worst_loop_time = 0;
-
+//---------------------
+// Main Loop
+//---------------------
 void loop()
 {
-  // Serial.println(".");
-  start_time = millis();
-  controller->loop();
-  end_time = millis();
-  // Serial.println(digitalRead(BALL_DROP_PIN));
-  unsigned long duration = end_time - start_time;
-  if (duration > worst_loop_time)
-  {
-    worst_loop_time = duration;
-  }
-  if (millis() - last_print_time > 2000)
-  {
-    last_print_time = millis();
-    Serial.print(F("LOOPTIME: "));
-    Serial.print(duration);
-    Serial.print(F("\tWORST LOOP TIME: "));
-    Serial.print(worst_loop_time);
-    Serial.print(F("\tWORST MEMORY: "));
-    Serial.println(controller->worst_memory);
-  }
+    //Look for instructions. 
+    String instruction = piInstructionsSerial(); //take instuctions from pi 
+    if(newInstruction == YES)
+    {
+        LEDdisplay(instruction);
+    }
+
+    //Check for ball drop
+    // if(ball_detect.ball_detect()) //look for ball drop
+    // {
+    //     Serial.println("ball");
+    //     ball_detect.ball_trigger_interrupt();
+    // }
+
+    //Check for laser detection
+    int8_t trigger = laser_detect.laser_detect();
+    if (trigger == 1)
+    {
+        Serial.println("laser");
+        trigger = 0;
+    }
 }

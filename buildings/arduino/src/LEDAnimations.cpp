@@ -1,3 +1,9 @@
+/*
+2023 BELL FLIGHT AVR COMPETITION IN PARTNERSHIP WITH REC FOUNDATION
+FILE: LEDAnimations.cpp
+TARGET: Arduino Mega 2560
+*/
+
 #include "LEDAnimations.hpp"
 
 LEDStrip::LEDStrip()
@@ -52,7 +58,9 @@ void LEDStrip::blackout_strip()
 
 uint8_t LEDStrip::length()
 {
-    return sizeof(pixels)/sizeof(pixels[0]);
+    //return sizeof(pixels)/sizeof(pixels[0]);
+    uint8_t stripSize = 30;
+    return stripSize;
 }
 
 LED::LED()

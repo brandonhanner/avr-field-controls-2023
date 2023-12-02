@@ -7,7 +7,7 @@ class LaserDetect
 {
 public:
     LaserDetect();
-    void laser_init();
+    void laser_init();       //initialization 
     void laser_trigger();
     int8_t laser_detect();
     void calibrate() ;
@@ -29,7 +29,6 @@ private:
     uint32_t total_r = 0;
 
     uint32_t avg_k = 0;
-
     uint32_t avg_r=0;
 
     int32_t MAX_TEMP_DIFF=-500;

@@ -1,8 +1,13 @@
+/*
+2023 BELL FLIGHT AVR COMPETITION IN PARTNERSHIP WITH REC FOUNDATION
+FILE: LEDAnimations.hpp
+TARGET: Arduino Mega 2560
+*/
+
 #ifndef LEDAnimations_h
 #define LEDAnimations_h
 
 #include "config.hpp"
-
 #include <FastLED.h>
 
 class LEDStrip
@@ -10,6 +15,8 @@ class LEDStrip
     public:
     LEDStrip();
     LEDStrip(uint8_t pin);
+    //LEDStrip(ledStripDin);
+    uint8_t stripSize = 30;
 
     CRGB pixels[LENGTH_STRIPS];
 
@@ -31,7 +38,7 @@ class LED
     void set_led_state(bool state);
     uint8_t get_val();
     bool state;
-    uint8_t pin;
+    uint8_t pin; 
 };
 
 class LEDAnimations
