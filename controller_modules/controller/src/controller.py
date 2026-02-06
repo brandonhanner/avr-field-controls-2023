@@ -28,7 +28,9 @@ class Controller(object):
     def handle_events(self, topic: str, msg: dict):
         parts = topic.split("/")
         source = parts[0]
+        channel = parts[1]
         subsystem = parts[2]
+
         # see if the source is a building
         if source in (
             self.ball_buildings + self.laser_buildings + self.heater_buildings
@@ -37,6 +39,7 @@ class Controller(object):
                 event_type = msg.get("event_type", None)
                 if event_type == "hit":
                     self.match.douse_fire(source)
+
         elif source == "ui":
             event_type = msg.get("event_type", None)
             if event_type is not None:

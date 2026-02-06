@@ -9,7 +9,7 @@ assets:
     serial_port: /dev/ttyACM0
     interface: eth0
     username: ubuntu
-    pw: bellavr23
+    pw: {{ pw }}
     sync_clocks: true
     cleanup: true
   hosts:

@@ -242,6 +242,11 @@ class MatchModel(object):
                 score_json["safezone"] = str(self.safezone)
                 score_json["hotspot"] = str(self.random_hotspot_building)
 
+                score_json["phase_i_score"] = self.calculate_phase_i()
+                score_json["phase_ii_score"] = self.calculate_phase_ii()
+                score_json["phase_iii_score"] = self.calculate_phase_iii()
+                score_json["total_score"] = self.calculate_score()
+
                 filename = match_id
                 filename = filename.replace("-", "_")
                 filename = "".join([c for c in filename if re.match(r'\w', c)])

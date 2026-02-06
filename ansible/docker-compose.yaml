@@ -7,7 +7,7 @@ services:
       dockerfile: ./ansible/Dockerfile
     environment:
       - ANSIBLE_HOST_KEY_CHECKING=False
-    command: ansible-playbook /app/ansible/plays/stop_all.yaml -i /app/ansible/inventories/inventory.yaml
+    command: ansible-playbook /app/ansible/plays/start_all.yaml -i /app/ansible/inventories/court_2.yaml --limit="1,3,4"
     network_mode: "host"
     volumes:
       - ../:/app
